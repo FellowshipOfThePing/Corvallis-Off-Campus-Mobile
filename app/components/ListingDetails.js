@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import {
+  MaterialCommunityIcons,
+  FontAwesome,
+  FontAwesome5,
+} from "@expo/vector-icons";
+
+
+import colors from "../config/colors";
+import AppText from "./AppText";
+import ListItem from "./ListItem";
+import IconRow from "./IconRow";
+import Heart from "./Heart";
+
+function ListingDetails({ listing, onPressProvider, style }) {
+  const [saved, setSaved] = useState(false);
+
+  if (listing.provider === "Trulia") {
+    var providerImage = require("../../assets/Trulia.png");
+  } else if (listing.provider === "Zillow") {
+    var providerImage = require("../../assets/Zillow.png");
+  } else {
+    var providerImage = require("../../assets/Local.png");
+  }
+
+  return (
+    <View style={[styles.container, style]}>
+      <View style={styles.listingInfo}>
+        <View style={styles.topRow}>
+          <AppText style={styles.price}>${listing.price_high}/mo</AppText>
+          <Heart size={35} saved={saved} onPress={() => setSaved(!saved)} />
+        </View>
+        <IconRow
+          listing={listing}
+          style={styles.iconRow}
+        />
+
+        <AppText>{listing.address}</AppText>
+      </View>
+      <View style={styles.providerContainer}>
+        {providerImage && (
+          <ListItem
+            image={providerImage}
+            title={listing.provider}
+            subTitle="See Listing Details"
+            onPress={onPressProvider}
+          />
+        )}
+        {!providerImage && (
+          <ListItem title={listing.provider} subTitle="See Listing Details" />
+        )}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    // backgroundColor: "yellow",
+  },
+  iconRow: {
+    // backgroundColor: "red",
+    marginVertical: 10,
+  },
+  listingInfo: {
+    justifyContent: "center",
+    paddingBottom: 15,
+  },
+  price: {
+    color: colors.black,
+    flex: 1,
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  providerContainer: {
+    borderTopColor: colors.medium,
+    borderTopWidth: 1,
+    paddingTop: 15,
+  },
+  topRow: {
+    // backgroundColor: "green",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});
+
+export default ListingDetails;
