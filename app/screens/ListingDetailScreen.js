@@ -33,7 +33,12 @@ function ListingDetailScreen({ navigation, route }) {
       </View>
       <ListingDetails
         listing={listing}
-        onPressProvider={() => navigation.navigate("Browser", listing.URL)}
+        onPressProvider={() =>
+          navigation.navigate("Browser", {
+            url: listing.URL,
+            title: listing.provider,
+          })
+        }
         style={styles.detailsContainer}
       />
       <View style={styles.mapContainer}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
+import { View, StyleSheet, Image, TouchableHighlight, TouchableOpacity } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -17,8 +17,8 @@ function ListItem({
 }) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight
-        underlayColor={defaultStyles.colors.light}
+      <TouchableOpacity
+        underlayColor={defaultStyles.colors.medium}
         onPress={onPress}
       >
         <View style={[styles.container, style]}>
@@ -36,7 +36,7 @@ function ListItem({
             color={defaultStyles.colors.medium}
           />
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </Swipeable>
   );
 }

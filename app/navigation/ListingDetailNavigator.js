@@ -14,7 +14,15 @@ const ListingDetailNavigator = () => (
     }}
   >
     <Stack.Screen name="ListingDetailScreen" component={ListingDetailScreen} />
-    <Stack.Screen name="Browser" component={Browser} />
+    <Stack.Screen
+      name="Browser"
+      component={Browser}
+      options={({ route }) => ({
+        headerShown: true,
+        headerTitle: route.params.title,
+        headerBackTitle: "Listing",
+      })}
+    />
   </Stack.Navigator>
 );
 

@@ -48,11 +48,11 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     paddingHorizontal: 10,
   },
-  iconText: {
-    marginHorizontal: 10,
-  },
   iconRow: {
     marginVertical: 7,
+  },
+  iconText: {
+    marginHorizontal: 10,
   },
   image: {
     alignItems: "center",
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   topRow: {
-    // backgroundColor: "green",
     flexDirection: "row",
     alignItems: "center",
   },

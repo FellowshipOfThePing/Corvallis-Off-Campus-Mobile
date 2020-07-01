@@ -1,38 +1,84 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import {
-  MaterialCommunityIcons,
-  FontAwesome,
-  FontAwesome5,
-} from "@expo/vector-icons";
+import React from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import * as Animatable from "react-native-animatable";
 
 import colors from "../config/colors";
 
-function Heart({ onPress, saved, size = 30 }) {
-  return (
-    <View style={styles.container}>
-      {saved && (
-        <FontAwesome
-          name="heart"
-          size={size}
-          color={colors.primary}
-          onPress={onPress}
-        />
-      )}
-      {!saved && (
-        <FontAwesome
-          name="heart-o"
-          size={size}
-          color={colors.black}
-          onPress={onPress}
-        />
-      )}
-    </View>
-  );
+const AnimatedIcon = Animatable.createAnimatableComponent(FontAwesome);
+
+class Heart extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      saved: this.props.saved,
+    };
+
+    this.lastPress = 0;
+  }
+
+  handleSmallAnimatedIconRef = (ref) => {
+    this.smallAnimatedIcon = ref;
+  };
+
+  animateIcon = () => {
+    const { saved } = this.state;
+    this.largeAnimatedIcon.stopAnimation();
+
+    if (saved) {
+      this.largeAnimatedIcon
+        .bounceIn()
+        .then(() => this.largeAnimatedIcon.bounceOut());
+      this.smallAnimatedIcon.pulse(200);
+    } else {
+      this.largeAnimatedIcon
+        .bounceIn()
+        .then(() => {
+          this.largeAnimatedIcon.bounceOut();
+          this.smallAnimatedIcon.bounceIn();
+        })
+        .then(() => {
+          if (!saved) {
+            this.setState((prevState) => ({ saved: !prevState.saved }));
+          }
+        });
+    }
+  };
+
+  handleOnPressLike = () => {
+    this.smallAnimatedIcon.bounceIn();
+    this.setState((prevState) => ({ saved: !prevState.saved }));
+    this.props.onPress();
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity activeOpacity={1} onPress={this.handleOnPressLike}>
+          <AnimatedIcon
+            ref={this.handleSmallAnimatedIconRef}
+            style={styles.icon}
+            name={this.state.saved ? "heart" : "heart-o"}
+            size={this.props.size || 30}
+            color={this.state.saved ? colors.primary : colors.black}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    paddingHorizontal: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default Heart;

@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import {
-  MaterialCommunityIcons,
-  FontAwesome,
-  FontAwesome5,
-} from "@expo/vector-icons";
 
-
-import colors from "../config/colors";
 import AppText from "./AppText";
-import ListItem from "./ListItem";
-import IconRow from "./IconRow";
+import colors from "../config/colors";
 import Heart from "./Heart";
+import IconRow from "./IconRow";
+import ListItem from "./ListItem";
 
 function ListingDetails({ listing, onPressProvider, style }) {
   const [saved, setSaved] = useState(false);
@@ -31,11 +25,7 @@ function ListingDetails({ listing, onPressProvider, style }) {
           <AppText style={styles.price}>${listing.price_high}/mo</AppText>
           <Heart size={35} saved={saved} onPress={() => setSaved(!saved)} />
         </View>
-        <IconRow
-          listing={listing}
-          style={styles.iconRow}
-        />
-
+        <IconRow listing={listing} style={styles.iconRow} />
         <AppText>{listing.address}</AppText>
       </View>
       <View style={styles.providerContainer}>
