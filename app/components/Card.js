@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   detailContainer: {
-    paddingVertical: 18,
+    paddingVertical: 15,
     paddingHorizontal: 10,
   },
   iconRow: {

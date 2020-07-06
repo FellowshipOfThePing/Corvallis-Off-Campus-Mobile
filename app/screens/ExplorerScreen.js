@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   ScrollView,
   Animated,
@@ -18,13 +17,14 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Fontisto from "react-native-vector-icons/Fontisto";
 
 import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
-import StarRating from "../components/StarRating";
+import IconRow from "../components/IconRow";
+import Card from "../components/Card";
 
 import { useTheme } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.8;
+const CARD_HEIGHT = 330;
+const CARD_WIDTH = width * 0.9;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const ExploreScreen = () => {
@@ -32,47 +32,9 @@ const ExploreScreen = () => {
 
   const initialMapState = {
     markers,
-    categories: [
-      {
-        name: "Fastfood Center",
-        icon: (
-          <MaterialCommunityIcons
-            style={styles.chipsIcon}
-            name="food-fork-drink"
-            size={18}
-          />
-        ),
-      },
-      {
-        name: "Restaurant",
-        icon: (
-          <Ionicons name="ios-restaurant" style={styles.chipsIcon} size={18} />
-        ),
-      },
-      {
-        name: "Dineouts",
-        icon: (
-          <Ionicons name="md-restaurant" style={styles.chipsIcon} size={18} />
-        ),
-      },
-      {
-        name: "Snacks Corner",
-        icon: (
-          <MaterialCommunityIcons
-            name="food"
-            style={styles.chipsIcon}
-            size={18}
-          />
-        ),
-      },
-      {
-        name: "Hotel",
-        icon: <Fontisto name="hotel" style={styles.chipsIcon} size={15} />,
-      },
-    ],
     region: {
-      latitude: 22.62938671242907,
-      longitude: 88.4354486029795,
+      latitude: 44.5647,
+      longitude: -123.28225,
       latitudeDelta: 0.04864195044303443,
       longitudeDelta: 0.040142817690068,
     },
@@ -98,10 +60,10 @@ const ExploreScreen = () => {
       const regionTimeout = setTimeout(() => {
         if (mapIndex !== index) {
           mapIndex = index;
-          const { coordinate } = state.markers[index];
+          const { latitude, longitude } = state.markers[index];
           _map.current.animateToRegion(
             {
-              ...coordinate,
+              ...{ latitude, longitude },
               latitudeDelta: state.region.latitudeDelta,
               longitudeDelta: state.region.longitudeDelta,
             },
@@ -130,8 +92,8 @@ const ExploreScreen = () => {
 
   const onMarkerPress = (mapEventData) => {
     const markerID = mapEventData._targetInst.return.key;
-    
-    let x = (markerID * CARD_WIDTH) + (markerID * 20);
+
+    let x = markerID * CARD_WIDTH + markerID * 20;
     if (Platform.OS === "ios") {
       x = x - SPACING_FOR_CARD_INSET;
     }
@@ -162,7 +124,10 @@ const ExploreScreen = () => {
           return (
             <MapView.Marker
               key={index}
-              coordinate={marker.coordinate}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
               onPress={(e) => onMarkerPress(e)}
             >
               <Animated.View style={[styles.markerWrap]}>
@@ -176,31 +141,6 @@ const ExploreScreen = () => {
           );
         })}
       </MapView>
-      <ScrollView
-        horizontal
-        scrollEventThrottle={1}
-        showsHorizontalScrollIndicator={false}
-        height={50}
-        style={styles.chipsScrollView}
-        contentInset={{
-          // Only for iOS
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 20,
-        }}
-        contentContainerStyle={{
-          // For Android
-          paddingRight: Platform.OS === "android" ? 20 : 0,
-        }}
-      >
-        {state.categories.map((category, index) => (
-          <TouchableOpacity key={index} style={styles.chipsItem}>
-            {category.icon}
-            <Text>{category.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
       <Animated.ScrollView
         ref={_scrollView}
         horizontal
@@ -232,18 +172,20 @@ const ExploreScreen = () => {
       >
         {state.markers.map((marker, index) => (
           <View style={styles.card} key={index}>
-            <Image
-              source={marker.image}
+              <Card 
+                listing={marker}
+              />
+            {/* <Image
+              source={{ uri: marker.images[0] }}
               style={styles.cardImage}
               resizeMode="cover"
             />
             <View style={styles.textContent}>
               <Text numberOfLines={1} style={styles.cardTitle}>
-                {marker.title}
+                ${marker.price_high}/mo
               </Text>
-              <StarRating ratings={marker.rating} reviews={marker.reviews} />
               <Text numberOfLines={1} style={styles.cardDescription}>
-                {marker.description}
+                {marker.price}
               </Text>
               <View style={styles.button}>
                 <TouchableOpacity
@@ -268,7 +210,7 @@ const ExploreScreen = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </View> */}
           </View>
         ))}
       </Animated.ScrollView>
@@ -276,19 +218,15 @@ const ExploreScreen = () => {
   );
 };
 
-export default ExploreScreen;
-
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     marginTop: 5,
   },
   card: {
-    // padding: 10,
+    borderRadius: 15,
     elevation: 2,
     backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
     marginHorizontal: 10,
     shadowColor: "#000",
     shadowRadius: 5,
@@ -389,3 +327,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default ExploreScreen;
