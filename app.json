@@ -22,8 +22,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.housingapp"
     },
-    "description": ""
+    "description": "",
+    "android": {
+      "package": "com.housingapp"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }

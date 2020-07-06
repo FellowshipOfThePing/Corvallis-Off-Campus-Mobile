@@ -26,6 +26,7 @@ function ListingsScreen({ navigation }) {
         )}
         <View style={styles.container}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={getListingsApi.data}
             keyExtractor={(listing) => listing.raw_id.toString()}
             renderItem={({ item }) => (
