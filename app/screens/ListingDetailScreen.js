@@ -1,7 +1,6 @@
 import React from "react";
 import MapView, { Marker } from "react-native-maps";
 import { View, StyleSheet, Image, Dimensions } from "react-native";
-import * as WebBrowser from "expo-web-browser";
 
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";

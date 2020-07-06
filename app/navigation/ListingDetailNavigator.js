@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ListingDetailScreen from "../screens/ListingDetailScreen";
 import Browser from "../screens/Browser";
+import ImageCarouselScreen from "../components/ImageCarousel";
 
 const Stack = createStackNavigator();
 
