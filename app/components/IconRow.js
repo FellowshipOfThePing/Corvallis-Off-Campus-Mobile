@@ -8,62 +8,62 @@ import {
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 
-function IconRow({ listing, style }) {
+function IconRow({ listing, size = 20, fullSize, style }) {
   return (
     <View style={[styles.iconRow, style]}>
       {listing.beds && (
         <>
           <FontAwesome
             name="bed"
-            size={20}
+            size={size}
             color={colors.medium}
             style={styles.icon}
           />
-          <AppText style={styles.iconText}>{listing.beds} bd</AppText>
+          <AppText style={[styles.iconText, { fontSize: size }]}>{listing.beds} bd</AppText>
         </>
       )}
       {listing.baths && (
         <>
           <FontAwesome5
             name="bath"
-            size={20}
+            size={size}
             color={colors.medium}
             style={styles.icon}
           />
-          <AppText style={styles.iconText}>{listing.baths} ba</AppText>
+          <AppText style={[styles.iconText, { fontSize: size }]}>{listing.baths} ba</AppText>
         </>
       )}
-      {listing.sqft && (
+      {listing.sqft && fullSize && (
         <>
           <FontAwesome5
             name="ruler-combined"
-            size={20}
+            size={size}
             color={colors.medium}
             style={styles.icon}
           />
-          <AppText style={styles.iconText}>{listing.sqft} sqft</AppText>
+          <AppText style={[styles.iconText, { fontSize: size }]}>{listing.sqft} sqft</AppText>
         </>
       )}
-      {listing.walk_to_campus_minutes < 30 && (
+      {listing.walk_to_campus_minutes < 30 && fullSize && (
         <>
           <FontAwesome5
             name="walking"
-            size={20}
+            size={size}
             color={colors.medium}
             style={styles.icon}
           />
-          <AppText style={styles.iconText}>{Math.round(listing.walk_to_campus_minutes)} min</AppText>
+          <AppText style={[styles.iconText, { fontSize: size }]}>{Math.round(listing.walk_to_campus_minutes)} min</AppText>
         </>
       )}
-      {listing.walk_to_campus_minutes > 30 && (
+      {listing.walk_to_campus_minutes > 30 && fullSize && (
         <>
           <FontAwesome5
             name="car-side"
-            size={20}
+            size={size}
             color={colors.medium}
             style={styles.icon}
           />
-          <AppText style={styles.iconText}>{Math.round(listing.drive_to_campus_minutes)} min</AppText>
+          <AppText style={[styles.iconText, { fontSize: size }]}>{Math.round(listing.drive_to_campus_minutes)} min</AppText>
         </>
       )}
     </View>

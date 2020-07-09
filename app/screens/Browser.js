@@ -7,7 +7,7 @@ import Screen from "../components/Screen";
 function Browser({ route }) {
   return (
     <Screen>
-      <WebView source={{ uri: route.params.url }} style={{ marginTop: 20 }} />
+      <WebView source={{ uri: route.params.url }} />
     </Screen>
   );
 }

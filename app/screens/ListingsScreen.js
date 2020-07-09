@@ -49,7 +49,7 @@ function ListingsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 15,
+    paddingHorizontal: 15,
   },
 });
 

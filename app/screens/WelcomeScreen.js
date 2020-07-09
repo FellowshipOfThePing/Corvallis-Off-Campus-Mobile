@@ -4,7 +4,7 @@ import Button from "../components/Button";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 
-function WelcomeScreen() {
+function WelcomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -13,7 +13,7 @@ function WelcomeScreen() {
         <AppText style={styles.subtitle}>Off Campus Housing</AppText>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Browse" color="white" textColor="black" />
+        <Button title="Browse" color="white" textColor="black" onPress={() => navigation.navigate('AppNavigator')} />
         <Button title="Login" />
       </View>
     </View>

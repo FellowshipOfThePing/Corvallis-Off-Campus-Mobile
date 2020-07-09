@@ -49,4 +49,6 @@ target 'HousingMobile' do
 
   # react-native-cli autolinking
   use_native_modules!
+  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
 end

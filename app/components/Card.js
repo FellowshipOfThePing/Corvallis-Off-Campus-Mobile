@@ -16,7 +16,7 @@ import IconRow from "./IconRow";
 import Heart from "./Heart";
 import colors from "../config/colors";
 
-function Card({ listing, onPress }) {
+function Card({ listing, iconRowSize, onPress }) {
   const [saved, setSaved] = useState(false);
 
   return (
@@ -28,7 +28,7 @@ function Card({ listing, onPress }) {
             <AppText style={styles.price}>${listing.price_high}/mo</AppText>
             <Heart saved={saved} onPress={() => setSaved(!saved)} />
           </View>
-          <IconRow listing={listing} style={styles.iconRow} />
+          <IconRow listing={listing} size={iconRowSize} style={styles.iconRow} />
           <AppText>{listing.address}</AppText>
         </View>
       </View>
