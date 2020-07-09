@@ -28,7 +28,7 @@ function Card({ listing, iconRowSize, onPress }) {
             <AppText style={styles.price}>${listing.price_high}/mo</AppText>
             <Heart saved={saved} onPress={() => setSaved(!saved)} />
           </View>
-          <IconRow listing={listing} size={iconRowSize} style={styles.iconRow} />
+          <IconRow listing={listing} size={iconRowSize} fullSize style={styles.iconRow} />
           <AppText>{listing.address}</AppText>
         </View>
       </View>
