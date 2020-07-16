@@ -3,12 +3,13 @@ import { View, StyleSheet, TouchableOpacity, Vibration } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Animatable from "react-native-animatable";
 // import ReactNativeHapticFeedback from "react-native-haptic-feedback";
+import * as Haptics from "expo-haptics";
 
 import colors from "../config/colors";
 
 const options = {
   enableVibrateFallback: true,
-  ignoreAndroidSystemSettings: false
+  ignoreAndroidSystemSettings: false,
 };
 
 const AnimatedIcon = Animatable.createAnimatableComponent(FontAwesome);
@@ -55,7 +56,7 @@ class Heart extends React.Component {
   handleOnPressLike = () => {
     this.smallAnimatedIcon.bounceIn();
     this.setState((prevState) => ({ saved: !prevState.saved }));
-    // ReactNativeHapticFeedback.trigger("impactLight", options);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     this.props.onPress();
   };
 

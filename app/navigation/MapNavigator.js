@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import ListingsScreen from "../screens/ListingsScreen";
+import MapScreen from "../screens/MapScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 
 const Stack = createStackNavigator();
 
-const FeedNavigator = () => (
+const MapNavigator = () => (
   <Stack.Navigator
     mode="modal"
     screenOptions={{
@@ -15,7 +15,7 @@ const FeedNavigator = () => (
       gestureVelocityImpact: 0.6,
     }}
   >
-    <Stack.Screen name="Listings" component={ListingsScreen} />
+    <Stack.Screen name="MapScreen" component={MapScreen} />
     <Stack.Screen
       name="ListingDetailNavigator"
       component={ListingDetailNavigator}
@@ -23,4 +23,4 @@ const FeedNavigator = () => (
   </Stack.Navigator>
 );
 
-export default FeedNavigator;
+export default MapNavigator;

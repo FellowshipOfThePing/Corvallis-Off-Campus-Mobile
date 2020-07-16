@@ -1,36 +1,15 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  Image,
-  Text,
-  ScrollView,
-  Animated,
-  Dimensions,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Animated, Dimensions, StyleSheet, Platform } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useTheme } from "@react-navigation/native";
-import { BlurView } from "expo-blur";
-import { Ionicons } from "@expo/vector-icons";
-import BottomSheet from "reanimated-bottom-sheet";
-import Reanimated from "react-native-reanimated";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
-import Card from "../components/Card";
 import CardBottomSheet from "../components/CardBottomSheet";
-import AppleMusic from "../components/AppleMusic";
-
-
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 300;
-const CARD_WIDTH = width * 0.9;
+const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
-
-
 
 const ExplorerScreen = () => {
   const theme = useTheme();
@@ -166,15 +145,18 @@ const ExplorerScreen = () => {
           paddingHorizontal:
             Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
         }}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                x: mapAnimation,
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  x: mapAnimation,
+                },
               },
             },
-          },
-        ])}
+          ],
+          { useNativeDriver: true }
+        )}
       >
         {state.markers.map((marker, index) => (
           <View style={styles.card} key={index}>
@@ -196,7 +178,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: { x: 2, y: -2 },
     height: CARD_HEIGHT,
-    width: CARD_WIDTH
+    width: CARD_WIDTH,
   },
   container: {
     flex: 1,

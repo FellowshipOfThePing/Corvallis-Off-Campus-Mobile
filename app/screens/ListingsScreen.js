@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 
 import useApi from "../hooks/useApi";
@@ -7,9 +7,12 @@ import Screen from "../components/Screen";
 import Card from "../components/Card";
 import AppText from "../components/AppText";
 import Button from "../components/Button";
+import { useScrollToTop } from "@react-navigation/native";
 
 function ListingsScreen({ navigation }) {
   const getListingsApi = useApi(listingsApi.getListings);
+  const ref = useRef(null);
+  useScrollToTop(ref);
 
   useEffect(() => {
     getListingsApi.request();
@@ -26,9 +29,12 @@ function ListingsScreen({ navigation }) {
         )}
         <View style={styles.container}>
           <FlatList
+            ref={ref}
             showsVerticalScrollIndicator={false}
             data={getListingsApi.data}
             keyExtractor={(listing) => listing.raw_id.toString()}
+            refreshing={getListingsApi.loading}
+            onRefresh={() => getListingsApi.request()}
             renderItem={({ item }) => (
               <Card
                 listing={item}

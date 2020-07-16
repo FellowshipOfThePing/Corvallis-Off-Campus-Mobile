@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import FeedNavigator from "./FeedNavigator";
-import ExplorerScreen from "../screens/ExplorerScreen";
+import MapNavigator from "./MapNavigator";
 import colors from "../config/colors";
 
 const Tab = createMaterialBottomTabNavigator();
@@ -23,7 +23,7 @@ const MaterialTabs = () => {
       />
       <Tab.Screen
         name="Map"
-        component={ExplorerScreen}
+        component={MapNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="google-maps" color={color} size={25} />
