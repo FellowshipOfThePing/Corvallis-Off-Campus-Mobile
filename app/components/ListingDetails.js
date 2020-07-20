@@ -35,6 +35,7 @@ function ListingDetails({ listing, onPressProvider, style }) {
             title={listing.provider}
             subTitle="See Listing Details"
             onPress={onPressProvider}
+            style={{ backgroundColor: colors.light }}
           />
         )}
         {!providerImage && (
@@ -47,7 +48,7 @@ function ListingDetails({ listing, onPressProvider, style }) {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "yellow",
+    backgroundColor: colors.light,
   },
   iconRow: {
     // backgroundColor: "red",
@@ -69,7 +70,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   topRow: {
-    // backgroundColor: "green",
     flexDirection: "row",
     alignItems: "center",
   },

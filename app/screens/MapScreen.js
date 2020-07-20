@@ -2,11 +2,6 @@
 // https://hackernoon.com/how-to-optimize-react-native-map-in-your-application-eeo3nib
 // https://www.npmjs.com/package/react-native-map-clustering?ref=hackernoon.com
 
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -40,7 +35,7 @@ const MapScreen = ({ navigation }) => {
   }, []);
 
   const state = {
-    markers,
+    markers: getListingsApi.data,
     region: {
       latitude: 44.5647,
       longitude: -123.28225,
@@ -102,16 +97,16 @@ const MapScreen = ({ navigation }) => {
     return { scale, opacity };
   });
 
-  //   const onMarkerPress = (mapEventData) => {
-  //     const markerID = mapEventData._targetInst.return.key;
+  const onMarkerPress = (mapEventData) => {
+    const markerID = mapEventData._targetInst.return.key;
 
-  //     let x = markerID * CARD_WIDTH + markerID * 20;
-  //     if (Platform.OS === "ios") {
-  //       x = x - SPACING_FOR_CARD_INSET;
-  //     }
+    let x = markerID * CARD_WIDTH + markerID * 20;
+    if (Platform.OS === "ios") {
+      x = x - SPACING_FOR_CARD_INSET;
+    }
 
-  //     _flatList.current.getNode().scrollTo({ x: x, y: 0, animated: true });
-  //   };
+    _flatList.current.getNode().scrollToOffset({ offset: x, animated: true });
+  };
 
   const _flatList = React.useRef(null);
 
@@ -137,12 +132,13 @@ const MapScreen = ({ navigation }) => {
           };
           return (
             <MapView.Marker
-              
+              tracksViewChanges={false}
               key={index}
               coordinate={{
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               }}
+              onPress={(e) => onMarkerPress(e)}
             >
               <Animated.View style={[styles.markerWrap, opacityStyle]}>
                 <Animated.View style={[styles.ring, scaleStyle]} />
@@ -171,7 +167,8 @@ const MapScreen = ({ navigation }) => {
         showsHorizontalScrollIndicator={false}
         snapToInterval={CARD_WIDTH + 20}
         snapToAlignment="center"
-        decelerationRate={0.3}
+        decelerationRate={0.9}
+        disableIntervalMomentum
         style={styles.flatList}
         removeClippedSubviews={true}
         contentInset={{
