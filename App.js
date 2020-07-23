@@ -11,17 +11,13 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import WelcomeNavigator from "./app/navigation/WelcomeNavigator";
 import Map from "./app/screens/MapScreen-Movies";
 import MapScreen from "./app/screens/MapScreen";
-import TestMap from "./app/screens/TestMap";
 
 export default function App() {
   return (
     <>
-      {/* <NavigationContainer>
+      <NavigationContainer>
         <WelcomeNavigator />
-      </NavigationContainer> */}
-      {/* <Map/> */}
-      {/* <MapScreen /> */}
-      <TestMap />
+      </NavigationContainer>
     </>
   );
 }
