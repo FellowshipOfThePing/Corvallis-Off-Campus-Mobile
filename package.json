@@ -33,6 +33,7 @@
     "react-native-lightbox": "^0.8.1",
     "react-native-looped-carousel": "^0.1.13",
     "react-native-looped-carousel-improved": "^1.0.2",
+    "react-native-map-clustering": "^3.3.9",
     "react-native-maps": "0.26.1",
     "react-native-paper": "^3.10.1",
     "react-native-reanimated": "~1.7.0",

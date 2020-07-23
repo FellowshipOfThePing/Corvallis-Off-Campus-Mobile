@@ -2,6 +2,8 @@ import React from "react";
 
 import FeedNavigator from "./app/navigation/FeedNavigator";
 import { NavigationContainer } from "@react-navigation/native";
+
+import { View, StyleSheet } from "react-native";
 import Screen from "./app/components/Screen";
 import Example from "./app/components/CardBottomSheet";
 import AppleMusic from "./app/components/AppleMusic";
@@ -9,15 +11,17 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import WelcomeNavigator from "./app/navigation/WelcomeNavigator";
 import Map from "./app/screens/MapScreen-Movies";
 import MapScreen from "./app/screens/MapScreen";
+import TestMap from "./app/screens/TestMap";
 
 export default function App() {
   return (
     <>
-      <NavigationContainer>
+      {/* <NavigationContainer>
         <WelcomeNavigator />
-      </NavigationContainer>
+      </NavigationContainer> */}
       {/* <Map/> */}
       {/* <MapScreen /> */}
+      <TestMap />
     </>
   );
 }

@@ -1,21 +1,31 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 import colors from "../config/colors";
-import AppText from '../components/AppText';
+import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 
 function MapCard({ onPress, listing, style }) {
+  const imageUri = listing.images[0] != null ? listing.images[0] : "";
+
   return (
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View style={[styles.card, style]}>
-          <Image source={{ uri: listing.images[0] }} style={styles.image} />
-          <View style={styles.topRow}>
-            <AppText style={styles.price}>${listing.price_high}/mo</AppText>
-            <IconRow listing={listing} size={15} style={styles.iconRow} />
-          </View>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={[styles.card, style]}>
+        <Image
+          source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
+          style={styles.image}
+        />
+        <View style={styles.topRow}>
+          <AppText style={styles.price}>${listing.price_high}/mo</AppText>
+          <IconRow listing={listing} size={15} style={styles.iconRow} />
         </View>
-      </TouchableWithoutFeedback>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -45,7 +55,6 @@ const styles = StyleSheet.create({
   card: {
     elevation: 2,
     backgroundColor: "rgba(255, 255, 255, 0.85)",
-    marginHorizontal: 10,
     shadowColor: "#000",
     shadowRadius: 5,
     shadowOpacity: 0.3,

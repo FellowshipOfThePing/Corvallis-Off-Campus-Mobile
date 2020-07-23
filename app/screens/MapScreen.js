@@ -2,7 +2,7 @@
 // https://hackernoon.com/how-to-optimize-react-native-map-in-your-application-eeo3nib
 // https://www.npmjs.com/package/react-native-map-clustering?ref=hackernoon.com
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -11,14 +11,16 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+// import MapView from "react-native-map-clustering";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useTheme } from "@react-navigation/native";
 
-import { markers, mapDarkStyle, mapStandardStyle } from "../model/mapData";
+import { mapDarkStyle, mapStandardStyle, markers } from "../model/mapData";
 import useApi from "../hooks/useApi";
 import listingsApi from "../api/listings";
 import MapCard from "../components/MapCard";
+import colors from "../config/colors";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
@@ -28,17 +30,17 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 const MapScreen = ({ navigation }) => {
   const theme = useTheme();
   const getListingsApi = useApi(listingsApi.getListings);
-  const [_map, setMap] = useState(null);
+  const _map = useRef(null);
 
   useEffect(() => {
     getListingsApi.request();
   }, []);
 
   const state = {
-    markers: getListingsApi.data,
+    markers: markers,
     region: {
-      latitude: 44.5647,
-      longitude: -123.28225,
+      latitude: markers[0].latitude,
+      longitude: markers[0].longitude,
       latitudeDelta: 0.04864195044303443,
       longitudeDelta: 0.040142817690068,
     },
@@ -63,7 +65,7 @@ const MapScreen = ({ navigation }) => {
         if (mapIndex !== index) {
           mapIndex = index;
           const { latitude, longitude } = state.markers[index];
-          _map.animateToRegion(
+          _map.current.animateToRegion(
             {
               ...{ latitude, longitude },
               latitudeDelta: state.region.latitudeDelta,
@@ -76,29 +78,8 @@ const MapScreen = ({ navigation }) => {
     });
   });
 
-  const interpolations = state.markers.map((marker, index) => {
-    const inputRange = [
-      (index - 1) * CARD_WIDTH,
-      index * CARD_WIDTH,
-      (index + 1) * CARD_WIDTH,
-    ];
-
-    const scale = mapAnimation.interpolate({
-      inputRange,
-      outputRange: [1, 1.5, 1],
-      extrapolate: "clamp",
-    });
-    const opacity = mapAnimation.interpolate({
-      inputRange,
-      outputRange: [0.35, 1, 0.35],
-      extrapolate: "clamp",
-    });
-
-    return { scale, opacity };
-  });
-
-  const onMarkerPress = (mapEventData) => {
-    const markerID = mapEventData._targetInst.return.key;
+  const onMarkerPress = (index) => {
+    const markerID = index;
 
     let x = markerID * CARD_WIDTH + markerID * 20;
     if (Platform.OS === "ios") {
@@ -108,43 +89,33 @@ const MapScreen = ({ navigation }) => {
     _flatList.current.getNode().scrollToOffset({ offset: x, animated: true });
   };
 
-  const _flatList = React.useRef(null);
+  const _flatList = useRef(null);
 
   return (
     <View style={styles.container}>
       <MapView
-        ref={(map) => setMap(map)}
+        ref={_map}
         initialRegion={state.region}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
         customMapStyle={theme.dark ? mapDarkStyle : mapStandardStyle}
+        clusterColor={colors.black}
       >
         {state.markers.map((marker, index) => {
-          const scaleStyle = {
-            transform: [
-              {
-                scale: interpolations[index].scale,
-              },
-            ],
-          };
-          const opacityStyle = {
-            opacity: interpolations[index].opacity,
-          };
           return (
-            <MapView.Marker
+            <Marker
               tracksViewChanges={false}
               key={index}
               coordinate={{
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               }}
-              onPress={(e) => onMarkerPress(e)}
+              onPress={() => onMarkerPress(index)}
             >
-              <Animated.View style={[styles.markerWrap, opacityStyle]}>
-                <Animated.View style={[styles.ring, scaleStyle]} />
-                <View style={styles.marker} />
-              </Animated.View>
-            </MapView.Marker>
+              <View style={styles.outerCircle}>
+                <View style={styles.innerCircle} />
+              </View>
+            </Marker>
           );
         })}
       </MapView>
@@ -261,5 +232,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
+  },
+  outerCircle: {
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
+    backgroundColor: colors.primaryFade,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  innerCircle: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    backgroundColor: colors.primary,
   },
 });
