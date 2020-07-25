@@ -41,6 +41,20 @@ function MapScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
+    if (getListingsApi.data.length > 0) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: getListingsApi.data[0].latitude,
+          longitude: getListingsApi.data[0].longitude,
+          latitudeDelta: state.region.latitudeDelta,
+          longitudeDelta: state.region.longitudeDelta,
+        },
+        350
+      );
+    }
+  }, [getListingsApi.data]);
+
+  useEffect(() => {
     mapAnimation.addListener(({ value }) => {
       let index = Math.round(value / width);
       if (index >= listing_data.length) {
