@@ -9,6 +9,7 @@ import MapView, {
 import useApi from "../hooks/useApi";
 import listingsApi from "../api/listings";
 import MapCard from "../components/MapCard";
+import CustomMarker from "../components/CustomMarker";
 import colors from "../config/colors";
 
 function MapScreen({ navigation }) {
@@ -133,17 +134,15 @@ function MapScreen({ navigation }) {
       >
         {listing_data.map((marker, index) => {
           return (
-            <Marker
+            <CustomMarker
               key={index}
-              tracksViewChanges={false}
               coordinate={{
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               }}
               onPress={() => onMarkerPress(index)}
-            >
-              <View style={styles.dot} />
-            </Marker>
+              tracksViewChanges={false}
+            ></CustomMarker>
           );
         })}
       </MapView>

@@ -1,24 +1,28 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Marker } from "react-native-maps";
 
 class HouseMarker extends React.PureComponent {
-  componentDidUpdate() {
-    console.log(this.props.selected);
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selected: this.props.selected,
+    };
   }
 
   render() {
+    const { coordinate, onPress } = this.props;
     return (
-      <Marker coordinate={this.props.coordinate} onPress={this.props.onPress}>
-        <View
-          style={[
-            styles.dot,
-            this.props.selected
-              ? { backgroundColor: "yellow" }
-              : { backgroundColor: "green" },
-          ]}
-        />
+      <Marker
+        tracksViewChanges={this.props.tracksViewChanges}
+        coordinate={coordinate}
+        onPress={onPress}
+      >
+        <TouchableOpacity>
+          <View style={[styles.dot]} />
+        </TouchableOpacity>
       </Marker>
     );
   }
@@ -26,10 +30,10 @@ class HouseMarker extends React.PureComponent {
 
 const styles = StyleSheet.create({
   dot: {
-    height: 25,
-    width: 25,
-    borderRadius: 12.5,
-    // backgroundColor: "green",
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    backgroundColor: "green",
   },
 });
 

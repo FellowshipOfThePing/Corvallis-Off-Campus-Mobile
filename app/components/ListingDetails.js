@@ -25,7 +25,7 @@ function ListingDetails({ listing, onPressProvider, style }) {
           <AppText style={styles.price}>${listing.price_high}/mo</AppText>
           <Heart size={35} saved={saved} onPress={() => setSaved(!saved)} />
         </View>
-        <IconRow listing={listing} style={styles.iconRow} />
+        <IconRow listing={listing} fullSize style={styles.iconRow} />
         <AppText>{listing.address}</AppText>
       </View>
       <View style={styles.providerContainer}>
