@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, View, StyleSheet, FlatList, Dimensions } from "react-native";
+import {
+  Animated,
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
   Marker,
@@ -156,8 +163,8 @@ function MapScreen({ navigation }) {
         style={styles.flatList}
         snapToInterval={width}
         snapToAlignment="center"
-        decelerationRate={0.9}
-        disableIntervalMomentum
+        // decelerationRate={0.9}
+        // disableIntervalMomentum
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -187,6 +194,20 @@ function MapScreen({ navigation }) {
           ],
           { useNativeDriver: true }
         )}
+        ListEmptyComponent={() => (
+          <View
+            style={[
+              styles.defaultCard,
+              {
+                height: CARD_HEIGHT,
+                width: CARD_WIDTH,
+                marginHorizontal: width * 0.05,
+              }
+            ]}
+          >
+            <ActivityIndicator size="large" />
+          </View>
+        )}
         keyExtractor={(listing, index) => index.toString()}
         renderItem={({ item }) => (
           <MapCard
@@ -214,17 +235,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  dot: {
-    height: 25,
-    width: 25,
-    backgroundColor: "green",
-  },
   flatList: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     paddingVertical: 10,
+  },
+  defaultCard: {
+    elevation: 2,
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    overflow: "hidden",
+    borderRadius: 15,
+    shadowOffset: { x: 2, y: -2 },
+    justifyContent: "center",
+    alignItems: "center"
   },
 });
 

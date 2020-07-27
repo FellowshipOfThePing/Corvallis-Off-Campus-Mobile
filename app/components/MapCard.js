@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 
 import colors from "../config/colors";
@@ -12,14 +13,24 @@ import IconRow from "../components/IconRow";
 
 function MapCard({ onPress, listing, style }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
+  const [loading, setLoading] = useState(true);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={[styles.card, style]}>
-        <Image
-          source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
-          style={styles.image}
-        />
+        <View style={styles.imageContainer}>
+          <Image
+            onLoadStart={() => {
+              setLoading(true);
+            }}
+            onLoadEnd={() => {
+              setLoading(false);
+            }}
+            source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
+            style={styles.image}
+          />
+          <ActivityIndicator animating={loading} style={styles.indicator} size="large" />
+        </View>
         <View style={styles.topRow}>
           <AppText style={styles.price}>${listing.price_high}/mo</AppText>
           <IconRow listing={listing} size={15} style={styles.iconRow} />
@@ -30,6 +41,15 @@ function MapCard({ onPress, listing, style }) {
 }
 
 const styles = StyleSheet.create({
+  card: {
+    elevation: 2,
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    shadowColor: "#000",
+    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    overflow: "hidden",
+    borderRadius: 15,
+  },
   topRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -49,17 +69,17 @@ const styles = StyleSheet.create({
   },
   image: {
     justifyContent: "center",
+    height: "100%",
+    width: "100%",
+  },
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
     height: "75%",
     width: "100%",
   },
-  card: {
-    elevation: 2,
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
-    overflow: "hidden",
-    borderRadius: 15,
+  indicator: {
+    position: "absolute",
   },
 });
 

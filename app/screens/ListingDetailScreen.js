@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import MapView, { Marker } from "react-native-maps";
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 
 function ListingDetailScreen({ navigation, route }) {
   const listing = route.params.listing;
+  const [loading, setLoading] = useState(true);
 
   const OSU_lat = 44.5647;
   const OSU_long = -123.28225;
@@ -28,7 +35,23 @@ function ListingDetailScreen({ navigation, route }) {
   return (
     <>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: listing.images[0] }} style={styles.image} />
+        <Image
+          source={{ uri: listing.images[0] }}
+          style={styles.image}
+          onLoadStart={() => {
+            setLoading(true);
+          }}
+          onLoadEnd={() => {
+            setLoading(false);
+          }}
+        />
+        {loading && (
+          <ActivityIndicator
+            animating={loading}
+            style={styles.indicator}
+            size="large"
+          />
+        )}
       </View>
       <ListingDetails
         listing={listing}
@@ -77,9 +100,7 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   image: {
-    alignItems: "center",
-    flex: 1,
-    width: "100%",
+    height: "100%",
     paddingBottom: 20,
   },
   mapContainer: {
@@ -90,6 +111,11 @@ const styles = StyleSheet.create({
   mapStyle: {
     width: Dimensions.get("window").width,
     height: "100%",
+  },
+  indicator: {
+    position: "absolute",
+    alignSelf: "center",
+    top: 125,
   },
 });
 
