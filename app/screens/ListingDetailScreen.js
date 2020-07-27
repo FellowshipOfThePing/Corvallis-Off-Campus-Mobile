@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import {
   View,
-  StyleSheet,
   Image,
-  Dimensions,
   ActivityIndicator,
+  StyleSheet,
+  Dimensions,
 } from "react-native";
 
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
+import RadiatingMarker from "../components/RadiatingMarker";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 function ListingDetailScreen({ navigation, route }) {
   const listing = route.params.listing;
@@ -24,13 +26,8 @@ function ListingDetailScreen({ navigation, route }) {
   const centerLat = OSU_lat + distanceLat / 2;
   const centerLong = OSU_long + distanceLong / 2;
 
-  if (distanceLat > distanceLong) {
-    var deltaLat = distanceLat * 2;
-    var deltaLong = distanceLat;
-  } else {
-    var deltaLong = distanceLong * 2;
-    var deltaLat = distanceLong * 4;
-  }
+  const deltaLat = distanceLat * 1.5;
+  const deltaLong = distanceLong * 1.5;
 
   return (
     <>
@@ -66,6 +63,7 @@ function ListingDetailScreen({ navigation, route }) {
       <View style={styles.mapContainer}>
         <MapView
           style={styles.mapStyle}
+          provider={PROVIDER_GOOGLE}
           initialRegion={{
             latitude: centerLat,
             longitude: centerLong,
@@ -73,19 +71,26 @@ function ListingDetailScreen({ navigation, route }) {
             longitudeDelta: deltaLong,
           }}
         >
-          <Marker
+          <RadiatingMarker
             coordinate={{
               latitude: listing.latitude,
               longitude: listing.longitude,
             }}
+            size={15}
             title={listing.address}
-            image={require("../../assets/House_Pin_Orange_Black.png")}
           />
           <Marker
             coordinate={{ latitude: OSU_lat, longitude: OSU_long }}
             title="OSU"
-            image={require("../../assets/OSU_Pin.png")}
-          />
+          >
+            <View>
+              <FontAwesome5
+                name="school"
+                size={30}
+                color={colors.primary}
+              />
+            </View>
+          </Marker>
         </MapView>
       </View>
     </>

@@ -11,6 +11,7 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import WelcomeNavigator from "./app/navigation/WelcomeNavigator";
 import Map from "./app/screens/MapScreen-Movies";
 import MapScreen from "./app/screens/MapScreen";
+import RadiatingMarker from "./app/components/RadiatingMarker";
 
 export default function App() {
   return (
