@@ -11,24 +11,44 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 
+import ActivityIndicator from "../components/ActivityIndicator";
 import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
 import colors from "../config/colors";
 
 function Card({ listing, iconRowSize, onPress }) {
+  const imageUri = listing.images[0] != null ? listing.images[0] : "";
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
-        <Image source={{ uri: listing.images[0] }} style={styles.image} />
+        <View>
+          <Image
+            source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
+            style={styles.image}
+            onLoadStart={() => {
+              setLoading(true);
+            }}
+            onLoadEnd={() => {
+              setLoading(false);
+            }}
+          />
+          <ActivityIndicator visible={loading} />
+        </View>
         <View style={styles.detailContainer}>
           <View style={styles.topRow}>
             <AppText style={styles.price}>${listing.price_high}/mo</AppText>
             <Heart saved={saved} onPress={() => setSaved(!saved)} />
           </View>
-          <IconRow listing={listing} size={iconRowSize} fullSize style={styles.iconRow} />
+          <IconRow
+            listing={listing}
+            size={iconRowSize}
+            fullSize
+            style={styles.iconRow}
+          />
           <AppText>{listing.address}</AppText>
         </View>
       </View>

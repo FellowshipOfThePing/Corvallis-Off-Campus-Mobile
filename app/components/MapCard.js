@@ -4,12 +4,12 @@ import {
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
-  ActivityIndicator,
 } from "react-native";
 
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 function MapCard({ onPress, listing, style }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
@@ -29,7 +29,7 @@ function MapCard({ onPress, listing, style }) {
             source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
             style={styles.image}
           />
-          <ActivityIndicator animating={loading} style={styles.indicator} size="large" />
+          <ActivityIndicator visible={loading} />
         </View>
         <View style={styles.topRow}>
           <AppText style={styles.price}>${listing.price_high}/mo</AppText>

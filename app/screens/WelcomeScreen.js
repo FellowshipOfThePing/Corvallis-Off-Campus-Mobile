@@ -13,7 +13,7 @@ function WelcomeScreen({ navigation }) {
         <AppText style={styles.subtitle}>Off Campus Housing</AppText>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Browse" color="white" textColor="black" onPress={() => navigation.navigate('AppNavigator')} />
+        <Button title="Browse" color="white" textColor="black" onPress={() => navigation.navigate('MaterialTabs')} />
         <Button title="Login" />
       </View>
     </View>

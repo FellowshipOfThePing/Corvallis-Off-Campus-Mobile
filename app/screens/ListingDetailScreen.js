@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import {
-  View,
-  Image,
-  ActivityIndicator,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
+
+import ActivityIndicator from "../components/ActivityIndicator";
 
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
@@ -42,13 +38,7 @@ function ListingDetailScreen({ navigation, route }) {
             setLoading(false);
           }}
         />
-        {loading && (
-          <ActivityIndicator
-            animating={loading}
-            style={styles.indicator}
-            size="large"
-          />
-        )}
+        {loading && <ActivityIndicator visible={loading} />}
       </View>
       <ListingDetails
         listing={listing}
@@ -84,11 +74,7 @@ function ListingDetailScreen({ navigation, route }) {
             title="OSU"
           >
             <View>
-              <FontAwesome5
-                name="school"
-                size={30}
-                color={colors.primary}
-              />
+              <FontAwesome5 name="school" size={30} color={colors.primary} />
             </View>
           </Marker>
         </MapView>

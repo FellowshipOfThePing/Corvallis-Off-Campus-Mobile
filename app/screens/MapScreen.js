@@ -5,7 +5,6 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
-  ActivityIndicator,
 } from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
@@ -13,6 +12,7 @@ import MapView, {
   MapViewAnimated,
 } from "react-native-maps";
 
+import ActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
 import listingsApi from "../api/listings";
 import MapCard from "../components/MapCard";
@@ -163,8 +163,8 @@ function MapScreen({ navigation }) {
         style={styles.flatList}
         snapToInterval={width}
         snapToAlignment="center"
-        // decelerationRate={0.9}
-        // disableIntervalMomentum
+        decelerationRate="fast"
+        disableIntervalMomentum
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -205,7 +205,7 @@ function MapScreen({ navigation }) {
               }
             ]}
           >
-            <ActivityIndicator size="large" />
+            <ActivityIndicator visible={true} />
           </View>
         )}
         keyExtractor={(listing, index) => index.toString()}
