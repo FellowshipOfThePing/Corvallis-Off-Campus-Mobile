@@ -20,7 +20,6 @@ function MapScreen({ navigation, route }) {
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
-  const [sourceDetailScreen, setSourceDetailScreen] = useState(false);
   let mapAnimation = new Animated.Value(0);
 
   const listing_data = getListingsApi.data.map((marker) => {
@@ -31,19 +30,25 @@ function MapScreen({ navigation, route }) {
     return marker.address;
   });
 
+  const waitForMapIndex = (newMapIndex) => {
+    if (
+      typeof newMapIndex !== "undefined" &&
+      newMapIndex !== -1 &&
+      newMapIndex !== mapIndex
+    ) {
+      console.log("New Map Index: " + newMapIndex);
+      onMarkerPress(newMapIndex);
+    } else {
+      setTimeout(waitForMapIndex, 250);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       if (route.params) {
         if (route.params.sourceDetailScreen && listing_data.length > 0) {
           let newMapIndex = addresses.indexOf(route.params.listing.address);
-          setTimeout(() => {
-            if (typeof newMapIndex !== 'undefined' && newMapIndex !== -1) {
-              console.log("New Map Index: " + newMapIndex);
-              onMarkerPress(newMapIndex);
-            } else {
-              console.log(route.params);
-            }
-          }, 4000);
+          waitForMapIndex(newMapIndex);
         }
         route.params.sourceDetailScreen = false;
       }

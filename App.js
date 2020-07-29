@@ -1,31 +1,16 @@
 import React from "react";
-
-import FeedNavigator from "./app/navigation/FeedNavigator";
+import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
-import { View, StyleSheet } from "react-native";
+import MaterialTabs from "./app/navigation/MaterialTabs";
 import Screen from "./app/components/Screen";
-import Example from "./app/components/CardBottomSheet";
-import AppleMusic from "./app/components/AppleMusic";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import WelcomeNavigator from "./app/navigation/WelcomeNavigator";
-import MapScreen from "./app/screens/MapScreen";
-import RadiatingMarker from "./app/components/RadiatingMarker";
-import IconButton from "./app/components/IconButton";
 
 export default function App() {
   return (
     <>
       <NavigationContainer>
-        <WelcomeNavigator />
+        <MaterialTabs />
       </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center"
-  }
-})
