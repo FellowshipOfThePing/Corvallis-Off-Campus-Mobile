@@ -30,6 +30,7 @@ function ListingsScreen({ navigation }) {
         <View style={styles.container}>
           <FlatList
             ref={ref}
+            contentContainerStyle={{ paddingTop: 10 }}
             showsVerticalScrollIndicator={false}
             data={getListingsApi.data}
             keyExtractor={(listing) => listing.raw_id.toString()}
@@ -55,7 +56,8 @@ function ListingsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
+    // marginTop: 15
   },
 });
 
