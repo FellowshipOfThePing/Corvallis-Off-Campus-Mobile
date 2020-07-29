@@ -15,7 +15,10 @@ const MapNavigator = () => (
       gestureVelocityImpact: 0.6,
     }}
   >
-    <Stack.Screen name="MapScreen" component={MapScreen} />
+    <Stack.Screen
+      name="MapScreen"
+      component={MapScreen}
+    />
     <Stack.Screen
       name="ListingDetailNavigator"
       component={ListingDetailNavigator}

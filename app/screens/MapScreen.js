@@ -1,16 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  View,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import { Animated, View, StyleSheet, FlatList, Dimensions } from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
   Marker,
   MapViewAnimated,
 } from "react-native-maps";
+import { useFocusEffect } from "@react-navigation/native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
@@ -19,16 +14,41 @@ import MapCard from "../components/MapCard";
 import CustomMarker from "../components/CustomMarker";
 import colors from "../config/colors";
 
-function MapScreen({ navigation }) {
+function MapScreen({ navigation, route }) {
   const getListingsApi = useApi(listingsApi.getListings);
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
+  const [mapIndex, setMapIndex] = useState(0);
+  const [sourceDetailScreen, setSourceDetailScreen] = useState(false);
   let mapAnimation = new Animated.Value(0);
-  let mapIndex = 0;
+
   const listing_data = getListingsApi.data.map((marker) => {
     return marker;
   });
+
+  const addresses = getListingsApi.data.map((marker) => {
+    return marker.address;
+  });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (route.params) {
+        if (route.params.sourceDetailScreen && listing_data.length > 0) {
+          let newMapIndex = addresses.indexOf(route.params.listing.address);
+          setTimeout(() => {
+            if (typeof newMapIndex !== 'undefined' && newMapIndex !== -1) {
+              console.log("New Map Index: " + newMapIndex);
+              onMarkerPress(newMapIndex);
+            } else {
+              console.log(route.params);
+            }
+          }, 4000);
+        }
+        route.params.sourceDetailScreen = false;
+      }
+    }, [route])
+  );
 
   const { width, height } = Dimensions.get("window");
   const CARD_HEIGHT = 220;
@@ -43,6 +63,8 @@ function MapScreen({ navigation }) {
       longitudeDelta: 0.040142817690068,
     },
   };
+
+  useEffect(() => {});
 
   useEffect(() => {
     getListingsApi.request();
@@ -77,7 +99,7 @@ function MapScreen({ navigation }) {
 
         const regionTimeout = setTimeout(() => {
           if (mapIndex !== index) {
-            mapIndex = index;
+            setMapIndex(index);
             mapRef.current.animateToRegion(
               {
                 latitude: listing_data[index].latitude,
@@ -100,7 +122,7 @@ function MapScreen({ navigation }) {
     let offset = markerID * width;
 
     if (mapIndex !== markerID) {
-      mapIndex = markerID;
+      setMapIndex(markerID);
     }
 
     console.log("Current Object Price: " + listing_data[markerID].price_high);
@@ -202,7 +224,7 @@ function MapScreen({ navigation }) {
                 height: CARD_HEIGHT,
                 width: CARD_WIDTH,
                 marginHorizontal: width * 0.05,
-              }
+              },
             ]}
           >
             <ActivityIndicator visible={true} />
@@ -252,7 +274,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     shadowOffset: { x: 2, y: -2 },
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 });
 

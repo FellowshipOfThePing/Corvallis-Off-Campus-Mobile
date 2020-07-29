@@ -11,6 +11,7 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import WelcomeNavigator from "./app/navigation/WelcomeNavigator";
 import MapScreen from "./app/screens/MapScreen";
 import RadiatingMarker from "./app/components/RadiatingMarker";
+import IconButton from "./app/components/IconButton";
 
 export default function App() {
   return (
@@ -21,3 +22,10 @@ export default function App() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center"
+  }
+})

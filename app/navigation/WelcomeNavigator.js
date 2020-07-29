@@ -7,8 +7,8 @@ const Stack = createStackNavigator();
 
 const WelcomeNavigator = () => (
   <Stack.Navigator headerMode={"none"}>
-    <Stack.Screen name="Welcome" component={WelcomeScreen} />
     <Stack.Screen name="MaterialTabs" component={MaterialTabs} />
+    <Stack.Screen name="Welcome" component={WelcomeScreen} />
   </Stack.Navigator>
 );
 

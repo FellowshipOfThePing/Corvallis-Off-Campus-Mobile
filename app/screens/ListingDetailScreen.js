@@ -8,6 +8,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
+import IconButton from "../components/IconButton";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -115,6 +116,18 @@ function ListingDetailScreen({ navigation, route }) {
             </View>
           </Marker>
         </MapView>
+        <IconButton
+          style={styles.mapButton}
+          onPress={() =>
+            navigation.navigate("Map", {
+              screen: "MapScreen",
+              params: {
+                listing: listing,
+                sourceDetailScreen: true,
+              },
+            })
+          }
+        />
       </View>
     </>
   );
@@ -130,6 +143,11 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     paddingBottom: 20,
+  },
+  mapButton: {
+    position: "absolute",
+    bottom: Dimensions.get("window").height / 4 - 15,
+    left: 10,
   },
   mapContainer: {
     flex: 2,
