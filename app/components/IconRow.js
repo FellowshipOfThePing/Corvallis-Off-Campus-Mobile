@@ -29,13 +29,13 @@ function IconRow({ listing, size = 20, fullSize, style }) {
             iconName="walking"
             quantity={Math.round(listing.walk_to_campus_minutes)}
             textValue={"min"}
-            visible={listing.walk_to_campus_minutes < 30}
+            visible={listing.walk_to_campus_minutes <= 20}
           />
           <IconWithText
             iconName="car-side"
             quantity={Math.round(listing.drive_to_campus_minutes)}
             textValue={"min"}
-            visible={listing.walk_to_campus_minutes > 30}
+            visible={listing.walk_to_campus_minutes > 20}
           />
         </>
       )}

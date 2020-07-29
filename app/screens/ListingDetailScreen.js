@@ -1,17 +1,51 @@
-import React, { useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import React, { useState, useEffect } from "react";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import { View, Image, StyleSheet, Dimensions } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { decode } from "@mapbox/polyline";
 
 import ActivityIndicator from "../components/ActivityIndicator";
-
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
-import { FontAwesome5 } from "@expo/vector-icons";
+
+const getDirections = async (startLoc, destinationLoc, mode) => {
+  try {
+    const KEY = "AIzaSyA-bCS80fMCp6T5Em6u8RvIIs-l8_skXM0";
+    let resp = await fetch(
+      `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}&mode=${mode}`
+    );
+    let respJson = await resp.json();
+    let points = decode(respJson.routes[0].overview_polyline.points);
+    let coords = points.map((point, index) => {
+      return {
+        latitude: point[0],
+        longitude: point[1],
+      };
+    });
+    return coords;
+  } catch (error) {
+    return error;
+  }
+};
 
 function ListingDetailScreen({ navigation, route }) {
   const listing = route.params.listing;
   const [loading, setLoading] = useState(true);
+  const [coords, setCoords] = useState([]);
+
+  useEffect(() => {
+    var mode = listing.walk_to_campus_minutes <= 20 ? "walking" : "driving";
+    getDirections(
+      listing.latitude + "," + listing.longitude,
+      OSU_lat + "," + OSU_long,
+      mode
+    )
+      .then((coords) => {
+        setCoords(coords);
+      })
+      .catch((err) => console.log("Something went wrong"));
+  }, []);
 
   const OSU_lat = 44.5647;
   const OSU_long = -123.28225;
@@ -22,8 +56,8 @@ function ListingDetailScreen({ navigation, route }) {
   const centerLat = OSU_lat + distanceLat / 2;
   const centerLong = OSU_long + distanceLong / 2;
 
-  const deltaLat = distanceLat * 1.5;
-  const deltaLong = distanceLong * 1.5;
+  const deltaLat = distanceLat * 1.6;
+  const deltaLong = distanceLong * 1.6;
 
   return (
     <>
@@ -61,6 +95,9 @@ function ListingDetailScreen({ navigation, route }) {
             longitudeDelta: deltaLong,
           }}
         >
+          {coords.length > 0 && (
+            <Polyline coordinates={coords} strokeWidth={2} />
+          )}
           <RadiatingMarker
             coordinate={{
               latitude: listing.latitude,
