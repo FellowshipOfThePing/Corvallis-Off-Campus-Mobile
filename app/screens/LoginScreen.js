@@ -13,7 +13,7 @@ function LoginScreen() {
       <View style={styles.titleContainer}>
         <Image
           style={styles.logo}
-          source={require("../../assets/Logo_with_white_no_bg.png")}
+          source={require("../../assets/Logo.png")}
         />
       </View>
       <View style={styles.formContainer}>
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 2,
+    paddingTop: 20
   },
   logo: {
     height: 250,
