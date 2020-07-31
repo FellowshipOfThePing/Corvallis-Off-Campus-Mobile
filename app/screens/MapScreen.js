@@ -16,6 +16,10 @@ function MapScreen({ navigation, route }) {
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
+  const [mapDelta, setMapDelta] = useState({
+    latitudeDelta: 0.04864195044303443,
+    longitudeDelta: 0.040142817690068,
+  });
 
   let mapAnimation = new Animated.Value(0);
   const { width, height } = Dimensions.get("window");
@@ -23,13 +27,11 @@ function MapScreen({ navigation, route }) {
   const CARD_WIDTH = width * 0.9;
   const SPACING_FOR_CARD_INSET = width * 0.05;
 
-  const state = {
-    region: {
-      latitude: 44.583599,
-      longitude: -123.272191,
-      latitudeDelta: 0.04864195044303443,
-      longitudeDelta: 0.040142817690068,
-    },
+  const initialRegion = {
+    latitude: 44.583599,
+    longitude: -123.272191,
+    latitudeDelta: 0.04864195044303443,
+    longitudeDelta: 0.040142817690068,
   };
 
   const listing_data = getListingsApi.data.map((marker) => {
@@ -67,6 +69,13 @@ function MapScreen({ navigation, route }) {
     }
   };
 
+  const changeRegion = (region) => {
+    setMapDelta({
+      latitudeDelta: region.latitudeDelta,
+      longitudeDelta: region.longitudeDelta,
+    });
+  };
+
   useEffect(() => {
     getListingsApi.request();
   }, []);
@@ -77,8 +86,8 @@ function MapScreen({ navigation, route }) {
         {
           latitude: getListingsApi.data[0].latitude,
           longitude: getListingsApi.data[0].longitude,
-          latitudeDelta: state.region.latitudeDelta,
-          longitudeDelta: state.region.longitudeDelta,
+          latitudeDelta: initialRegion.latitudeDelta,
+          longitudeDelta: initialRegion.longitudeDelta,
         },
         350
       );
@@ -117,8 +126,8 @@ function MapScreen({ navigation, route }) {
               {
                 latitude: listing_data[index].latitude,
                 longitude: listing_data[index].longitude,
-                latitudeDelta: state.region.latitudeDelta,
-                longitudeDelta: state.region.longitudeDelta,
+                latitudeDelta: mapDelta.latitudeDelta,
+                longitudeDelta: mapDelta.longitudeDelta,
               },
               350
             );
@@ -146,8 +155,8 @@ function MapScreen({ navigation, route }) {
       {
         latitude: listing_data[markerID].latitude,
         longitude: listing_data[markerID].longitude,
-        latitudeDelta: state.region.latitudeDelta,
-        longitudeDelta: state.region.longitudeDelta,
+        latitudeDelta: mapDelta.latitudeDelta,
+        longitudeDelta: mapDelta.longitudeDelta,
       },
       350
     );
@@ -172,7 +181,10 @@ function MapScreen({ navigation, route }) {
         ref={mapRef}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
-        initialRegion={state.region}
+        initialRegion={initialRegion}
+        showsTraffic={false}
+        loadingEnabled
+        onRegionChangeComplete={(region) => changeRegion(region)}
       >
         {markerArray}
       </MapView>

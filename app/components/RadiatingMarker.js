@@ -40,6 +40,8 @@ function RadiatingMarker({ coordinate, onPress, title, size = 20 }) {
       coordinate={coordinate}
       title={title}
       onPress={onPress}
+      flat
+      anchor={{ x: 0.5, y: 0.5 }}
     >
       <View style={[styles.wrapper, { height: size * 3, width: size * 3 }]}>
         <Animated.View

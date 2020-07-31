@@ -43,6 +43,7 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
       coordinate={coordinate}
       onPress={onPress}
       flat
+      anchor={{ x: 0.5, y: 0.5 }}
     >
       <TouchableOpacity>
         <View style={[styles.wrapper, { height: size * 3, width: size * 3 }]}>
