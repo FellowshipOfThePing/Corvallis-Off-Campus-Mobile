@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   mapButton: {
     position: "absolute",
-    bottom: Dimensions.get("window").height / 4 - 15,
+    top: 10,
     left: 10,
   },
   mapContainer: {
