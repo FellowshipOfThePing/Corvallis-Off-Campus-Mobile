@@ -35,6 +35,7 @@ target 'HousingMobile' do
   pod 'DoubleConversion', :podspec => "#{rnPrefix}/third-party-podspecs/DoubleConversion.podspec"
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
+  
 
   # Other native modules
 
@@ -46,6 +47,7 @@ target 'HousingMobile' do
   pod 'react-native-google-maps', :path => rn_maps_path
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
+  pod 'SDWebImageWebPCoder'
 
   # react-native-cli autolinking
   use_native_modules!

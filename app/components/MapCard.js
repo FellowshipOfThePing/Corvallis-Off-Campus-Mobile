@@ -11,7 +11,7 @@ import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
 
-function MapCard({ onPress, listing, style }) {
+export default React.memo(({ onPress, listing, style }) => {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +26,11 @@ function MapCard({ onPress, listing, style }) {
             onLoadEnd={() => {
               setLoading(false);
             }}
-            source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
+            source={
+              imageUri.length != 0
+                ? { uri: listing.images[0], cache: "default" }
+                : null
+            }
             style={styles.image}
           />
           <ActivityIndicator visible={loading} />
@@ -38,7 +42,7 @@ function MapCard({ onPress, listing, style }) {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+});
 
 const styles = StyleSheet.create({
   card: {
@@ -82,5 +86,3 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
-
-export default MapCard;

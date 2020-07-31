@@ -39,16 +39,14 @@ function DrawerContent(props) {
             icon="folder"
             text="Saved Listings"
             onPress={() => {
-              console.log("Saved Listings pressed!");
-              props.navigation.navigate("Home");
+              props.navigation.navigate("Login");
             }}
           />
           <DrawerRowButton
             icon="folder-search"
             text="Saved Searches"
             onPress={() => {
-              console.log("Saved Searches pressed!");
-              props.navigation.navigate("Home");
+              props.navigation.navigate("Login");
             }}
           />
         </View>

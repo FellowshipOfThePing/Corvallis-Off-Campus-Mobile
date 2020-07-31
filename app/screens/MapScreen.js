@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, View, StyleSheet, FlatList, Dimensions } from "react-native";
-import MapView, {
-  PROVIDER_GOOGLE,
-  Marker,
-  MapViewAnimated,
-} from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useFocusEffect } from "@react-navigation/native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
@@ -20,41 +16,8 @@ function MapScreen({ navigation, route }) {
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
+
   let mapAnimation = new Animated.Value(0);
-
-  const listing_data = getListingsApi.data.map((marker) => {
-    return marker;
-  });
-
-  const addresses = getListingsApi.data.map((marker) => {
-    return marker.address;
-  });
-
-  const waitForMapIndex = (newMapIndex) => {
-    if (
-      typeof newMapIndex !== "undefined" &&
-      newMapIndex !== -1 &&
-      newMapIndex !== mapIndex
-    ) {
-      console.log("New Map Index: " + newMapIndex);
-      onMarkerPress(newMapIndex);
-    } else {
-      setTimeout(waitForMapIndex, 250);
-    }
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      if (route.params) {
-        if (route.params.sourceDetailScreen && listing_data.length > 0) {
-          let newMapIndex = addresses.indexOf(route.params.listing.address);
-          waitForMapIndex(newMapIndex);
-        }
-        route.params.sourceDetailScreen = false;
-      }
-    }, [route])
-  );
-
   const { width, height } = Dimensions.get("window");
   const CARD_HEIGHT = 220;
   const CARD_WIDTH = width * 0.9;
@@ -69,7 +32,40 @@ function MapScreen({ navigation, route }) {
     },
   };
 
-  useEffect(() => {});
+  const listing_data = getListingsApi.data.map((marker) => {
+    return marker;
+  });
+
+  const addresses = getListingsApi.data.map((marker) => {
+    return marker.address;
+  });
+
+  const markerArray = listing_data.map((marker, index) => {
+    return (
+      <CustomMarker
+        key={index}
+        coordinate={{
+          latitude: marker.latitude,
+          longitude: marker.longitude,
+        }}
+        onPress={() => onMarkerPress(index)}
+        selected={index === mapIndex}
+      />
+    );
+  });
+
+  const waitForMapIndex = (newMapIndex) => {
+    if (
+      typeof newMapIndex !== "undefined" &&
+      newMapIndex !== -1 &&
+      newMapIndex !== mapIndex
+    ) {
+      console.log("New Map Index: " + newMapIndex);
+      onMarkerPress(newMapIndex);
+    } else {
+      setTimeout(waitForMapIndex, 250);
+    }
+  };
 
   useEffect(() => {
     getListingsApi.request();
@@ -88,6 +84,18 @@ function MapScreen({ navigation, route }) {
       );
     }
   }, [getListingsApi.data]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (route.params) {
+        if (route.params.sourceDetailScreen && listing_data.length > 0) {
+          let newMapIndex = addresses.indexOf(route.params.listing.address);
+          waitForMapIndex(newMapIndex);
+        }
+        route.params.sourceDetailScreen = false;
+      }
+    }, [route])
+  );
 
   useEffect(() => {
     mapAnimation.addListener(({ value }) => {
@@ -166,19 +174,7 @@ function MapScreen({ navigation, route }) {
         provider={PROVIDER_GOOGLE}
         initialRegion={state.region}
       >
-        {listing_data.map((marker, index) => {
-          return (
-            <CustomMarker
-              key={index}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              onPress={() => onMarkerPress(index)}
-              tracksViewChanges={false}
-            ></CustomMarker>
-          );
-        })}
+        {markerArray}
       </MapView>
       <Animated.FlatList
         ref={flatListRef}

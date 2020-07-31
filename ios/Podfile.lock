@@ -2,7 +2,9 @@ PODS:
   - "@react-native-mapbox-gl-mapbox-static (5.8.0)"
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
-  - EXConstants (9.0.0):
+  - EXBlur (8.1.2):
+    - UMCore
+  - EXConstants (9.1.1):
     - UMConstantsInterface
     - UMCore
   - EXErrorRecovery (1.1.0):
@@ -13,6 +15,8 @@ PODS:
   - EXFont (8.1.1):
     - UMCore
     - UMFontInterface
+  - EXHaptics (8.1.0):
+    - UMCore
   - EXImageLoader (1.0.1):
     - React-Core
     - UMCore
@@ -33,7 +37,7 @@ PODS:
   - EXSQLite (8.1.0):
     - UMCore
     - UMFileSystemInterface
-  - EXUpdates (0.2.11):
+  - EXUpdates (0.2.12):
     - React
     - UMCore
   - EXWebBrowser (8.2.1):
@@ -86,6 +90,10 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
+  - lottie-ios (3.1.8)
+  - lottie-react-native (3.5.0):
+    - lottie-ios (~> 3.1.8)
+    - React
   - Mapbox-iOS-SDK (5.9.0):
     - MapboxMobileEvents (= 0.10.2)
   - MapboxMobileEvents (0.10.2)
@@ -256,17 +264,17 @@ PODS:
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.2.0)
     - React
-  - react-native-mapbox-gl (8.1.0-rc.1):
+  - react-native-mapbox-gl (8.1.0-rc.2):
     - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
     - Mapbox-iOS-SDK (~> 5.8)
     - React
-    - react-native-mapbox-gl/DynamicLibrary (= 8.1.0-rc.1)
-    - react-native-mapbox-gl/StaticLibraryFixer (= 8.1.0-rc.1)
-  - react-native-mapbox-gl/DynamicLibrary (8.1.0-rc.1):
+    - react-native-mapbox-gl/DynamicLibrary (= 8.1.0-rc.2)
+    - react-native-mapbox-gl/StaticLibraryFixer (= 8.1.0-rc.2)
+  - react-native-mapbox-gl/DynamicLibrary (8.1.0-rc.2):
     - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
     - Mapbox-iOS-SDK (~> 5.8)
     - React
-  - react-native-mapbox-gl/StaticLibraryFixer (8.1.0-rc.1):
+  - react-native-mapbox-gl/StaticLibraryFixer (8.1.0-rc.2):
     - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
     - Mapbox-iOS-SDK (~> 5.8)
     - React
@@ -313,22 +321,26 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCMaskedView (0.1.6):
     - React
-  - RNFastImage (8.1.5):
+  - RNFastImage (8.3.2):
     - React
-    - SDWebImage (~> 5.0)
-    - SDWebImageWebPCoder (~> 0.4.1)
+    - SDWebImage (~> 5.8)
+    - SDWebImageWebPCoder (~> 0.6.1)
   - RNGestureHandler (1.6.1):
+    - React
+  - RNReactNativeHapticFeedback (1.10.0):
     - React
   - RNReanimated (1.7.1):
     - React
   - RNScreens (2.2.0):
     - React
-  - SDWebImage (5.8.3):
-    - SDWebImage/Core (= 5.8.3)
-  - SDWebImage/Core (5.8.3)
-  - SDWebImageWebPCoder (0.4.1):
+  - RNVectorIcons (7.0.0):
+    - React
+  - SDWebImage (5.8.4):
+    - SDWebImage/Core (= 5.8.4)
+  - SDWebImage/Core (5.8.4)
+  - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.5)
+    - SDWebImage/Core (~> 5.7)
   - UMAppLoader (1.0.2)
   - UMBarCodeScannerInterface (5.1.0)
   - UMCameraInterface (5.1.0)
@@ -350,10 +362,12 @@ PODS:
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXBlur (from `../node_modules/expo-blur/ios`)
+  - EXConstants (from `../node_modules/expo-linking/node_modules/expo-constants/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
+  - EXHaptics (from `../node_modules/expo-haptics/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
@@ -369,6 +383,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
   - GoogleMaps
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -399,8 +414,11 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - SDWebImageWebPCoder
   - UMAppLoader (from `../node_modules/unimodules-app-loader/ios`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
@@ -423,6 +441,7 @@ SPEC REPOS:
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - libwebp
+    - lottie-ios
     - Mapbox-iOS-SDK
     - MapboxMobileEvents
     - SDWebImage
@@ -431,14 +450,18 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXBlur:
+    :path: "../node_modules/expo-blur/ios"
   EXConstants:
-    :path: "../node_modules/expo-constants/ios"
+    :path: "../node_modules/expo-linking/node_modules/expo-constants/ios"
   EXErrorRecovery:
     :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
+  EXHaptics:
+    :path: "../node_modules/expo-haptics/ios"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
   EXKeepAwake:
@@ -465,6 +488,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -519,10 +544,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNReactNativeHapticFeedback:
+    :path: "../node_modules/react-native-haptic-feedback"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   UMAppLoader:
     :path: "../node_modules/unimodules-app-loader/ios"
   UMBarCodeScannerInterface:
@@ -556,10 +585,12 @@ SPEC CHECKSUMS:
   "@react-native-mapbox-gl-mapbox-static": e247172bc43f47757f47d6cec1b325b1ab3e9287
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  EXConstants: 9f18e9ef229706394f41735d9c7f309d479b36c0
+  EXBlur: 5b7a7344c97f448fa88e40df58a755f84084e292
+  EXConstants: c2c6d5805520a34f274e09b778404310c52b118f
   EXErrorRecovery: 88541714d9bbf8a823f4ee0b7078a92d3e0e42d2
   EXFileSystem: b82693d78de152efe10a77d4aac781f782e10916
   EXFont: af4c3281cac0bf6ccd8b8a534e9bce6437cc2e17
+  EXHaptics: 3e6a4a40d87b230ffe1fafe298393ab6f3b8e10d
   EXImageLoader: 5c9d1bf408443ac4d4f44463eaf3b0d03bc70425
   EXKeepAwake: 4b53df0b4e87aa9f38bf57461e07fc167716a760
   EXLinearGradient: 8189387e3a65c2a9ba5507432e3a099ea8f7ea86
@@ -567,7 +598,7 @@ SPEC CHECKSUMS:
   EXPermissions: d2cafee9c72578ecc9ca121481e6c4a04a798861
   EXSplashScreen: 6888f24a847a2cdbf5ca4d996300adf9cc2726b4
   EXSQLite: 15268ec49f859e4594fe5b0a1c7a47913da0b67e
-  EXUpdates: 16b06137b910aa3e0b25eb491e4c659090dc1feb
+  EXUpdates: 4380bf17a6391fab639a32e31ed27fb956c4505f
   EXWebBrowser: 6364e9e1ea73f6c3c2e6e3cc0ac17259a260e3a8
   FBLazyVector: aaeaf388755e4f29cd74acbc9e3b8da6d807c37f
   FBReactNativeSpec: 118d0d177724c2d67f08a59136eb29ef5943ec75
@@ -576,6 +607,8 @@ SPEC CHECKSUMS:
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
+  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   Mapbox-iOS-SDK: a5915700ec84bc1a7f8b3e746d474789e35b7956
   MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
@@ -588,7 +621,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
-  react-native-mapbox-gl: 6f0055122d1d672736e1609a97714b633be0990e
+  react-native-mapbox-gl: 18785637738ca8b25c3633db431d6614ec7fc9bf
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-webview: 0a9570f62a91d7f991bf4cebff64bb97ef9bf682
@@ -603,12 +636,14 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
-  RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
+  RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNReactNativeHapticFeedback: 22c5ecf474428766c6b148f96f2ff6155cd7225e
   RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
   RNScreens: 812b79d384e2bea7eebc4ec981469160d4948fd5
-  SDWebImage: 112503ec94a5a2a41869503844a15e8d8f1ead5c
-  SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
+  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
+  SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
+  SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   UMAppLoader: ae5eaee9f3c8cc847c631a579fed20d217de5913
   UMBarCodeScannerInterface: aa3409ab9d108866e55c09ad0292e4a6c08a7775
   UMCameraInterface: 9d5da92c521e0af7815afbf77ea19bd0312b4928
@@ -624,6 +659,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 4e6c4c34a89512e2225d336154df1cb689226a29
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 914019a9f2bf78c54c6b4c27bce513f36a9271d2
+PODFILE CHECKSUM: 024e6629706c079621046260af9b45076f734822
 
 COCOAPODS: 1.9.3
