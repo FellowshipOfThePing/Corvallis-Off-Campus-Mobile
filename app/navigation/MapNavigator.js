@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MapScreen from "../screens/MapScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import Avatar from "../components/Avatar";
+import FilterButton from "../components/FilterButton";
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,13 @@ const MapNavigator = () => (
         },
         headerLeftContainerStyle: {
           paddingLeft: 10,
+          paddingBottom: 10,
+        },
+        headerRight: () => {
+          return <FilterButton size={35} color="black" onPress={() => navigation.openDrawer()} />;
+        },
+        headerRightContainerStyle: {
+          paddingRight: 10,
           paddingBottom: 10,
         },
       })}

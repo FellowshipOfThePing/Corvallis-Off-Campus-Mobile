@@ -21,12 +21,6 @@ function ListingsScreen({ navigation }) {
   return (
     <>
       <Screen style={styles.screen}>
-        {getListingsApi.error && (
-          <>
-            <AppText>Couldn't retrieve the listings.</AppText>
-            <Button title="Retry" onPress={getListingsApi.request} />
-          </>
-        )}
         <View style={styles.container}>
           <FlatList
             ref={ref}

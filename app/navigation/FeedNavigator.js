@@ -5,6 +5,7 @@ import ListingsScreen from "../screens/ListingsScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import colors from "../config/colors";
 import Avatar from "../components/Avatar";
+import FilterButton from "../components/FilterButton";
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,13 @@ const FeedNavigator = () => (
         },
         headerLeftContainerStyle: {
           paddingLeft: 10,
+          paddingBottom: 10,
+        },
+        headerRight: () => {
+          return <FilterButton size={35} onPress={() => navigation.openDrawer()} />;
+        },
+        headerRightContainerStyle: {
+          paddingRight: 10,
           paddingBottom: 10,
         },
       })}
