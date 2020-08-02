@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Animated, View, StyleSheet, FlatList, Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useFocusEffect } from "@react-navigation/native";
@@ -9,9 +9,10 @@ import listingsApi from "../api/listings";
 import MapCard from "../components/MapCard";
 import CustomMarker from "../components/CustomMarker";
 import colors from "../config/colors";
+import ApiContext from "../api/context";
 
 function MapScreen({ navigation, route }) {
-  const getListingsApi = useApi(listingsApi.getListings);
+  const getListingsApi = useContext(ApiContext);
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
@@ -77,7 +78,10 @@ function MapScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    getListingsApi.request();
+    if (getListingsApi.length === 0) {
+      getListingsApi.request();
+      console.log("New API Call");
+    }
   }, []);
 
   useEffect(() => {

@@ -34,6 +34,7 @@ function ListingDetailScreen({ navigation, route }) {
   const listing = route.params.listing;
   const [loading, setLoading] = useState(true);
   const [coords, setCoords] = useState([]);
+  const imageUri = listing.images[0] != null ? listing.images[0] : "";
 
   useEffect(() => {
     var mode = listing.walk_to_campus_minutes <= 20 ? "walking" : "driving";
@@ -64,7 +65,11 @@ function ListingDetailScreen({ navigation, route }) {
     <>
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: listing.images[0] }}
+          source={
+            imageUri.length != 0
+              ? { uri: listing.images[0], cache: "default" }
+              : null
+          }
           style={styles.image}
           onLoadStart={() => {
             setLoading(true);

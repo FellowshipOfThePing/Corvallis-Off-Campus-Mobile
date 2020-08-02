@@ -27,7 +27,11 @@ function Card({ listing, iconRowSize, onPress }) {
       <View style={styles.card}>
         <View>
           <Image
-            source={imageUri.length != 0 ? { uri: listing.images[0] } : null}
+            source={
+              imageUri.length != 0
+                ? { uri: listing.images[0], cache: "default" }
+                : null
+            }
             style={styles.image}
             onLoadStart={() => {
               setLoading(true);
