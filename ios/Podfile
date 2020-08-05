@@ -47,10 +47,11 @@ target 'HousingMobile' do
   pod 'react-native-google-maps', :path => rn_maps_path
   pod 'GoogleMaps'
   pod 'Google-Maps-iOS-Utils'
-  pod 'SDWebImageWebPCoder'
 
   # react-native-cli autolinking
   use_native_modules!
   pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
+  pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
 end
