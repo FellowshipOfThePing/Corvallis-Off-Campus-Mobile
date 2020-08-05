@@ -38,7 +38,12 @@ const FeedNavigator = () => (
           paddingBottom: 10,
         },
         headerRight: () => {
-          return <FilterButton size={35} onPress={() => navigation.openDrawer()} />;
+          return (
+            <FilterButton
+              size={35}
+              onPress={() => navigation.navigate("FilterScreen")}
+            />
+          );
         },
         headerRightContainerStyle: {
           paddingRight: 10,

@@ -1,17 +1,13 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 
-import useApi from "../hooks/useApi";
-import listingsApi from "../api/listings";
 import Screen from "../components/Screen";
 import Card from "../components/Card";
-import AppText from "../components/AppText";
-import Button from "../components/Button";
 import { useScrollToTop } from "@react-navigation/native";
 import ApiContext from "../api/context";
 
 function ListingsScreen({ navigation }) {
-  const getListingsApi = useContext(ApiContext);
+  const { getListingsApi } = useContext(ApiContext);
   const ref = useRef(null);
   useScrollToTop(ref);
 

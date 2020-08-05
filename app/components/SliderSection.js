@@ -13,7 +13,7 @@ function SliderSection({
   snapped,
   changeFilterLow,
   changeFilterHigh,
-  extremes
+  extremes,
 }) {
   const [touched, setTouched] = useState(false);
 
@@ -26,7 +26,6 @@ function SliderSection({
         snapped={snapped}
         containerStyle={{ alignSelf: "center" }}
         onValuesChangeStart={() => {
-          onChange(false);
           setTouched(true);
         }}
         onValuesChange={(values) => {
@@ -34,7 +33,6 @@ function SliderSection({
           changeFilterHigh(values[1]);
         }}
         onValuesChangeFinish={() => {
-          onChange(true);
           setTouched(false);
         }}
         selectedStyle={{
@@ -59,14 +57,12 @@ const styles = StyleSheet.create({
   sliderSection: {
     height: "14%",
     width: "100%",
-    paddingVertical: 10,
     justifyContent: "center",
     backgroundColor: colors.white,
   },
   sliderTitle: {
     fontWeight: "bold",
     fontSize: 20,
-    // paddingBottom: 15,
     paddingLeft: 20,
   },
 });

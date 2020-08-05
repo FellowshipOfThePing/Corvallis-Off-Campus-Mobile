@@ -12,7 +12,7 @@ import colors from "../config/colors";
 import ApiContext from "../api/context";
 
 function MapScreen({ navigation, route }) {
-  const getListingsApi = useContext(ApiContext);
+  const { getListingsApi } = useContext(ApiContext);
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);

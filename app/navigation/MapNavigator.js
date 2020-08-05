@@ -28,14 +28,26 @@ const MapNavigator = () => (
         },
         title: false,
         headerLeft: () => {
-          return <Avatar size={35} color="black" onPress={() => navigation.openDrawer()} />;
+          return (
+            <Avatar
+              size={35}
+              color="black"
+              onPress={() => navigation.openDrawer()}
+            />
+          );
         },
         headerLeftContainerStyle: {
           paddingLeft: 10,
           paddingBottom: 10,
         },
         headerRight: () => {
-          return <FilterButton size={35} color="black" onPress={() => navigation.openDrawer()} />;
+          return (
+            <FilterButton
+              size={35}
+              color="black"
+              onPress={() => navigation.navigate("FilterScreen")}
+            />
+          );
         },
         headerRightContainerStyle: {
           paddingRight: 10,
@@ -47,7 +59,7 @@ const MapNavigator = () => (
       name="ListingDetailNavigator"
       component={ListingDetailNavigator}
       options={{
-        headerShown: false
+        headerShown: false,
       }}
     />
   </Stack.Navigator>

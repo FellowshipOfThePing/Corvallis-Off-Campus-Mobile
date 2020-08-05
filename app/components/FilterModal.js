@@ -1,31 +1,37 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
-import BottomSheet from "reanimated-bottom-sheet";
+import React, { useState, useContext } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 
 import SliderSection from "./SliderSection";
 import Button from "./Button";
 import colors from "../config/colors";
+import Screen from "./Screen";
+import ApiContext from "../api/context";
+import Constants from "expo-constants";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function FilterModal(props) {
-  const [scrollable, setScrollable] = useState(true);
-  const bottomSheetRef = React.createRef();
+export default function FilterModal({ navigation }) {
+  const { getListingsApi, filterState, setFilterState } = useContext(
+    ApiContext
+  );
 
-  const [priceLow, setPriceLow] = useState(0);
-  const [priceHigh, setPriceHigh] = useState(5000);
-  const [bedsLow, setBedsLow] = useState(1);
-  const [bedsHigh, setBedsHigh] = useState(5);
-  const [bathsLow, setBathsLow] = useState(1);
-  const [bathsHigh, setBathsHigh] = useState(5);
-  const [distanceLow, setDistanceLow] = useState(0);
-  const [distanceHigh, setDistanceHigh] = useState(25);
-  const [driveLow, setDriveLow] = useState(0);
-  const [driveHigh, setDriveHigh] = useState(40);
-  const [walkLow, setWalkLow] = useState(0);
-  const [walkHigh, setWalkHigh] = useState(50);
-
-  const closeModal = () => {
-    bottomSheetRef.current.snapTo(2);
-  };
+  const [priceLow, setPriceLow] = useState(filterState.price_low);
+  const [priceHigh, setPriceHigh] = useState(filterState.price_high);
+  const [bedsLow, setBedsLow] = useState(filterState.beds_low);
+  const [bedsHigh, setBedsHigh] = useState(filterState.beds_high);
+  const [bathsLow, setBathsLow] = useState(filterState.baths_low);
+  const [bathsHigh, setBathsHigh] = useState(filterState.baths_high);
+  const [distanceLow, setDistanceLow] = useState(filterState.distance_low);
+  const [distanceHigh, setDistanceHigh] = useState(filterState.distance_high);
+  const [driveLow, setDriveLow] = useState(filterState.drive_low);
+  const [driveHigh, setDriveHigh] = useState(filterState.drive_high);
+  const [walkLow, setWalkLow] = useState(filterState.walk_low);
+  const [walkHigh, setWalkHigh] = useState(filterState.walk_high);
 
   const onClear = () => {
     setPriceLow(0);
@@ -42,22 +48,50 @@ export default function FilterModal(props) {
     setWalkHigh(50);
   };
 
-  const renderInner = () => (
+  const onApply = () => {
+    navigation.navigate("MaterialTabs");
+    setFilterState({
+      price_low: priceLow,
+      price_high: priceHigh,
+      beds_low: bedsLow,
+      beds_high: bedsHigh,
+      baths_low: bathsLow,
+      baths_high: bathsHigh,
+      distance_low: distanceLow,
+      distance_high: distanceHigh,
+      drive_low: driveLow,
+      drive_high: driveHigh,
+      walk_low: walkLow,
+      walk_high: walkHigh,
+    });
+  };
+
+  return (
     <View style={styles.panel}>
-      <View style={styles.buttonsSection}>
-        <Button
-          title="Apply"
-          style={styles.applyButton}
-          onPress={() => closeModal()}
-        />
-        <Button
-          title="Clear"
-          style={styles.applyButton}
-          onPress={() => onClear()}
-        />
+      <View style={styles.topRow}>
+        <View style={styles.buttonSection}>
+          <Button
+            style={styles.button}
+            title="Apply"
+            onPress={() => onApply()}
+          />
+          <Button
+            style={styles.button}
+            title="Clear"
+            onPress={() => onClear()}
+          />
+        </View>
+        <View style={styles.closeSection}>
+          <TouchableOpacity onPress={() => navigation.navigate("MaterialTabs")}>
+            <MaterialCommunityIcons
+              name="close-circle-outline"
+              size={50}
+              color="black"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
       <SliderSection
-        onChange={setScrollable}
         title="Price Range"
         changeFilterLow={setPriceLow}
         changeFilterHigh={setPriceHigh}
@@ -65,7 +99,6 @@ export default function FilterModal(props) {
         extremes={[0, 5000]}
       />
       <SliderSection
-        onChange={setScrollable}
         title="Beds"
         initialValues={[bedsLow, bedsHigh]}
         snapped
@@ -74,7 +107,6 @@ export default function FilterModal(props) {
         extremes={[1, 5]}
       />
       <SliderSection
-        onChange={setScrollable}
         title="Baths"
         initialValues={[bathsLow, bathsHigh]}
         snapped
@@ -83,7 +115,6 @@ export default function FilterModal(props) {
         extremes={[1, 5]}
       />
       <SliderSection
-        onChange={setScrollable}
         title="Distance to Campus - Miles"
         changeFilterLow={setDistanceLow}
         changeFilterHigh={setDistanceHigh}
@@ -91,7 +122,6 @@ export default function FilterModal(props) {
         extremes={[0, 25]}
       />
       <SliderSection
-        onChange={setScrollable}
         title="Drive Time to Campus - Minutes"
         changeFilterLow={setDriveLow}
         changeFilterHigh={setDriveHigh}
@@ -99,33 +129,11 @@ export default function FilterModal(props) {
         extremes={[0, 40]}
       />
       <SliderSection
-        onChange={setScrollable}
         title="Walk Time to Campus - Minutes"
         changeFilterLow={setWalkLow}
         changeFilterHigh={setWalkHigh}
         initialValues={[walkLow, walkHigh]}
         extremes={[0, 50]}
-      />
-    </View>
-  );
-
-  const renderHeader = () => (
-    <View style={styles.header}>
-      <View style={styles.panelHeader}>
-        <View style={styles.panelHandle} />
-      </View>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={["95%", "50%", 100]}
-        renderContent={renderInner}
-        renderHeader={renderHeader}
-        initialSnap={0}
-        enabledGestureInteraction={scrollable}
       />
     </View>
   );
@@ -140,34 +148,30 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: colors.white,
     alignItems: "center",
+    paddingTop: Constants.statusBarHeight,
   },
-  header: {
-    backgroundColor: "#f7f5eee8",
-    shadowColor: "#000000",
-    paddingTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  panelHeader: {
-    alignItems: "center",
-  },
-  panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#00000040",
-    marginBottom: 10,
-  },
-  buttonsSection: {
-    height: "10%",
+  topRow: {
     width: "100%",
+    height: "10%",
+    flexDirection: "row",
+    paddingHorizontal: 10,
+  },
+  buttonSection: {
+    height: "100%",
+    width: "75%",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
   },
-  applyButton: {
-    width: "40%",
-    height: "80%",
-    borderRadius: 20,
+  button: {
+    height: "90%",
+    width: "45%",
+    borderRadius: 25,
+  },
+  closeSection: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "25%",
   },
 });
