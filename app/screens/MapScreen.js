@@ -4,12 +4,10 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useFocusEffect } from "@react-navigation/native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
-import useApi from "../hooks/useApi";
-import listingsApi from "../api/listings";
 import MapCard from "../components/MapCard";
 import CustomMarker from "../components/CustomMarker";
-import colors from "../config/colors";
 import ApiContext from "../api/context";
+import AppText from "../components/AppText";
 
 function MapScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -19,6 +17,7 @@ function MapScreen({ navigation, route }) {
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
+  const [listEmpty, setListEmpty] = useState(false);
   const [mapDelta, setMapDelta] = useState({
     latitudeDelta: 0.04864195044303443,
     longitudeDelta: 0.040142817690068,
@@ -80,23 +79,12 @@ function MapScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    if (getListingsApi.length === 0) {
-      getListingsApi.request(filterState);
-    }
+    getListingsApi.request(filterState);
   }, [filterState]);
 
   useEffect(() => {
-    if (getListingsApi.data.length > 0) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: getListingsApi.data[0].latitude,
-          longitude: getListingsApi.data[0].longitude,
-          latitudeDelta: initialRegion.latitudeDelta,
-          longitudeDelta: initialRegion.longitudeDelta,
-        },
-        350
-      );
-    }
+    onMarkerPress(0);
+    console.log(filterState);
   }, [getListingsApi.data]);
 
   useFocusEffect(
@@ -152,32 +140,34 @@ function MapScreen({ navigation, route }) {
       setMapIndex(markerID);
     }
 
-    console.log("Current Object Price: " + listing_data[markerID].price_high);
-    console.log("Current Object Beds: " + listing_data[markerID].beds);
-    console.log("Current Object Baths: " + listing_data[markerID].baths);
+    if (listing_data.length > 0) {
+      console.log("Current Object Price: " + listing_data[markerID].price_high);
+      console.log("Current Object Beds: " + listing_data[markerID].beds);
+      console.log("Current Object Baths: " + listing_data[markerID].baths);
 
-    mapRef.current.animateToRegion(
-      {
-        latitude: listing_data[markerID].latitude,
-        longitude: listing_data[markerID].longitude,
-        latitudeDelta: mapDelta.latitudeDelta,
-        longitudeDelta: mapDelta.longitudeDelta,
-      },
-      350
-    );
+      mapRef.current.animateToRegion(
+        {
+          latitude: listing_data[markerID].latitude,
+          longitude: listing_data[markerID].longitude,
+          latitudeDelta: mapDelta.latitudeDelta,
+          longitudeDelta: mapDelta.longitudeDelta,
+        },
+        350
+      );
 
-    setMarkerPressed(true);
+      setMarkerPressed(true);
 
-    setTimeout(() => {
-      flatListRef.current.getNode().scrollToOffset({
-        offset: offset,
-        animated: true,
-      });
-    }, 10);
+      setTimeout(() => {
+        flatListRef.current.getNode().scrollToOffset({
+          offset: offset,
+          animated: true,
+        });
+      }, 10);
 
-    setTimeout(() => {
-      setMarkerPressed(false);
-    }, 3000);
+      setTimeout(() => {
+        setMarkerPressed(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -245,7 +235,8 @@ function MapScreen({ navigation, route }) {
               },
             ]}
           >
-            <ActivityIndicator visible={true} />
+            <ActivityIndicator visible={getListingsApi.loading} />
+            {!getListingsApi.loading && <AppText>No Listings Found</AppText>}
           </View>
         )}
         keyExtractor={(listing, index) => index.toString()}

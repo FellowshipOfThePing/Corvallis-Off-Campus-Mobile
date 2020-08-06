@@ -14,6 +14,7 @@ function SliderSection({
   changeFilterLow,
   changeFilterHigh,
   extremes,
+  step = 1
 }) {
   const [touched, setTouched] = useState(false);
 
@@ -48,6 +49,7 @@ function SliderSection({
           slipDisplacement: 100,
         }}
         sliderLength={Dimensions.get("window").width * 0.8}
+        step={step}
       />
     </View>
   );

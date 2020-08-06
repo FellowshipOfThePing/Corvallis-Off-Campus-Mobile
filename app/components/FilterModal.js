@@ -67,9 +67,6 @@ export default function FilterModal({ navigation }) {
     }, 1000);
     getListingsApi.request(filterState);
     navigation.navigate("MaterialTabs");
-    setTimeout(() => {
-      console.log(getListingsApi.data.length);
-    }, 5000);
   };
 
   return (
@@ -103,6 +100,8 @@ export default function FilterModal({ navigation }) {
         changeFilterHigh={setPriceHigh}
         initialValues={[priceLow, priceHigh]}
         extremes={[0, 5000]}
+        step={100}
+        snapped
       />
       <SliderSection
         title="Beds"
@@ -133,6 +132,8 @@ export default function FilterModal({ navigation }) {
         changeFilterHigh={setDriveHigh}
         initialValues={[driveLow, driveHigh]}
         extremes={[0, 40]}
+        step={5}
+        snapped
       />
       <SliderSection
         title="Walk Time to Campus - Minutes"
@@ -140,6 +141,8 @@ export default function FilterModal({ navigation }) {
         changeFilterHigh={setWalkHigh}
         initialValues={[walkLow, walkHigh]}
         extremes={[0, 50]}
+        step={5}
+        snapped
       />
     </View>
   );

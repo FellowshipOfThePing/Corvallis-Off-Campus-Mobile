@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import { useScrollToTop } from "@react-navigation/native";
 import ApiContext from "../api/context";
+import colors from "../config/colors";
+import AppText from "../components/AppText";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 function ListingsScreen({ navigation }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -16,6 +19,10 @@ function ListingsScreen({ navigation }) {
   useEffect(() => {
     getListingsApi.request(filterState);
   }, [filterState]);
+
+  useEffect(() => {
+    ref.current.scrollToOffset({ animated: true, offset: 0 });
+  }, [getListingsApi.data]);
 
   return (
     <>
@@ -40,6 +47,14 @@ function ListingsScreen({ navigation }) {
                 }
               />
             )}
+            ListEmptyComponent={() => (
+              <View style={styles.defaultCard}>
+                <ActivityIndicator visible={getListingsApi.loading} />
+                {!getListingsApi.loading && (
+                  <AppText>No Listings Found</AppText>
+                )}
+              </View>
+            )}
           ></FlatList>
         </View>
       </Screen>
@@ -50,7 +65,16 @@ function ListingsScreen({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     paddingHorizontal: 5,
-    // marginTop: 15
+  },
+  defaultCard: {
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    marginBottom: 20,
+    overflow: "hidden",
+    width: "100%",
+    height: Dimensions.get("window").height * .75,
+    justifyContent: "center",
+    alignItems: "center"
   },
 });
 
