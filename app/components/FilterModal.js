@@ -49,21 +49,27 @@ export default function FilterModal({ navigation }) {
   };
 
   const onApply = () => {
+    setTimeout(() => {
+      setFilterState({
+        price_low: priceLow,
+        price_high: priceHigh,
+        beds_low: bedsLow,
+        beds_high: bedsHigh,
+        baths_low: bathsLow,
+        baths_high: bathsHigh,
+        distance_low: distanceLow,
+        distance_high: distanceHigh,
+        drive_low: driveLow,
+        drive_high: driveHigh,
+        walk_low: walkLow,
+        walk_high: walkHigh,
+      });
+    }, 1000);
+    getListingsApi.request(filterState);
     navigation.navigate("MaterialTabs");
-    setFilterState({
-      price_low: priceLow,
-      price_high: priceHigh,
-      beds_low: bedsLow,
-      beds_high: bedsHigh,
-      baths_low: bathsLow,
-      baths_high: bathsHigh,
-      distance_low: distanceLow,
-      distance_high: distanceHigh,
-      drive_low: driveLow,
-      drive_high: driveHigh,
-      walk_low: walkLow,
-      walk_high: walkHigh,
-    });
+    setTimeout(() => {
+      console.log(getListingsApi.data.length);
+    }, 5000);
   };
 
   return (

@@ -7,13 +7,15 @@ import { useScrollToTop } from "@react-navigation/native";
 import ApiContext from "../api/context";
 
 function ListingsScreen({ navigation }) {
-  const { getListingsApi } = useContext(ApiContext);
+  const { getListingsApi, filterState, setFilterState } = useContext(
+    ApiContext
+  );
   const ref = useRef(null);
   useScrollToTop(ref);
 
   useEffect(() => {
-    getListingsApi.request();
-  }, []);
+    getListingsApi.request(filterState);
+  }, [filterState]);
 
   return (
     <>
@@ -26,7 +28,7 @@ function ListingsScreen({ navigation }) {
             data={getListingsApi.data}
             keyExtractor={(listing) => listing.raw_id.toString()}
             refreshing={getListingsApi.loading}
-            onRefresh={() => getListingsApi.request()}
+            onRefresh={() => getListingsApi.request(filterState)}
             renderItem={({ item }) => (
               <Card
                 listing={item}

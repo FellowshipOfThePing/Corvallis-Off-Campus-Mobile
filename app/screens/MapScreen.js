@@ -12,7 +12,9 @@ import colors from "../config/colors";
 import ApiContext from "../api/context";
 
 function MapScreen({ navigation, route }) {
-  const { getListingsApi } = useContext(ApiContext);
+  const { getListingsApi, filterState, setFilterState } = useContext(
+    ApiContext
+  );
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
@@ -79,10 +81,9 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (getListingsApi.length === 0) {
-      getListingsApi.request();
-      console.log("New API Call");
+      getListingsApi.request(filterState);
     }
-  }, []);
+  }, [filterState]);
 
   useEffect(() => {
     if (getListingsApi.data.length > 0) {
