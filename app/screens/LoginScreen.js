@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import firebase from "firebase";
 
 import AuthContext from "../auth/context";
 import Firebase from "../auth/config";
@@ -22,8 +23,15 @@ function Login({ navigation }) {
   const handleLogin = () => {
     Firebase.auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => setUser({ name: null, email, password }))
+      .then(() =>
+        setUser({
+          name: firebase.auth().currentUser.displayName,
+          email,
+          password,
+        })
+      )
       .catch((error) => console.log(error));
+    navigation.navigate("Home");
   };
 
   return (
@@ -53,7 +61,10 @@ function Login({ navigation }) {
         </View>
         <View style={styles.buttonSection}>
           <Button title="Login" onPress={() => handleLogin()} />
-          <TouchableOpacity style={styles.signUpText} onPress={() => navigation.navigate("Signup")}>
+          <TouchableOpacity
+            style={styles.signUpText}
+            onPress={() => navigation.navigate("Signup")}
+          >
             <AppText>Don't have an account yet? Sign up</AppText>
           </TouchableOpacity>
         </View>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import firebase from "firebase";
 
 import AuthContext from "../auth/context";
 import Firebase from "../auth/config";
@@ -14,7 +15,7 @@ import Button from "../components/Button";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 
-function Signup() {
+function Signup({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,8 +24,18 @@ function Signup() {
   const handleSignUp = () => {
     Firebase.auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => setUser({ name, email, password }))
+      .then(() => {
+        setUser({ name, email, password });
+        firebase
+          .auth()
+          .currentUser.updateProfile({
+            displayName: name,
+          })
+          .then(() => console.log("Profile Name pdate Successful!"))
+          .catch((error) => console.log(error));
+      })
       .catch((error) => console.log(error));
+    navigation.navigate("Home");
   };
 
   return (
@@ -89,7 +100,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: "center",
     flex: 3,
-    paddingBottom: 65
+    paddingBottom: 65,
   },
   logo: {
     height: 225,

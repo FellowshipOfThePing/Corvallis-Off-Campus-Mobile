@@ -7,7 +7,6 @@ import AuthContext from "./app/auth/context";
 import listingsApi from "./app/api/listings";
 import OfflineNotice from "./app/components/OfflineNotice";
 import useApi from "./app/hooks/useApi";
-import AuthNavigator from "./app/navigation/AuthNavigator";
 
 export default function App() {
   const [user, setUser] = useState(null);

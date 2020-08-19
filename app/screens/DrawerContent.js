@@ -1,52 +1,71 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import Screen from "../components/Screen";
-import Avatar from "../components/Avatar";
-import AppText from "../components/AppText";
-import colors from "../config/colors";
+import React, { useContext } from "react";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import {
   MaterialIcons,
   Entypo,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 
+import Screen from "../components/Screen";
+import Avatar from "../components/Avatar";
+import AppText from "../components/AppText";
+import colors from "../config/colors";
+import AuthContext from "../auth/context";
 import DrawerRowButton from "../components/DrawerRowButton";
 
-function DrawerContent(props) {
+function DrawerContent({ navigation }) {
+  const { user, setUser } = useContext(AuthContext);
+
   return (
     <Screen>
       <View style={styles.container}>
         <View style={styles.profile}>
-          <Avatar
-            color="black"
-            size={70}
-            onPress={() => {
-              props.navigation.navigate("Login");
-            }}
-          />
-          <AppText style={styles.username}>Username</AppText>
-          <AppText style={styles.email}>me@email.com</AppText>
+          {user && (
+            <>
+              <Avatar
+                color="black"
+                size={70}
+                onPress={() => {
+                  navigation.navigate("AuthNavigator", {
+                    screen: "Login",
+                  });
+                }}
+              />
+              <AppText style={styles.username}>{user.name}</AppText>
+              <AppText style={styles.email}>{user.email}</AppText>
+            </>
+          )}
+          {!user && (
+            <Image
+              style={styles.logo}
+              source={require("../../assets/Logo.png")}
+            />
+          )}
         </View>
         <View style={styles.rows}>
           <DrawerRowButton
             icon="home"
             text="Home"
             onPress={() => {
-              props.navigation.navigate("Home");
+              navigation.navigate("Home");
             }}
           />
           <DrawerRowButton
             icon="folder"
             text="Saved Listings"
             onPress={() => {
-              props.navigation.navigate("Login");
+              navigation.navigate("AuthNavigator", {
+                screen: "Login",
+              });
             }}
           />
           <DrawerRowButton
             icon="folder-search"
             text="Saved Searches"
             onPress={() => {
-              props.navigation.navigate("Login");
+              navigation.navigate("AuthNavigator", {
+                screen: "Login",
+              });
             }}
           />
         </View>
@@ -55,7 +74,7 @@ function DrawerContent(props) {
             style={styles.bottomRow}
             onPress={() => {
               console.log("Settings pressed!");
-              props.navigation.navigate("Home");
+              navigation.navigate("Home");
             }}
           >
             <MaterialCommunityIcons
@@ -109,6 +128,10 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 22,
+  },
+  logo: {
+    height: 150,
+    width: 150,
   },
 });
 
