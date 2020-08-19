@@ -14,15 +14,16 @@ import Button from "../components/Button";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 
-function Login({ navigation }) {
+function Signup() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
 
-  const handleLogin = () => {
+  const handleSignUp = () => {
     Firebase.auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => setUser({ name: null, email, password }))
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => setUser({ name, email, password }))
       .catch((error) => console.log(error));
   };
 
@@ -36,6 +37,13 @@ function Login({ navigation }) {
           />
         </View>
         <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputBox}
+            value={name}
+            onChangeText={(name) => setName(name)}
+            placeholder="Name"
+            autoCapitalize="words"
+          />
           <TextInput
             style={styles.inputBox}
             value={email}
@@ -52,10 +60,7 @@ function Login({ navigation }) {
           />
         </View>
         <View style={styles.buttonSection}>
-          <Button title="Login" onPress={() => handleLogin()} />
-          <TouchableOpacity style={styles.signUpText} onPress={() => navigation.navigate("Signup")}>
-            <AppText>Don't have an account yet? Sign up</AppText>
-          </TouchableOpacity>
+          <Button title="Sign Up" onPress={() => handleSignUp()} />
         </View>
       </View>
     </Screen>
@@ -83,7 +88,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     alignItems: "center",
-    flex: 2,
+    flex: 3,
+    paddingBottom: 65
   },
   logo: {
     height: 225,
@@ -99,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Signup;

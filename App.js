@@ -3,11 +3,14 @@ import DrawerNavigator from "./app/navigation/DrawerNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 
 import ApiContext from "./app/api/context";
-import useApi from "./app/hooks/useApi";
+import AuthContext from "./app/auth/context";
 import listingsApi from "./app/api/listings";
 import OfflineNotice from "./app/components/OfflineNotice";
+import useApi from "./app/hooks/useApi";
+import AuthNavigator from "./app/navigation/AuthNavigator";
 
 export default function App() {
+  const [user, setUser] = useState(null);
   const getListingsApi = useApi(listingsApi.getListings);
   const [filterState, setFilterState] = useState({
     price_low: 0,
@@ -25,13 +28,15 @@ export default function App() {
   });
 
   return (
-    <ApiContext.Provider
-      value={{ getListingsApi, filterState, setFilterState }}
-    >
-      <OfflineNotice />
-      <NavigationContainer>
-        <DrawerNavigator />
-      </NavigationContainer>
-    </ApiContext.Provider>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <ApiContext.Provider
+        value={{ getListingsApi, filterState, setFilterState }}
+      >
+        <OfflineNotice />
+        <NavigationContainer>
+          <DrawerNavigator />
+        </NavigationContainer>
+      </ApiContext.Provider>
+    </AuthContext.Provider>
   );
 }
