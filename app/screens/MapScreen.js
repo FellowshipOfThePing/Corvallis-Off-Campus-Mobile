@@ -8,6 +8,7 @@ import MapCard from "../components/MapCard";
 import CustomMarker from "../components/CustomMarker";
 import ApiContext from "../api/context";
 import AppText from "../components/AppText";
+import LoadingModal from "../components/LoadingModal";
 
 function MapScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -17,7 +18,6 @@ function MapScreen({ navigation, route }) {
   const flatListRef = useRef(null);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
-  const [listEmpty, setListEmpty] = useState(false);
   const [mapDelta, setMapDelta] = useState({
     latitudeDelta: 0.04864195044303443,
     longitudeDelta: 0.040142817690068,
@@ -84,7 +84,6 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     onMarkerPress(0);
-    console.log(filterState);
   }, [getListingsApi.data]);
 
   useFocusEffect(
@@ -183,6 +182,11 @@ function MapScreen({ navigation, route }) {
       >
         {markerArray}
       </MapView>
+      {getListingsApi.loading && (
+        <View style={styles.loadingIndicator}>
+          <LoadingModal />
+        </View>
+      )}
       <Animated.FlatList
         ref={flatListRef}
         data={listing_data}
@@ -284,6 +288,11 @@ const styles = StyleSheet.create({
     shadowOffset: { x: 2, y: -2 },
     justifyContent: "center",
     alignItems: "center",
+  },
+  loadingIndicator: {
+    position: "absolute",
+    alignSelf: "center",
+    top: 250,
   },
 });
 

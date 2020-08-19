@@ -72,9 +72,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     overflow: "hidden",
     width: "100%",
-    height: Dimensions.get("window").height * .75,
+    height: Dimensions.get("window").height * 0.75,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 });
 

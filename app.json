@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Housing Mobile",
-    "slug": "Mobile",
+    "slug": "housing_mobile",
     "platforms": [
       "ios",
       "android",
