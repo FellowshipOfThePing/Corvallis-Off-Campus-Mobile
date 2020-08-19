@@ -65,7 +65,6 @@ export default function FilterModal({ navigation }) {
         walk_high: walkHigh,
       });
     }, 1000);
-    getListingsApi.request(filterState);
     navigation.navigate("MaterialTabs");
   };
 

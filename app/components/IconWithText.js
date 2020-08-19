@@ -21,7 +21,6 @@ function IconWithText({
   let iconSizeOverride;
   if (windowWidth < 500) {
     iconSizeOverride = Math.round((iconSize * windowWidth) / 500);
-    // console.log(iconSizeOverride);
   }
 
   return (
