@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
+import { useScrollToTop } from "@react-navigation/native";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";
-import { useScrollToTop } from "@react-navigation/native";
 import ApiContext from "../api/context";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import ActivityIndicator from "../components/ActivityIndicator";
+import AuthContext from "../auth/context";
 
 function ListingsScreen({ navigation }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
+  const { user, setUser } = useContext(AuthContext);
   const ref = useRef(null);
   useScrollToTop(ref);
 
@@ -27,36 +29,32 @@ function ListingsScreen({ navigation }) {
   return (
     <>
       <Screen style={styles.screen}>
-        <View style={styles.container}>
-          <FlatList
-            ref={ref}
-            contentContainerStyle={{ paddingTop: 10 }}
-            showsVerticalScrollIndicator={false}
-            data={getListingsApi.data}
-            keyExtractor={(listing) => listing.raw_id.toString()}
-            refreshing={getListingsApi.loading}
-            onRefresh={() => getListingsApi.request(filterState)}
-            renderItem={({ item }) => (
-              <Card
-                listing={item}
-                onPress={() =>
-                  navigation.navigate("ListingDetailNavigator", {
-                    screen: "ListingDetailScreen",
-                    params: { listing: item },
-                  })
-                }
-              />
-            )}
-            ListEmptyComponent={() => (
-              <View style={styles.defaultCard}>
-                <ActivityIndicator visible={getListingsApi.loading} />
-                {!getListingsApi.loading && (
-                  <AppText>No Listings Found</AppText>
-                )}
-              </View>
-            )}
-          ></FlatList>
-        </View>
+        <FlatList
+          ref={ref}
+          contentContainerStyle={{ paddingTop: 10 }}
+          showsVerticalScrollIndicator={false}
+          data={getListingsApi.data}
+          keyExtractor={(listing) => listing.raw_id.toString()}
+          refreshing={getListingsApi.loading}
+          onRefresh={() => getListingsApi.request(filterState)}
+          renderItem={({ item }) => (
+            <Card
+              listing={item}
+              onPress={() =>
+                navigation.navigate("ListingDetailNavigator", {
+                  screen: "ListingDetailScreen",
+                  params: { listing: item },
+                })
+              }
+            />
+          )}
+          ListEmptyComponent={() => (
+            <View style={styles.defaultCard}>
+              <ActivityIndicator visible={getListingsApi.loading} />
+              {!getListingsApi.loading && <AppText>No Listings Found</AppText>}
+            </View>
+          )}
+        ></FlatList>
       </Screen>
     </>
   );

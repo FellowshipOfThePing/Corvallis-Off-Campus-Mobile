@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import firebase from "firebase";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
-import AuthContext from "../auth/context";
-import Firebase from "../auth/config";
-import colors from "../config/colors";
-import Button from "../components/Button";
 import AppText from "../components/AppText";
+import AuthContext from "../auth/context";
+import Button from "../components/Button";
+import colors from "../config/colors";
+import firebaseConfig from "../auth/config";
 import Screen from "../components/Screen";
 
 function Login({ navigation }) {
@@ -21,7 +22,8 @@ function Login({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
 
   const handleLogin = () => {
-    Firebase.auth()
+    firebase
+      .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() =>
         setUser({

@@ -5,21 +5,22 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
+
 import {
   MaterialCommunityIcons,
   FontAwesome,
   FontAwesome5,
 } from "@expo/vector-icons";
 
-import ActivityIndicator from "../components/ActivityIndicator";
+import ActivityIndicator from "./ActivityIndicator";
 import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
 import colors from "../config/colors";
 
-function Card({ listing, iconRowSize, onPress }) {
+function Card({ listing, iconRowSize, onPress, liked, onPressHeart }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(liked);
   const [loading, setLoading] = useState(true);
 
   return (

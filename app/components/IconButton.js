@@ -14,15 +14,15 @@ function IconButton({ size = 44, onPress, style }) {
         style,
       ]}
     >
-      <MaterialCommunityIcons name="google-maps" size={30} />
+      <MaterialCommunityIcons name="google-maps" size={25} color={colors.light} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.light,
-    borderColor: colors.dark,
+    backgroundColor: colors.primary,
+    borderColor: colors.white,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

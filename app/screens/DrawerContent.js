@@ -22,15 +22,7 @@ function DrawerContent({ navigation }) {
         <View style={styles.profile}>
           {user && (
             <>
-              <Avatar
-                color="black"
-                size={70}
-                onPress={() => {
-                  navigation.navigate("AuthNavigator", {
-                    screen: "Login",
-                  });
-                }}
-              />
+              <Avatar color="black" size={70} />
               <AppText style={styles.username}>{user.name}</AppText>
               <AppText style={styles.email}>{user.email}</AppText>
             </>
@@ -53,11 +45,17 @@ function DrawerContent({ navigation }) {
           <DrawerRowButton
             icon="folder"
             text="Saved Listings"
-            onPress={() => {
-              navigation.navigate("AuthNavigator", {
-                screen: "Login",
-              });
-            }}
+            onPress={
+              user
+                ? () => {
+                    navigation.navigate("SavedListingsNavigator", {
+                      screen: "SavedListings",
+                    });
+                  }
+                : () => {
+                    navigation.navigate("AuthNavigator", { screen: "Login" });
+                  }
+            }
           />
           <DrawerRowButton
             icon="folder-search"

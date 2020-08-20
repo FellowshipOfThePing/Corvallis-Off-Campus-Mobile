@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import firebase from "firebase";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 import AuthContext from "../auth/context";
-import Firebase from "../auth/config";
+import firebaseConfig from "../auth/config";
 import colors from "../config/colors";
 import Button from "../components/Button";
 import AppText from "../components/AppText";
@@ -21,21 +22,30 @@ function Signup({ navigation }) {
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
 
+  const createFavorites = (email) => {
+    const db = firebase.firestore();
+    db.collection("Favorites").doc(email).set({
+      Address_ID: [],
+    });
+  };
+
   const handleSignUp = () => {
-    Firebase.auth()
+    firebase
+      .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         setUser({ name, email, password });
+        createFavorites(email);
         firebase
           .auth()
           .currentUser.updateProfile({
             displayName: name,
           })
-          .then(() => console.log("Profile Name pdate Successful!"))
+          .then(() => console.log("Profile Name Update Successful!"))
           .catch((error) => console.log(error));
+        navigation.navigate("Home");
       })
       .catch((error) => console.log(error));
-    navigation.navigate("Home");
   };
 
   return (
