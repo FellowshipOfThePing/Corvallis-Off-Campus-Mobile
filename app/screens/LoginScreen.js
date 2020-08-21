@@ -13,17 +13,19 @@ import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Button from "../components/Button";
 import colors from "../config/colors";
-import firebaseConfig from "../auth/config";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 function Login({ navigation }) {
   const [email, setEnteredEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
   const { setEmail, setDB } = useContext(SavedContext);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
+    setLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -35,13 +37,20 @@ function Login({ navigation }) {
         });
         setEmail(firebase.auth().currentUser.email);
         setDB(firebase.firestore());
+        navigation.navigate("Home");
+        console.log("Logged In");
+        setLoading(false);
       })
-      .catch((error) => console.log(error));
-    navigation.navigate("Home");
+      .catch((error) => {
+        navigation.navigate("Home");
+        console.log(error);
+        setLoading(false);
+      });
+
   };
 
   return (
-    <Screen>
+    <Screen style={{ backgroundColor: colors.light }}>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
@@ -64,6 +73,9 @@ function Login({ navigation }) {
             placeholder="Password"
             secureTextEntry={true}
           />
+        </View>
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator visible={loading} style={{ backgroundColor: colors.light }} />
         </View>
         <View style={styles.buttonSection}>
           <Button color="primary" title="Login" onPress={() => handleLogin()} />
@@ -103,7 +115,11 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     alignItems: "center",
-    flex: 2,
+    flex: 1,
+  },
+  activityIndicatorContainer: {
+    alignItems: "center",
+    flex: 1,
   },
   logo: {
     height: 225,

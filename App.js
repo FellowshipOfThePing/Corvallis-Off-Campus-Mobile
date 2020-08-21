@@ -36,15 +36,17 @@ export default function App() {
   const [db, setDB] = useState(null);
 
   const getAddressIDs = async () => {
-    const docRef = db.collection("Favorites").doc(email);
-    docRef
-      .get()
-      .then((doc) => {
-        setAddressIDs(Object.values(doc.data().Address_ID));
-      })
-      .catch((error) => {
-        console.log("Error getting Address IDs from Firestore:", error);
-      });
+    if (user !== null) {
+      const docRef = db.collection("Favorites").doc(email);
+      docRef
+        .get()
+        .then((doc) => {
+          setAddressIDs(Object.values(doc.data().Address_ID));
+        })
+        .catch((error) => {
+          console.log("Error getting Address IDs from Firestore:", error);
+        });
+    }
   };
 
   const getFavorites = () => {
