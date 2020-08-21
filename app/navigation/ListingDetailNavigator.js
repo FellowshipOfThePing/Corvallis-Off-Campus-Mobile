@@ -6,6 +6,12 @@ import {
 import ListingDetailScreen from "../screens/ListingDetailScreen";
 import Browser from "../screens/Browser";
 import ImageCarouselScreen from "../components/ImageCarousel";
+import Avatar from "../components/Avatar";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import colors from "../config/colors";
+import defaultStyles from "../config/styles";
+import { TouchableOpacity, StyleSheet } from "react-native";
+import AppText from "../components/AppText";
 
 const Stack = createStackNavigator();
 
@@ -25,17 +31,33 @@ const ListingDetailNavigator = () => (
         headerShown: true,
         headerTitle: route.params.title,
         headerBackTitle: "Listing",
-        headerLeft: (props) => {
-          <HeaderBackButton
-            {...props}
-            label="listing"
-            labelStyle={{ color: "black" }}
-            onPress={() => navigation.pop()}
-          />;
+        headerTitleStyle: {
+          fontFamily: defaultStyles.text.fontFamily,
+          fontWeight: "bold",
+          paddingBottom: 7
+        },
+        headerLeft: () => {
+          return (
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.pop()}>
+              <MaterialCommunityIcons
+                name="chevron-left"
+                size={30}
+                color={colors.medium}
+              />
+              <AppText style={{ paddingTop: 2 }}>Listing</AppText>
+            </TouchableOpacity>
+          );
         },
       })}
     />
   </Stack.Navigator>
 );
+
+const styles = StyleSheet.create({
+  backButton: {
+    flexDirection: "row",
+    paddingBottom: 8
+  },
+});
 
 export default ListingDetailNavigator;

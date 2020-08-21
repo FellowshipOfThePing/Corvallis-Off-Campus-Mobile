@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ListingsScreen from "../screens/ListingsScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import colors from "../config/colors";
+import defaultStyles from "../config/styles";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
 
@@ -28,6 +29,8 @@ const FeedNavigator = () => (
         headerTitleStyle: {
           paddingBottom: 8,
           fontSize: 18,
+          fontFamily: defaultStyles.text.fontFamily,
+          fontWeight: "bold"
         },
         headerTintColor: "#fff",
         headerLeft: () => {
