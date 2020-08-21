@@ -1,22 +1,55 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
+import AuthNavigator from "./AuthNavigator";
 import DrawerContent from "../screens/DrawerContent";
 import HomeNavigator from "./HomeNavigator";
-import AuthNavigator from "./AuthNavigator";
-import SavedListingsScreen from "../screens/SavedListingsScreen";
 import SavedListingsNavigator from "./SavedListingsNavigator";
+import SavedSearchesNavigator from "./SavedSearchesNavigator";
+import colors from "../config/colors";
+import defaultStyles from "../config/styles";
+import Avatar from "../components/Avatar";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-      <Drawer.Navigator initialRouteName="Home" drawerContent={props => <DrawerContent {...props}/>}>
-        <Drawer.Screen name="Home" component={HomeNavigator} />
-        <Drawer.Screen name="AuthNavigator" component={AuthNavigator} />
-        <Drawer.Screen name="SavedListingsNavigator" component={SavedListingsNavigator} />
-      </Drawer.Navigator>
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={(props) => <DrawerContent {...props} />}
+    >
+      <Drawer.Screen name="Home" component={HomeNavigator} />
+      <Drawer.Screen name="AuthNavigator" component={AuthNavigator} />
+      <Drawer.Screen
+        name="SavedListingsNavigator"
+        component={SavedListingsNavigator}
+      />
+      <Drawer.Screen
+        name="SavedSearchesNavigator"
+        component={SavedSearchesNavigator}
+        options={({ navigation }) => ({
+          headerShown: true,
+          // headerStyle: {
+          //   backgroundColor: colors.primary,
+          // },
+          // headerTitleStyle: {
+          //   paddingBottom: 8,
+          //   fontSize: 18,
+          //   fontFamily: defaultStyles.text.fontFamily,
+          //   fontWeight: "bold",
+          // },
+          // headerTintColor: "#fff",
+          // headerLeft: () => {
+          //   return <Avatar size={35} onPress={() => navigation.openDrawer()} />;
+          // },
+          // headerLeftContainerStyle: {
+          //   paddingLeft: 10,
+          //   paddingBottom: 10,
+          // },
+        })}
+      />
+    </Drawer.Navigator>
   );
-}
+};
 
 export default DrawerNavigator;

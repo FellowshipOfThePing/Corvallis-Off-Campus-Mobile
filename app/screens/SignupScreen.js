@@ -24,8 +24,8 @@ function Signup({ navigation }) {
 
   const createFavorites = (email) => {
     const db = firebase.firestore();
-    db.collection("Favorites").doc(email).set({
-      Address_ID: [],
+    db.collection("Users").doc(email).set({
+      Favorites: [],
     });
   };
 

@@ -8,14 +8,14 @@ import {
 import * as firebase from "firebase";
 import "firebase/firestore";
 
-import Screen from "../components/Screen";
-import Avatar from "../components/Avatar";
-import AppText from "../components/AppText";
-import colors from "../config/colors";
-import AuthContext from "../auth/context";
-import SavedContext from "../firestore/context";
-import DrawerRowButton from "../components/DrawerRowButton";
 import ActivityIndicator from "../components/ActivityIndicator";
+import AppText from "../components/AppText";
+import AuthContext from "../auth/context";
+import Avatar from "../components/Avatar";
+import colors from "../config/colors";
+import DrawerRowButton from "../components/DrawerRowButton";
+import Screen from "../components/Screen";
+import SavedContext from "../firestore/context";
 
 function DrawerContent({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
@@ -89,11 +89,15 @@ function DrawerContent({ navigation }) {
           <DrawerRowButton
             icon="folder-search"
             text="Saved Searches"
-            onPress={() => {
-              navigation.navigate("AuthNavigator", {
-                screen: "Login",
-              });
-            }}
+            onPress={
+              user
+                ? () => {
+                    navigation.navigate("SavedSearchesNavigator");
+                  }
+                : () => {
+                    navigation.navigate("AuthNavigator", { screen: "Login" });
+                  }
+            }
           />
         </View>
         <View style={styles.bottomContainer}>
@@ -146,7 +150,7 @@ const styles = StyleSheet.create({
   activityIndicatorContainer: {
     alignItems: "center",
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   bottomContainer: {
     flex: 4,

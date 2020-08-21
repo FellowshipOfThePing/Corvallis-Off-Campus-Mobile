@@ -10,6 +10,9 @@ import SavedContext from "./app/firestore/context";
 import listingsApi from "./app/api/listings";
 import OfflineNotice from "./app/components/OfflineNotice";
 import useApi from "./app/hooks/useApi";
+import SavedSearchCard from "./app/components/SavedSearchCard";
+import Screen from "./app/components/Screen";
+import SavedSearchesScreen from "./app/screens/SavedSearchesScreen";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -31,17 +34,18 @@ export default function App() {
 
   const [addressIDs, setAddressIDs] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [savedSearches, setSavedSearches] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [email, setEmail] = useState(null);
   const [db, setDB] = useState(null);
 
   const getAddressIDs = async () => {
     if (user !== null) {
-      const docRef = db.collection("Favorites").doc(email);
+      const docRef = db.collection("Users").doc(email);
       docRef
         .get()
         .then((doc) => {
-          setAddressIDs(Object.values(doc.data().Address_ID));
+          setAddressIDs(Object.values(doc.data().Favorites));
         })
         .catch((error) => {
           console.log("Error getting Address IDs from Firestore:", error);
@@ -79,9 +83,9 @@ export default function App() {
     let addresses = addressIDs;
     addresses.push(listing.address_id);
     setAddressIDs(addresses);
-    let docRef = db.collection("Favorites").doc(email);
+    let docRef = db.collection("Users").doc(email);
     docRef.update({
-      Address_ID: addressIDs,
+      Favorites: addressIDs,
     });
   };
 
@@ -90,10 +94,27 @@ export default function App() {
     let addresses = addressIDs;
     addresses.splice(index, 1);
     setAddressIDs(addresses);
-    let docRef = db.collection("Favorites").doc(email);
+    let docRef = db.collection("Users").doc(email);
     docRef.update({
-      Address_ID: addressIDs,
+      Favorites: addressIDs,
     });
+  };
+
+  const getSavedSearches = () => {
+    if (user !== null) {
+      setRefreshing(true);
+      const docRef = db.collection("Users").doc(email);
+      docRef
+        .get()
+        .then((doc) => {
+          setSavedSearches(Object.values(doc.data().SavedSearches));
+          console.log("Retrieved Saved Searches!");
+        })
+        .catch((error) => {
+          console.log("Error getting Saved Searches from Firestore:", error);
+        });
+      setRefreshing(false);
+    }
   };
 
   return (
@@ -115,6 +136,8 @@ export default function App() {
             removeFavorite,
             setEmail,
             setDB,
+            getSavedSearches,
+            savedSearches,
           }}
         >
           <OfflineNotice />
