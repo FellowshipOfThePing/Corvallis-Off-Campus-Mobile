@@ -39,12 +39,7 @@ function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
         <View style={styles.detailContainer}>
           <View style={[styles.topRow]}>
             <AppText style={styles.price}>${listing.price_high}/mo</AppText>
-            <Heart
-              saved={saved}
-              onPress={() => {
-                onPressHeart();
-              }}
-            />
+            <Heart saved={saved} onPress={onPressHeart} />
           </View>
           <IconRow
             listing={listing}

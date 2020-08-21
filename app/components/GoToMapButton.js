@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../config/colors";
 
-function IconButton({ size = 44, onPress, style }) {
+function GoToMapButton({ size = 44, onPress, style }) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -22,11 +22,11 @@ function IconButton({ size = 44, onPress, style }) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.primary,
-    borderColor: colors.white,
-    borderWidth: 2,
+    borderColor: colors.black,
+    borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
   },
 });
 
-export default IconButton;
+export default GoToMapButton;

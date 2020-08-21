@@ -69,7 +69,7 @@ function ListingsScreen({ navigation, route }) {
 
   useEffect(() => {
     ref.current.scrollToOffset({ animated: true, offset: 0 });
-  }, [getListingsApi.data]);
+  }, [getListingsApi.data, filterState]);
 
   return (
     <>

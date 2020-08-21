@@ -1,20 +1,31 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
+import * as Animatable from "react-native-animatable";
 
 import colors from "../config/colors";
 
+const AnimatedIcon = Animatable.createAnimatableComponent(FontAwesome);
+
 function Heart({ saved, onPress, size = 35 }) {
+  const [animatedIcon, setAnimatedIcon] = useState(null);
+
+  const handleIconRef = (ref) => {
+    setAnimatedIcon(ref);
+  }
+
   const handleOnPressLike = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    animatedIcon.bounceIn();
     onPress();
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity activeOpacity={1} onPress={() => handleOnPressLike()}>
-        <FontAwesome
+        <AnimatedIcon
+          ref={handleIconRef}
           style={styles.icon}
           name={saved ? "heart" : "heart-o"}
           size={size}
@@ -37,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Heart);
+export default Heart;

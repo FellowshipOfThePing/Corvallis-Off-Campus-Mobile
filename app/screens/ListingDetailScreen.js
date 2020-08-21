@@ -8,7 +8,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
-import IconButton from "../components/IconButton";
+import GoToMapButton from "../components/GoToMapButton";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 
@@ -159,7 +159,7 @@ function ListingDetailScreen({ navigation, route }) {
             </View>
           </Marker>
         </MapView>
-        <IconButton
+        <GoToMapButton
           style={styles.mapButton}
           onPress={() =>
             navigation.navigate("Map", {
