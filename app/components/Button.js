@@ -4,13 +4,22 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-function Button({ title, color = "black", onPress, textColor = "white", style }) {
+function Button({
+  title,
+  color = "black",
+  onPress,
+  textSize = 18,
+  textColor = "white",
+  style,
+}) {
   return (
     <TouchableOpacity
       style={[styles.container, style, { backgroundColor: colors[color] }]}
       onPress={onPress}
     >
-      <AppText style={[styles.text, { color: colors[textColor] }]}>
+      <AppText
+        style={[styles.text, { color: colors[textColor], fontSize: textSize }]}
+      >
         {title}
       </AppText>
     </TouchableOpacity>
@@ -24,12 +33,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
-    width: "100%",
-    // marginVertical: 15,
+    width: "100%"
   },
   text: {
     color: colors.white,
-    fontSize: 18,
     textTransform: "uppercase",
     fontWeight: "bold",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",

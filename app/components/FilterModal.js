@@ -1,9 +1,5 @@
 import React, { useState, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
 
 import SliderSection from "./SliderSection";
 import Button from "./Button";
@@ -11,6 +7,8 @@ import colors from "../config/colors";
 import ApiContext from "../api/context";
 import Constants from "expo-constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+const buttonDiameter = Dimensions.get("window").height * 0.09;
 
 export default function FilterModal({ navigation }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -73,18 +71,26 @@ export default function FilterModal({ navigation }) {
             style={styles.button}
             title="Apply"
             onPress={() => onApply()}
+            textSize={buttonDiameter / 6}
+          />
+          <Button
+            style={[styles.button, { borderWidth: 2, borderColor: "black" }]}
+            title="Clear"
+            onPress={() => onClear()}
+            textSize={buttonDiameter / 6}
+            color="white"
+            textColor="black"
           />
           <Button
             style={styles.button}
-            title="Clear"
-            onPress={() => onClear()}
+            title="Save"
+            textSize={buttonDiameter / 6}
+            color="primary"
           />
-        </View>
-        <View style={styles.closeSection}>
           <TouchableOpacity onPress={() => navigation.navigate("MaterialTabs")}>
             <MaterialCommunityIcons
               name="close-circle-outline"
-              size={50}
+              size={buttonDiameter - 15}
               color="black"
             />
           </TouchableOpacity>
@@ -163,20 +169,14 @@ const styles = StyleSheet.create({
   },
   buttonSection: {
     height: "100%",
-    width: "75%",
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
   },
   button: {
-    height: "90%",
-    width: "45%",
-    borderRadius: 25,
-  },
-  closeSection: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    width: "25%",
+    height: buttonDiameter,
+    width: buttonDiameter,
+    borderRadius: buttonDiameter / 2,
   },
 });
