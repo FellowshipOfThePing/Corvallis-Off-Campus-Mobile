@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
-import * as firebase from "firebase";
 import "firebase/firestore";
+import { useIsFocused } from "@react-navigation/native";
 
 import ApiContext from "../api/context";
 import AppText from "../components/AppText";
@@ -10,83 +10,76 @@ import AuthContext from "../auth/context";
 import Card from "../components/Card";
 import colors from "../config/colors";
 import Screen from "../components/Screen";
+import SavedContext from "../firestore/context";
 
-function SavedListingsScreen({ navigation }) {
+function SavedListingsScreen({ navigation, route }) {
   const { user, setUser } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
-  const [addressIDs, setAddressIDs] = useState([]);
-  const [listings, setListings] = useState([]);
-
+  const isFocused = useIsFocused();
   const ref = useRef(null);
   useScrollToTop(ref);
+  const [tapped, setTapped] = useState(false);
 
-  const getAddressIDs = () => {
-    let email = firebase.auth().currentUser.email;
-    let db = firebase.firestore();
-    let docRef = db.collection("Favorites").doc(email);
-    docRef
-      .get()
-      .then((doc) => {
-        setAddressIDs(Object.values(doc.data().Address_ID));
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
-  };
+  const {
+    addressIDs,
+    setAddressIDs,
+    favorites,
+    setFavorites,
+    refreshing,
+    setRefreshing,
+    getAddressIDs,
+    getFavorites,
+    addFavorite,
+    removeFavorite,
+  } = useContext(SavedContext);
 
-  const getFavorites = () => {
-    getAddressIDs();
-    if (getListingsApi.data.length > 0 && addressIDs.length > 0) {
-      let favorites = [];
-      let addresses = [];
-      // Create list of listing address IDS from API
-      getListingsApi.data.forEach((listing) =>
-        addresses.push(listing.address_id)
-      );
-
-      // Find indexes of favorite address_IDS
-      addressIDs.forEach((id) => {
-        let index = addresses.indexOf(id);
-        if (index !== -1) {
-          favorites.push(getListingsApi.data[index]);
-        }
-      });
-      setListings(favorites);
+  const onHeartPress = (listing) => {
+    if (addressIDs.includes(listing.address_id)) {
+      removeFavorite(listing);
+      console.log("Listing removed from favorites");
+    } else {
+      addFavorite(listing);
+      console.log("Listing added to favorites");
     }
+    setTapped(!tapped);
   };
 
   useEffect(() => {
     getFavorites();
-  }, []);
+  }, [isFocused, tapped]);
 
   return (
     <>
       <Screen style={styles.screen}>
-          <FlatList
-            ref={ref}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingTop: 10 }}
-            data={listings}
-            keyExtractor={(listing) => listing.address_id.toString()}
-            renderItem={({ item }) => (
-              <Card
-                listing={item}
-                onPress={() =>
-                  navigation.navigate("ListingDetailNavigator", {
-                    screen: "ListingDetailScreen",
-                    params: { listing: item },
-                  })
-                }
-              />
-            )}
-            ListEmptyComponent={() => (
-              <View style={styles.defaultCard}>
-                {!listings && <AppText>No Listings Found</AppText>}
-              </View>
-            )}
-          ></FlatList>
+        <FlatList
+          ref={ref}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingTop: 10 }}
+          data={favorites}
+          keyExtractor={(listing) => listing.address_id.toString()}
+          refreshing={refreshing}
+          onRefresh={() => getFavorites()}
+          renderItem={({ item }) => (
+            <Card
+              listing={item}
+              onPress={() =>
+                navigation.navigate("ListingDetailNavigator", {
+                  screen: "ListingDetailScreen",
+                  params: { listing: item },
+                })
+              }
+              saved={addressIDs.includes(item.address_id)}
+              onPressHeart={() => onHeartPress(item)}
+            />
+          )}
+          ListEmptyComponent={() => (
+            <View style={styles.defaultCard}>
+              {!favorites && <AppText>No Listings Found</AppText>}
+            </View>
+          )}
+        ></FlatList>
       </Screen>
     </>
   );
@@ -99,6 +92,7 @@ const styles = StyleSheet.create({
   defaultCard: {
     backgroundColor: colors.white,
     borderRadius: 15,
+    marginBottom: 20,
     overflow: "hidden",
     width: "100%",
     height: Dimensions.get("window").height * 0.9,

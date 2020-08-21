@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -6,21 +6,14 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import {
-  MaterialCommunityIcons,
-  FontAwesome,
-  FontAwesome5,
-} from "@expo/vector-icons";
-
 import ActivityIndicator from "./ActivityIndicator";
 import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
 import colors from "../config/colors";
 
-function Card({ listing, iconRowSize, onPress, liked, onPressHeart }) {
+function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
-  const [saved, setSaved] = useState(liked);
   const [loading, setLoading] = useState(true);
 
   return (
@@ -44,9 +37,19 @@ function Card({ listing, iconRowSize, onPress, liked, onPressHeart }) {
           <ActivityIndicator visible={loading} />
         </View>
         <View style={styles.detailContainer}>
-          <View style={styles.topRow}>
+          <View
+            style={[
+              styles.topRow,
+              { backgroundColor: saved ? "yellow" : "white" },
+            ]}
+          >
             <AppText style={styles.price}>${listing.price_high}/mo</AppText>
-            <Heart saved={saved} onPress={() => setSaved(!saved)} />
+            <Heart
+              saved={saved}
+              onPress={() => {
+                onPressHeart();
+              }}
+            />
           </View>
           <IconRow
             listing={listing}

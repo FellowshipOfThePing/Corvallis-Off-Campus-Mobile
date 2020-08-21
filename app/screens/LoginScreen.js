@@ -15,23 +15,27 @@ import Button from "../components/Button";
 import colors from "../config/colors";
 import firebaseConfig from "../auth/config";
 import Screen from "../components/Screen";
+import SavedContext from "../firestore/context";
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [email, setEnteredEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
+  const { setEmail, setDB } = useContext(SavedContext);
 
   const handleLogin = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() =>
+      .then(() => {
         setUser({
           name: firebase.auth().currentUser.displayName,
           email,
           password,
-        })
-      )
+        });
+        setEmail(firebase.auth().currentUser.email);
+        setDB(firebase.firestore());
+      })
       .catch((error) => console.log(error));
     navigation.navigate("Home");
   };
@@ -49,7 +53,7 @@ function Login({ navigation }) {
           <TextInput
             style={styles.inputBox}
             value={email}
-            onChangeText={(email) => setEmail(email)}
+            onChangeText={(email) => setEnteredEmail(email)}
             placeholder="Email"
             autoCapitalize="none"
           />
