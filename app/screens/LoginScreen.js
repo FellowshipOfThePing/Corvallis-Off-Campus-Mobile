@@ -42,7 +42,6 @@ function Login({ navigation }) {
         setLoading(false);
       })
       .catch((error) => {
-        navigation.navigate("Home");
         console.log(error);
         setLoading(false);
       });
