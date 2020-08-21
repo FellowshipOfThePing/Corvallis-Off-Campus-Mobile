@@ -65,7 +65,7 @@ function ListingsScreen({ navigation, route }) {
     if (user !== null) {
       getFavorites();
     }
-  }, [tapped]);
+  }, [tapped, isFocused]);
 
   useEffect(() => {
     ref.current.scrollToOffset({ animated: true, offset: 0 });

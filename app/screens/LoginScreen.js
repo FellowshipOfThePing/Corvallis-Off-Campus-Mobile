@@ -66,12 +66,15 @@ function Login({ navigation }) {
           />
         </View>
         <View style={styles.buttonSection}>
-          <Button title="Login" onPress={() => handleLogin()} />
+          <Button color="primary" title="Login" onPress={() => handleLogin()} />
           <TouchableOpacity
             style={styles.signUpText}
             onPress={() => navigation.navigate("Signup")}
           >
-            <AppText>Don't have an account yet? Sign up</AppText>
+            <View style={styles.textRow}>
+              <AppText>Don't have an account yet? </AppText>
+              <AppText style={styles.text}>Sign up</AppText>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -113,6 +116,12 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     paddingVertical: 20,
+  },
+  textRow: {
+    flexDirection: "row",
+  },
+  text: {
+    color: colors.primary,
   },
 });
 

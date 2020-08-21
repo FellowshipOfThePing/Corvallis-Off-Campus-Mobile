@@ -37,12 +37,7 @@ function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
           <ActivityIndicator visible={loading} />
         </View>
         <View style={styles.detailContainer}>
-          <View
-            style={[
-              styles.topRow,
-              { backgroundColor: saved ? "yellow" : "white" },
-            ]}
-          >
+          <View style={[styles.topRow]}>
             <AppText style={styles.price}>${listing.price_high}/mo</AppText>
             <Heart
               saved={saved}

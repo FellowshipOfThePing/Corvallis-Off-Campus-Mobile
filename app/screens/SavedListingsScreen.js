@@ -76,7 +76,7 @@ function SavedListingsScreen({ navigation, route }) {
           )}
           ListEmptyComponent={() => (
             <View style={styles.defaultCard}>
-              {!favorites && <AppText>No Listings Found</AppText>}
+              <AppText>No Listings Found</AppText>
             </View>
           )}
         ></FlatList>
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   defaultCard: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.light,
     borderRadius: 15,
     marginBottom: 20,
     overflow: "hidden",
     width: "100%",
-    height: Dimensions.get("window").height * 0.9,
+    height: Dimensions.get("window").height * 0.8,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -1,5 +1,8 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from "@react-navigation/stack";
 import ListingDetailScreen from "../screens/ListingDetailScreen";
 import Browser from "../screens/Browser";
 import ImageCarouselScreen from "../components/ImageCarousel";
@@ -18,10 +21,18 @@ const ListingDetailNavigator = () => (
     <Stack.Screen
       name="Browser"
       component={Browser}
-      options={({ route }) => ({
+      options={({ navigation, route }) => ({
         headerShown: true,
         headerTitle: route.params.title,
         headerBackTitle: "Listing",
+        headerLeft: (props) => {
+          <HeaderBackButton
+            {...props}
+            label="listing"
+            labelStyle={{ color: "black" }}
+            onPress={() => navigation.pop()}
+          />;
+        },
       })}
     />
   </Stack.Navigator>

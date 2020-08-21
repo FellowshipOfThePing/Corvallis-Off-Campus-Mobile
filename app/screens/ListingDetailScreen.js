@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import { View, Image, StyleSheet, Dimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -9,6 +9,8 @@ import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
 import IconButton from "../components/IconButton";
+import SavedContext from "../firestore/context";
+import AuthContext from "../auth/context";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -35,6 +37,40 @@ function ListingDetailScreen({ navigation, route }) {
   const [loading, setLoading] = useState(true);
   const [coords, setCoords] = useState([]);
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
+  const [tapped, setTapped] = useState(false);
+  const { user, setUser } = useContext(AuthContext);
+
+  const {
+    addressIDs,
+    setAddressIDs,
+    favorites,
+    setFavorites,
+    refreshing,
+    setRefreshing,
+    getAddressIDs,
+    getFavorites,
+    addFavorite,
+    removeFavorite,
+  } = useContext(SavedContext);
+
+  const onHeartPress = (listing) => {
+    if (user !== null) {
+      if (addressIDs.includes(listing.address_id)) {
+        removeFavorite(listing);
+        console.log("Listing removed from favorites");
+      } else {
+        addFavorite(listing);
+        console.log("Listing added to favorites");
+      }
+      setTapped(!tapped);
+    }
+  };
+
+  useEffect(() => {
+    if (user !== null) {
+      getFavorites();
+    }
+  }, [tapped]);
 
   useEffect(() => {
     var mode = listing.walk_to_campus_minutes <= 20 ? "walking" : "driving";
@@ -46,7 +82,7 @@ function ListingDetailScreen({ navigation, route }) {
       .then((coords) => {
         setCoords(coords);
       })
-      .catch((err) => console.log("Something went wrong"));
+      .catch((err) => console.log("Something went wrong:", err));
   }, []);
 
   const OSU_lat = 44.5647;
@@ -82,6 +118,8 @@ function ListingDetailScreen({ navigation, route }) {
       </View>
       <ListingDetails
         listing={listing}
+        saved={addressIDs.includes(listing.address_id)}
+        onPressHeart={() => onHeartPress(listing)}
         onPressProvider={() =>
           navigation.navigate("Browser", {
             url: listing.URL,

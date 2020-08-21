@@ -81,7 +81,11 @@ function Signup({ navigation }) {
           />
         </View>
         <View style={styles.buttonSection}>
-          <Button title="Sign Up" onPress={() => handleSignUp()} />
+          <Button
+            title="Sign Up"
+            color="primary"
+            onPress={() => handleSignUp()}
+          />
         </View>
       </View>
     </Screen>

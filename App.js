@@ -41,10 +41,9 @@ export default function App() {
       .get()
       .then((doc) => {
         setAddressIDs(Object.values(doc.data().Address_ID));
-        console.log("Address IDs:", addressIDs);
       })
       .catch((error) => {
-        console.log("Error getting document:", error);
+        console.log("Error getting Address IDs from Firestore:", error);
       });
   };
 

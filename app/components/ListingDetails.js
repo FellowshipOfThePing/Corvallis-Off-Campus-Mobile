@@ -7,9 +7,13 @@ import Heart from "./Heart";
 import IconRow from "./IconRow";
 import ListItem from "./ListItem";
 
-function ListingDetails({ listing, onPressProvider, style }) {
-  const [saved, setSaved] = useState(false);
-
+function ListingDetails({
+  listing,
+  onPressProvider,
+  onPressHeart,
+  saved,
+  style,
+}) {
   if (listing.provider === "Trulia") {
     var providerImage = require("../../assets/Trulia.png");
   } else if (listing.provider === "Zillow") {
@@ -23,7 +27,7 @@ function ListingDetails({ listing, onPressProvider, style }) {
       <View style={styles.listingInfo}>
         <View style={styles.topRow}>
           <AppText style={styles.price}>${listing.price_high}/mo</AppText>
-          <Heart size={35} saved={saved} onPress={() => setSaved(!saved)} />
+          <Heart size={35} saved={saved} onPress={onPressHeart} />
         </View>
         <IconRow listing={listing} fullSize style={styles.iconRow} />
         <AppText>{listing.address}</AppText>
