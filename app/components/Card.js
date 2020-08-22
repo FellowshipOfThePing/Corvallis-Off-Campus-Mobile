@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     overflow: "hidden",
     width: "100%",
+    height: 325
   },
   detailContainer: {
     paddingVertical: 15,

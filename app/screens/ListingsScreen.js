@@ -19,6 +19,7 @@ function ListingsScreen({ navigation, route }) {
     ApiContext
   );
   const { user, setUser } = useContext(AuthContext);
+  const width = Dimensions.get("window").width - 10;
   const isFocused = useIsFocused();
   const ref = useRef(null);
   useScrollToTop(ref);
@@ -56,6 +57,10 @@ function ListingsScreen({ navigation, route }) {
   };
 
   useEffect(() => {
+    ref.current.scrollToOffset({ animated: true, offset: 0 });
+  }, [getListingsApi.data, filterState]);
+
+  useEffect(() => {
     refresh();
   }, [filterState]);
 
@@ -65,22 +70,24 @@ function ListingsScreen({ navigation, route }) {
     }
   }, [tapped, isFocused]);
 
-  useEffect(() => {
-    ref.current.scrollToOffset({ animated: true, offset: 0 });
-  }, [getListingsApi.data, filterState]);
-
   return (
     <>
       <Screen style={styles.screen}>
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
+          removeClippedSubviews
           contentContainerStyle={{ paddingTop: 10 }}
           data={getListingsApi.data}
           extraData={favorites}
           keyExtractor={(listing) => listing.address_id.toString()}
           refreshing={getListingsApi.loading}
           onRefresh={() => refresh()}
+          getItemLayout={(data, index) => ({
+            length: 345,
+            offset: 345 * index,
+            index: index,
+          })}
           renderItem={({ item }) => (
             <Card
               listing={item}

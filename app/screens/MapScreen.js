@@ -188,7 +188,7 @@ function MapScreen({ navigation, route }) {
         data={listing_data}
         horizontal
         pagingEnabled
-        removeClippedSubviews={false}
+        removeClippedSubviews
         scrollEventThrottle={1}
         style={styles.flatList}
         snapToInterval={width}

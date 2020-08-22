@@ -5,7 +5,7 @@ import colors from "../config/colors";
 function LoadingModal() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator animating={true} size="large" />
+      <ActivityIndicator animating={true} size="large" color={colors.primary}/>
     </View>
   );
 }
