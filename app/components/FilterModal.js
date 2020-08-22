@@ -1,18 +1,24 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, TouchableOpacity, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import Constants from "expo-constants";
 
 import SliderSection from "./SliderSection";
 import Button from "./Button";
 import colors from "../config/colors";
 import ApiContext from "../api/context";
-import Constants from "expo-constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SavedContext from "../firestore/context";
+import AuthContext from "../auth/context";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;
 
 export default function FilterModal({ navigation }) {
+  const { user, setUser } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
+  );
+  const { savedSearches, saveSearch, setSavedSearches } = useContext(
+    SavedContext
   );
 
   const [priceLow, setPriceLow] = useState(filterState.price_low);
@@ -63,6 +69,28 @@ export default function FilterModal({ navigation }) {
     navigation.navigate("MaterialTabs");
   };
 
+  const onSave = () => {
+    if (user !== null) {
+      let saved = savedSearches;
+      saved.push({
+        price_low: priceLow,
+        price_high: priceHigh,
+        beds_low: bedsLow,
+        beds_high: bedsHigh,
+        baths_low: bathsLow,
+        baths_high: bathsHigh,
+        distance_low: distanceLow,
+        distance_high: distanceHigh,
+        drive_low: driveLow,
+        drive_high: driveHigh,
+        walk_low: walkLow,
+        walk_high: walkHigh,
+      });
+      setSavedSearches(saved);
+      saveSearch();
+    }
+  };
+
   return (
     <View style={styles.panel}>
       <View style={styles.topRow}>
@@ -86,14 +114,18 @@ export default function FilterModal({ navigation }) {
             title="Save"
             textSize={buttonDiameter / 6}
             color="primary"
+            onPress={() => onSave()}
           />
-          <TouchableOpacity onPress={() => navigation.navigate("MaterialTabs")}>
-            <MaterialCommunityIcons
-              name="close-circle-outline"
-              size={buttonDiameter - 15}
-              color="black"
-            />
-          </TouchableOpacity>
+          <Button
+            style={[styles.button, { borderWidth: 2, borderColor: "black" }]}
+            title={
+              <AntDesign name="close" size={buttonDiameter / 2} color="black" />
+            }
+            onPress={() => navigation.navigate("MaterialTabs")}
+            textSize={buttonDiameter / 6}
+            color="white"
+            textColor="black"
+          />
         </View>
       </View>
       <SliderSection

@@ -27,26 +27,6 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name="SavedSearchesNavigator"
         component={SavedSearchesNavigator}
-        options={({ navigation }) => ({
-          headerShown: true,
-          // headerStyle: {
-          //   backgroundColor: colors.primary,
-          // },
-          // headerTitleStyle: {
-          //   paddingBottom: 8,
-          //   fontSize: 18,
-          //   fontFamily: defaultStyles.text.fontFamily,
-          //   fontWeight: "bold",
-          // },
-          // headerTintColor: "#fff",
-          // headerLeft: () => {
-          //   return <Avatar size={35} onPress={() => navigation.openDrawer()} />;
-          // },
-          // headerLeftContainerStyle: {
-          //   paddingLeft: 10,
-          //   paddingBottom: 10,
-          // },
-        })}
       />
     </Drawer.Navigator>
   );

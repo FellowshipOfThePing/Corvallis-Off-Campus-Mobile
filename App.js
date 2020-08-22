@@ -117,6 +117,17 @@ export default function App() {
     }
   };
 
+  const saveSearch = () => {
+    if (user !== null) {
+      setRefreshing(true);
+      const docRef = db.collection("Users").doc(email);
+      docRef.update({
+        SavedSearches: savedSearches,
+      });
+      setRefreshing(false);
+    }
+  };
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <ApiContext.Provider
@@ -138,6 +149,8 @@ export default function App() {
             setDB,
             getSavedSearches,
             savedSearches,
+            saveSearch,
+            setSavedSearches
           }}
         >
           <OfflineNotice />
