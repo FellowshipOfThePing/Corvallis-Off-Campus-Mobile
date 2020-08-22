@@ -63,6 +63,10 @@ function Login({ navigation }) {
             onChangeText={(email) => setEnteredEmail(email)}
             placeholder="Email"
             autoCapitalize="none"
+            keyboardType="email-address"
+            enablesReturnKeyAutomatically
+            onSubmitEditing={(e) => handleLogin()}
+            returnKeyType="go"
           />
           <TextInput
             style={styles.inputBox}
@@ -70,6 +74,9 @@ function Login({ navigation }) {
             onChangeText={(password) => setPassword(password)}
             placeholder="Password"
             secureTextEntry={true}
+            enablesReturnKeyAutomatically
+            onSubmitEditing={(e) => handleLogin()}
+            returnKeyType="go"
           />
         </View>
         <View style={styles.activityIndicatorContainer}>
