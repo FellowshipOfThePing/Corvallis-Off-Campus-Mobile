@@ -61,7 +61,6 @@ function SavedListingsScreen({ navigation, route }) {
           keyExtractor={(listing) => listing.address_id.toString()}
           refreshing={refreshing}
           onRefresh={() => getFavorites()}
-          removeClippedSubviews
           getItemLayout={(data, index) => ({
             length: 345,
             offset: 345 * index,

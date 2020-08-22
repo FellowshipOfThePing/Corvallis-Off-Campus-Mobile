@@ -1,4 +1,5 @@
 import React from "react";
+import { Dimensions } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
 import AuthNavigator from "./AuthNavigator";
@@ -11,12 +12,15 @@ import defaultStyles from "../config/styles";
 import Avatar from "../components/Avatar";
 
 const Drawer = createDrawerNavigator();
+const swipeBoundary = 2 * (Dimensions.get("window").width / 3);
 
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
       drawerContent={(props) => <DrawerContent {...props} />}
+      drawerType="slide"
+      edgeWidth={swipeBoundary}
     >
       <Drawer.Screen name="Home" component={HomeNavigator} />
       <Drawer.Screen name="AuthNavigator" component={AuthNavigator} />

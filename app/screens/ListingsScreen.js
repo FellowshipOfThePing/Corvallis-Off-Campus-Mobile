@@ -76,7 +76,6 @@ function ListingsScreen({ navigation, route }) {
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
-          removeClippedSubviews
           contentContainerStyle={{ paddingTop: 10 }}
           data={getListingsApi.data}
           extraData={favorites}
