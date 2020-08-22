@@ -38,16 +38,16 @@ function SavedListingsScreen({ navigation, route }) {
   const onHeartPress = (listing) => {
     if (addressIDs.includes(listing.address_id)) {
       removeFavorite(listing);
-      console.log("Listing removed from favorites");
     } else {
       addFavorite(listing);
-      console.log("Listing added to favorites");
     }
     setTapped(!tapped);
   };
 
   useEffect(() => {
-    getFavorites();
+    if (isFocused === true) {
+      getFavorites();
+    }
   }, [isFocused, tapped]);
 
   return (

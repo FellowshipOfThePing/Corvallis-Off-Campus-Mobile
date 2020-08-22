@@ -20,7 +20,7 @@ function SavedSearchesScreen() {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (user !== null) {
+    if (user !== null && isFocused === true) {
       getSavedSearches();
     }
   }, [isFocused]);

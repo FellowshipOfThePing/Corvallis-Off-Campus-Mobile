@@ -38,14 +38,13 @@ function Login({ navigation }) {
         setEmail(firebase.auth().currentUser.email);
         setDB(firebase.firestore());
         navigation.navigate("Home");
-        console.log("Logged In");
+        console.log("[NETWORK] Logged In");
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("[NETWORK] Error logging in:", error);
         setLoading(false);
       });
-
   };
 
   return (
@@ -74,7 +73,10 @@ function Login({ navigation }) {
           />
         </View>
         <View style={styles.activityIndicatorContainer}>
-          <ActivityIndicator visible={loading} style={{ backgroundColor: colors.light }} />
+          <ActivityIndicator
+            visible={loading}
+            style={{ backgroundColor: colors.light }}
+          />
         </View>
         <View style={styles.buttonSection}>
           <Button color="primary" title="Login" onPress={() => handleLogin()} />

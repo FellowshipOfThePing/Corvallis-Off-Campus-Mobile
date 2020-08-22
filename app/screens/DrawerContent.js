@@ -36,11 +36,11 @@ function DrawerContent({ navigation }) {
         setAddressIDs([]);
         navigation.navigate("Home");
         setUser(null);
-        console.log("Signed Out");
+        console.log("[NETWORK] Signed Out");
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("[NETWORK] Error Signing Out", error);
         setLoading(false);
       });
   };

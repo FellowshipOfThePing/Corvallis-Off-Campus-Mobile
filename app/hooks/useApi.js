@@ -6,6 +6,7 @@ export default useApi = (apiFunc) => {
   const [loading, setLoading] = useState(false);
 
   const request = async (...args) => {
+    console.log("[NETWORK] Calling Listings API");
     setLoading(true);
     const response = await apiFunc(...args);
     setLoading(false);

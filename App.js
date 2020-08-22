@@ -46,9 +46,15 @@ export default function App() {
         .get()
         .then((doc) => {
           setAddressIDs(Object.values(doc.data().Favorites));
+          console.log(
+            "[NETWORK] AddressIDs successfully retrieved from Firestore"
+          );
         })
         .catch((error) => {
-          console.log("Error getting Address IDs from Firestore:", error);
+          console.log(
+            "[NETWORK] Error getting Address IDs from Firestore:",
+            error
+          );
         });
     }
   };
@@ -87,6 +93,7 @@ export default function App() {
     docRef.update({
       Favorites: addressIDs,
     });
+    console.log("[NETWORK] Listing added to favorites");
   };
 
   const removeFavorite = (listing) => {
@@ -98,6 +105,7 @@ export default function App() {
     docRef.update({
       Favorites: addressIDs,
     });
+    console.log("[NETWORK] Listing removed from favorites");
   };
 
   const getSavedSearches = () => {
@@ -108,10 +116,13 @@ export default function App() {
         .get()
         .then((doc) => {
           setSavedSearches(Object.values(doc.data().SavedSearches));
-          console.log("Retrieved Saved Searches!");
+          console.log("[NETWORK] Retrieved Saved Searches!");
         })
         .catch((error) => {
-          console.log("Error getting Saved Searches from Firestore:", error);
+          console.log(
+            "[NETWORK] Error getting Saved Searches from Firestore:",
+            error
+          );
         });
       setRefreshing(false);
     }
@@ -125,6 +136,7 @@ export default function App() {
         SavedSearches: savedSearches,
       });
       setRefreshing(false);
+      console.log("[NETWORK] Search Saved!");
     }
   };
 
@@ -150,7 +162,7 @@ export default function App() {
             getSavedSearches,
             savedSearches,
             saveSearch,
-            setSavedSearches
+            setSavedSearches,
           }}
         >
           <OfflineNotice />

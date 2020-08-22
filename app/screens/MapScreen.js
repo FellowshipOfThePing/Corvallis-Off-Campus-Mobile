@@ -131,7 +131,6 @@ function MapScreen({ navigation, route }) {
 
   const onMarkerPress = (index) => {
     const markerID = index;
-    console.log("\nMarkerID: " + markerID);
 
     let offset = markerID * width;
 
@@ -140,9 +139,6 @@ function MapScreen({ navigation, route }) {
     }
 
     if (listing_data.length > 0) {
-      console.log("Current Object Price: " + listing_data[markerID].price_high);
-      console.log("Current Object Beds: " + listing_data[markerID].beds);
-      console.log("Current Object Baths: " + listing_data[markerID].baths);
 
       mapRef.current.animateToRegion(
         {

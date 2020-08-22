@@ -41,10 +41,8 @@ function ListingsScreen({ navigation, route }) {
     if (user !== null) {
       if (addressIDs.includes(listing.address_id)) {
         removeFavorite(listing);
-        console.log("Listing removed from favorites");
       } else {
         addFavorite(listing);
-        console.log("Listing added to favorites");
       }
       setTapped(!tapped);
     }
@@ -62,7 +60,7 @@ function ListingsScreen({ navigation, route }) {
   }, [filterState]);
 
   useEffect(() => {
-    if (user !== null) {
+    if (user !== null && isFocused === true) {
       getFavorites();
     }
   }, [tapped, isFocused]);

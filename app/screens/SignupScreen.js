@@ -27,6 +27,7 @@ function Signup({ navigation }) {
     db.collection("Users").doc(email).set({
       Favorites: [],
     });
+    console.log("[NETWORK] Favorites collection successfully created!");
   };
 
   const handleSignUp = () => {
@@ -34,6 +35,7 @@ function Signup({ navigation }) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
+        console.log("[NETWORK] User Successfully signed up!");
         setUser({ name, email, password });
         createFavorites(email);
         firebase
@@ -41,11 +43,13 @@ function Signup({ navigation }) {
           .currentUser.updateProfile({
             displayName: name,
           })
-          .then(() => console.log("Profile Name Update Successful!"))
-          .catch((error) => console.log(error));
+          .then(() => console.log("[NETWORK] Profile Name Update Successful!"))
+          .catch((error) =>
+            console.log("[NETWORK] Error Updating Profile Name", error)
+          );
         navigation.navigate("Home");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log("[NETWORK] Error Signing Up User", error));
   };
 
   return (

@@ -33,13 +33,6 @@ const getDirections = async (startLoc, destinationLoc, mode) => {
 };
 
 function ListingDetailScreen({ navigation, route }) {
-  const listing = route.params.listing;
-  const [loading, setLoading] = useState(true);
-  const [coords, setCoords] = useState([]);
-  const imageUri = listing.images[0] != null ? listing.images[0] : "";
-  const [tapped, setTapped] = useState(false);
-  const { user, setUser } = useContext(AuthContext);
-
   const {
     addressIDs,
     setAddressIDs,
@@ -53,24 +46,27 @@ function ListingDetailScreen({ navigation, route }) {
     removeFavorite,
   } = useContext(SavedContext);
 
+  const listing = route.params.listing;
+  const [loading, setLoading] = useState(true);
+  const [coords, setCoords] = useState([]);
+  const imageUri = listing.images[0] != null ? listing.images[0] : "";
+  const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
+  const [tappedTimes, setTappedTimes] = useState(0);
+  const { user, setUser } = useContext(AuthContext);
+
   const onHeartPress = (listing) => {
     if (user !== null) {
+      setTapped(!tapped);
+      getFavorites();
       if (addressIDs.includes(listing.address_id)) {
         removeFavorite(listing);
-        console.log("Listing removed from favorites");
+        setTapped(false);
       } else {
         addFavorite(listing);
-        console.log("Listing added to favorites");
+        setTapped(true);
       }
-      setTapped(!tapped);
     }
   };
-
-  useEffect(() => {
-    if (user !== null) {
-      getFavorites();
-    }
-  }, [tapped]);
 
   useEffect(() => {
     var mode = listing.walk_to_campus_minutes <= 20 ? "walking" : "driving";
@@ -81,8 +77,9 @@ function ListingDetailScreen({ navigation, route }) {
     )
       .then((coords) => {
         setCoords(coords);
+        console.log("[NETWORK] Directions successfully retrieved from Google.");
       })
-      .catch((err) => console.log("Something went wrong:", err));
+      .catch((err) => console.log("[NETWORK] Something went wrong:", err));
   }, []);
 
   const OSU_lat = 44.5647;
@@ -118,7 +115,7 @@ function ListingDetailScreen({ navigation, route }) {
       </View>
       <ListingDetails
         listing={listing}
-        saved={addressIDs.includes(listing.address_id)}
+        saved={tapped}
         onPressHeart={() => onHeartPress(listing)}
         onPressProvider={() =>
           navigation.navigate("Browser", {
