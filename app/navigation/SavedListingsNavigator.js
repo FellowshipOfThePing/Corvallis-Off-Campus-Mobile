@@ -5,6 +5,8 @@ import SavedListingsScreen from "../screens/SavedListingsScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import colors from "../config/colors";
 import Avatar from "../components/Avatar";
+import FilterButton from "../components/FilterButton";
+import FilterModal from "../components/FilterModal";
 
 const Stack = createStackNavigator();
 
@@ -36,11 +38,30 @@ const SavedListingsNavigator = () => (
           paddingLeft: 10,
           paddingBottom: 10,
         },
+        headerRight: () => {
+          return (
+            <FilterButton
+              size={35}
+              onPress={() => navigation.navigate("FilterScreen")}
+            />
+          );
+        },
+        headerRightContainerStyle: {
+          paddingRight: 10,
+          paddingBottom: 10,
+        },
       })}
     />
     <Stack.Screen
       name="ListingDetailNavigator"
       component={ListingDetailNavigator}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="FilterScreen"
+      component={FilterModal}
       options={{
         headerShown: false,
       }}

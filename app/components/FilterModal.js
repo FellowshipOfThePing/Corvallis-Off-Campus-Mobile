@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import React, { useState, useContext, useRef } from "react";
+import { StyleSheet, View, Dimensions, Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
 
@@ -9,17 +9,26 @@ import colors from "../config/colors";
 import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
+import SavedSearchIndicator from "../components/SavedSearchIndicator";
+import { opacity } from "react-native-redash";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;
+const fadeDuration = 300;
 
 export default function FilterModal({ navigation }) {
+  const opacityAnim = useRef(new Animated.Value(1)).current;
   const { user, setUser } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
-  const { savedSearches, saveSearch, setSavedSearches } = useContext(
-    SavedContext
-  );
+  const {
+    refreshing,
+    savedSearches,
+    saveSearch,
+    setSavedSearches,
+  } = useContext(SavedContext);
+
+  const [saving, setSaving] = useState(false);
 
   const [priceLow, setPriceLow] = useState(filterState.price_low);
   const [priceHigh, setPriceHigh] = useState(filterState.price_high);
@@ -34,43 +43,62 @@ export default function FilterModal({ navigation }) {
   const [walkLow, setWalkLow] = useState(filterState.walk_low);
   const [walkHigh, setWalkHigh] = useState(filterState.walk_high);
 
+  const fadeOut = () => {
+    Animated.timing(opacityAnim, {
+      toValue: 0,
+      duration: fadeDuration,
+    }).start();
+  };
+
+  const fadeIn = () => {
+    Animated.timing(opacityAnim, {
+      toValue: 1,
+      duration: fadeDuration,
+    }).start();
+  };
+
   const onClear = () => {
-    setPriceLow(0);
-    setPriceHigh(5000);
-    setBedsLow(1);
-    setBedsHigh(5);
-    setBathsLow(1);
-    setBathsHigh(5);
-    setDistanceLow(0);
-    setDistanceHigh(25);
-    setDriveLow(0);
-    setDriveHigh(40);
-    setWalkLow(0);
-    setWalkHigh(50);
+    if (!saving) {
+      setPriceLow(0);
+      setPriceHigh(5000);
+      setBedsLow(1);
+      setBedsHigh(5);
+      setBathsLow(1);
+      setBathsHigh(5);
+      setDistanceLow(0);
+      setDistanceHigh(25);
+      setDriveLow(0);
+      setDriveHigh(40);
+      setWalkLow(0);
+      setWalkHigh(50);
+    }
   };
 
   const onApply = () => {
-    setTimeout(() => {
-      setFilterState({
-        price_low: priceLow,
-        price_high: priceHigh,
-        beds_low: bedsLow,
-        beds_high: bedsHigh,
-        baths_low: bathsLow,
-        baths_high: bathsHigh,
-        distance_low: distanceLow,
-        distance_high: distanceHigh,
-        drive_low: driveLow,
-        drive_high: driveHigh,
-        walk_low: walkLow,
-        walk_high: walkHigh,
-      });
-    }, 1000);
-    navigation.navigate("MaterialTabs");
+    if (!saving) {
+      setTimeout(() => {
+        setFilterState({
+          price_low: priceLow,
+          price_high: priceHigh,
+          beds_low: bedsLow,
+          beds_high: bedsHigh,
+          baths_low: bathsLow,
+          baths_high: bathsHigh,
+          distance_low: distanceLow,
+          distance_high: distanceHigh,
+          drive_low: driveLow,
+          drive_high: driveHigh,
+          walk_low: walkLow,
+          walk_high: walkHigh,
+        });
+      }, 1000);
+      navigation.pop();
+    }
   };
 
   const onSave = () => {
     if (user !== null) {
+      setSaving(true);
       let saved = savedSearches;
       saved.push({
         price_low: priceLow,
@@ -88,6 +116,14 @@ export default function FilterModal({ navigation }) {
       });
       setSavedSearches(saved);
       saveSearch();
+      setTimeout(() => {
+        fadeOut();
+        setTimeout(() => {
+          setSaving(false);
+          fadeIn();
+        }, fadeDuration);
+        setTimeout;
+      }, 1500);
     }
   };
 
@@ -109,19 +145,33 @@ export default function FilterModal({ navigation }) {
             color="white"
             textColor="black"
           />
-          <Button
-            style={styles.button}
-            title="Save"
-            textSize={buttonDiameter / 6}
-            color="primary"
-            onPress={() => onSave()}
-          />
+          <Animated.View style={{ opacity: opacityAnim }}>
+            {!saving && (
+              <Button
+                style={[styles.button]}
+                title="Save"
+                textSize={buttonDiameter / 6}
+                color="primary"
+                onPress={() => onSave()}
+              />
+            )}
+            {saving && (
+              <SavedSearchIndicator
+                loading={refreshing}
+                style={[styles.button]}
+              />
+            )}
+          </Animated.View>
           <Button
             style={[styles.button, { borderWidth: 2, borderColor: "black" }]}
             title={
               <AntDesign name="close" size={buttonDiameter / 2} color="black" />
             }
-            onPress={() => navigation.navigate("MaterialTabs")}
+            onPress={() => {
+              if (!saving) {
+                navigation.pop();
+              }
+            }}
             textSize={buttonDiameter / 6}
             color="white"
             textColor="black"
@@ -210,5 +260,10 @@ const styles = StyleSheet.create({
     height: buttonDiameter,
     width: buttonDiameter,
     borderRadius: buttonDiameter / 2,
+  },
+  loadingIndicator: {
+    position: "absolute",
+    alignSelf: "center",
+    top: 350,
   },
 });

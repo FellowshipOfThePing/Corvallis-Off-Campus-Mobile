@@ -59,7 +59,7 @@ function SavedListingsScreen({ navigation, route }) {
           contentContainerStyle={{ paddingTop: 10 }}
           data={favorites}
           keyExtractor={(listing) => listing.address_id.toString()}
-          refreshing={refreshing}
+          refreshing={refreshing || getListingsApi.loading}
           onRefresh={() => getFavorites()}
           getItemLayout={(data, index) => ({
             length: 345,
