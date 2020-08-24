@@ -12,7 +12,7 @@ import defaultStyles from "../config/styles";
 import Avatar from "../components/Avatar";
 
 const Drawer = createDrawerNavigator();
-const swipeBoundary = 2 * (Dimensions.get("window").width / 3);
+const swipeBoundary = (Dimensions.get("window").width / 3);
 
 const DrawerNavigator = () => {
   return (

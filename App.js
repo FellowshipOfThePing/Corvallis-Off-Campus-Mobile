@@ -10,9 +10,6 @@ import SavedContext from "./app/firestore/context";
 import listingsApi from "./app/api/listings";
 import OfflineNotice from "./app/components/OfflineNotice";
 import useApi from "./app/hooks/useApi";
-import SavedSearchCard from "./app/components/SavedSearchCard";
-import Screen from "./app/components/Screen";
-import SavedSearchesScreen from "./app/screens/SavedSearchesScreen";
 
 export default function App() {
   const [user, setUser] = useState(null);

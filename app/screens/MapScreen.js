@@ -16,6 +16,8 @@ function MapScreen({ navigation, route }) {
   );
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
+  
+  const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
   const [mapDelta, setMapDelta] = useState({
@@ -79,7 +81,11 @@ function MapScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    getListingsApi.request(filterState);
+    if (!firstLoad) {
+      getListingsApi.request(filterState);
+    } else {
+      setFirstLoad(false);
+    }
   }, [filterState]);
 
   useEffect(() => {
@@ -139,7 +145,6 @@ function MapScreen({ navigation, route }) {
     }
 
     if (listing_data.length > 0) {
-
       mapRef.current.animateToRegion(
         {
           latitude: listing_data[markerID].latitude,

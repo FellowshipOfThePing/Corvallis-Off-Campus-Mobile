@@ -5,8 +5,11 @@ import { Marker } from "react-native-maps";
 import colors from "../config/colors";
 
 const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
-  const sizeAnim = useRef(new Animated.Value(size)).current;
-  const radiusAnim = useRef(new Animated.Value(size / 2)).current;
+  const selectedSize = size * 1.5;
+  const sizeAnim = useRef(new Animated.Value(selected ? selectedSize : size))
+    .current;
+  const radiusAnim = useRef(new Animated.Value(selected ? size : size / 2))
+    .current;
   const opacityAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -15,27 +18,27 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
     } else {
       radiate.stop();
     }
-  }, [selected])
+  }, [selected]);
 
   const radiate = Animated.loop(
-      Animated.parallel([
-        Animated.timing(sizeAnim, {
-          toValue: size * 3,
-          duration: 1500,
-          delay: 500,
-        }),
-        Animated.timing(radiusAnim, {
-          toValue: size * 1.5,
-          duration: 1500,
-          delay: 500,
-        }),
-        Animated.timing(opacityAnim, {
-          toValue: 0,
-          duration: 1500,
-          delay: 500,
-        }),
-      ])
-    );
+    Animated.parallel([
+      Animated.timing(sizeAnim, {
+        toValue: selectedSize * 3,
+        duration: 1500,
+        delay: 500,
+      }),
+      Animated.timing(radiusAnim, {
+        toValue: selectedSize * 1.5,
+        duration: 1500,
+        delay: 500,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 0,
+        duration: 1500,
+        delay: 500,
+      }),
+    ])
+  );
 
   return (
     <Marker
@@ -46,27 +49,34 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
       anchor={{ x: 0.5, y: 0.5 }}
     >
       <TouchableOpacity>
-        <View style={[styles.wrapper, { height: size * 3, width: size * 3 }]}>
-        <Animated.View
+        <View
           style={[
-            styles.ring,
-            {
-              height: selected ? sizeAnim : 0,
-              width: selected ? sizeAnim : 0,
-              borderRadius: selected ? radiusAnim : size / 2,
-              opacity: selected ? opacityAnim : 0,
-              borderWidth: size / 5,
-            },
+            styles.wrapper,
+            selected
+              ? { height: selectedSize * 3, width: selectedSize * 3 }
+              : { height: size * 3, width: size * 3 },
           ]}
-        />
+        >
+          <Animated.View
+            style={[
+              styles.ring,
+              {
+                height: selected ? sizeAnim : 0,
+                width: selected ? sizeAnim : 0,
+                borderRadius: selected ? radiusAnim : size / 2,
+                opacity: selected ? opacityAnim : 0,
+                borderWidth: selected ? selectedSize / 5 : size / 5,
+              },
+            ]}
+          />
           <View
             style={[
               styles.dot,
               {
                 backgroundColor: selected ? colors.primary : "green",
-                borderRadius: size / 2,
-                height: size,
-                width: size,
+                borderRadius: selected ? size : size / 2,
+                height: selected ? selectedSize : size,
+                width: selected ? selectedSize : size,
               },
             ]}
           />
@@ -78,7 +88,7 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
 
 const styles = StyleSheet.create({
   dot: {
-    position: "absolute"
+    position: "absolute",
   },
   wrapper: {
     justifyContent: "center",
@@ -88,6 +98,7 @@ const styles = StyleSheet.create({
     borderColor: colors.primaryMarkerRing,
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
   },
 });
 
