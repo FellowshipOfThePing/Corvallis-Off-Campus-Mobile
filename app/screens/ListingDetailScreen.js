@@ -7,7 +7,7 @@ import { decode } from "@mapbox/polyline";
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
-import MapButton from "../components/MapButton";
+import GoToMapButton from "../components/GoToMapButton";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import ActivityIndicator from "../components/ActivityIndicator";
@@ -161,21 +161,19 @@ function ListingDetailScreen({ navigation, route }) {
               <FontAwesome5 name="school" size={30} color={colors.primary} />
             </View>
           </Marker>
-          <MapButton
-            style={styles.mapButton}
-            iconName="google-maps"
-            iconColor={colors.primary}
-            onPress={() =>
-              navigation.navigate("Map", {
-                screen: "MapScreen",
-                params: {
-                  listing: listing,
-                  sourceDetailScreen: true,
-                },
-              })
-            }
-          />
         </MapView>
+        <GoToMapButton
+          style={styles.mapButton}
+          onPress={() =>
+            navigation.navigate("Map", {
+              screen: "MapScreen",
+              params: {
+                listing: listing,
+                sourceDetailScreen: true,
+              },
+            })
+          }
+        />
       </View>
     </>
   );
@@ -195,12 +193,8 @@ const styles = StyleSheet.create({
   },
   mapButton: {
     position: "absolute",
-    backgroundColor: colors.light,
-    borderColor: colors.black,
-    borderWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10
+    top: 10,
+    left: 10,
   },
   mapContainer: {
     flex: 2,

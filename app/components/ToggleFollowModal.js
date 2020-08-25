@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions, Animated } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-const animationDuration = 300;
+const animationDuration = 200;
 
 function ToggleFollowModal({ toggledOn }) {
   const opacityAnim = useRef(new Animated.Value(0)).current;
@@ -20,7 +20,7 @@ function ToggleFollowModal({ toggledOn }) {
         toValue: 0,
         duration: animationDuration,
         useNativeDriver: true,
-        delay: 500,
+        delay: 700,
       }),
     ]).start();
   };
