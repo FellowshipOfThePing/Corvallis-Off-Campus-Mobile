@@ -9,6 +9,9 @@ import CustomMarker from "../components/CustomMarker";
 import ApiContext from "../api/context";
 import AppText from "../components/AppText";
 import LoadingModal from "../components/LoadingModal";
+import MapButton from "../components/MapButton";
+import colors from "../config/colors";
+import MapButtonMenu from "../components/MapButtonMenu";
 
 function MapScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -16,13 +19,22 @@ function MapScreen({ navigation, route }) {
   );
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
-  
+
   const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
-  const [mapDelta, setMapDelta] = useState({
+  const [following, setFollowing] = useState(true);
+
+  const initialRegion = {
+    latitude: 44.5547,
+    longitude: -123.28225,
     latitudeDelta: 0.04864195044303443,
     longitudeDelta: 0.040142817690068,
+  };
+
+  const [mapDelta, setMapDelta] = useState({
+    latitudeDelta: initialRegion.latitudeDelta,
+    longitudeDelta: initialRegion.longitudeDelta,
   });
 
   let mapAnimation = new Animated.Value(0);
@@ -31,13 +43,6 @@ function MapScreen({ navigation, route }) {
   const CARD_WIDTH = width * 0.9;
   const SPACING_FOR_CARD_INSET = width * 0.05;
 
-  const initialRegion = {
-    latitude: 44.583599,
-    longitude: -123.272191,
-    latitudeDelta: 0.04864195044303443,
-    longitudeDelta: 0.040142817690068,
-  };
-
   const listing_data = getListingsApi.data.map((marker) => {
     return marker;
   });
@@ -45,6 +50,23 @@ function MapScreen({ navigation, route }) {
   const addresses = getListingsApi.data.map((marker) => {
     return marker.address;
   });
+
+  const latitudes = Object.values(
+    getListingsApi.data.map((marker, index) => {
+      return marker.latitude;
+    })
+  );
+
+  const longitudes = Object.keys(
+    getListingsApi.data.map((marker, index) => {
+      return marker.longitude;
+    })
+  );
+
+  const zoomedOutDelta = {
+    latitude: Math.max(...latitudes) - Math.min(...latitudes),
+    longitude: Math.max(...longitudes) - Math.min(...longitudes),
+  };
 
   const markerArray = listing_data.map((marker, index) => {
     return (
@@ -79,6 +101,73 @@ function MapScreen({ navigation, route }) {
       longitudeDelta: region.longitudeDelta,
     });
   };
+
+  const zoomOut = () => {
+    mapRef.current.animateToRegion(
+      {
+        latitude: initialRegion.latitude,
+        longitude: initialRegion.longitude,
+        latitudeDelta: zoomedOutDelta.latitude + 0.1,
+        longitudeDelta: zoomedOutDelta.latitude,
+      },
+      700
+    );
+  };
+
+  const zoomIn = () => {
+    mapRef.current.animateToRegion(
+      {
+        latitude: listing_data[mapIndex].latitude,
+        longitude: listing_data[mapIndex].longitude,
+        latitudeDelta: zoomedOutDelta.latitude - 0.05,
+        longitudeDelta: 0,
+      },
+      700
+    );
+  };
+
+  const onMarkerPress = (index) => {
+    const markerID = index;
+
+    let offset = markerID * width;
+
+    if (mapIndex !== markerID) {
+      setMapIndex(markerID);
+    }
+
+    if (listing_data.length > 0) {
+      if (following) {
+        mapRef.current.animateToRegion(
+          {
+            latitude: listing_data[markerID].latitude,
+            longitude: listing_data[markerID].longitude,
+            latitudeDelta: mapDelta.latitudeDelta,
+            longitudeDelta: mapDelta.longitudeDelta,
+          },
+          500
+        );
+      }
+
+      setMarkerPressed(true);
+
+      setTimeout(() => {
+        flatListRef.current.getNode().scrollToOffset({
+          offset: offset,
+          animated: true,
+        });
+      }, 10);
+
+      setTimeout(() => {
+        setMarkerPressed(false);
+      }, 3000);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(following);
+    }, 1000);
+  }, [following]);
 
   useEffect(() => {
     if (!firstLoad) {
@@ -120,55 +209,22 @@ function MapScreen({ navigation, route }) {
         const regionTimeout = setTimeout(() => {
           if (mapIndex !== index) {
             setMapIndex(index);
-            mapRef.current.animateToRegion(
-              {
-                latitude: listing_data[index].latitude,
-                longitude: listing_data[index].longitude,
-                latitudeDelta: mapDelta.latitudeDelta,
-                longitudeDelta: mapDelta.longitudeDelta,
-              },
-              350
-            );
+            if (following) {
+              mapRef.current.animateToRegion(
+                {
+                  latitude: listing_data[index].latitude,
+                  longitude: listing_data[index].longitude,
+                  latitudeDelta: mapDelta.latitudeDelta,
+                  longitudeDelta: mapDelta.longitudeDelta,
+                },
+                500
+              );
+            }
           }
         }, 10);
       }
     });
   });
-
-  const onMarkerPress = (index) => {
-    const markerID = index;
-
-    let offset = markerID * width;
-
-    if (mapIndex !== markerID) {
-      setMapIndex(markerID);
-    }
-
-    if (listing_data.length > 0) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: listing_data[markerID].latitude,
-          longitude: listing_data[markerID].longitude,
-          latitudeDelta: mapDelta.latitudeDelta,
-          longitudeDelta: mapDelta.longitudeDelta,
-        },
-        350
-      );
-
-      setMarkerPressed(true);
-
-      setTimeout(() => {
-        flatListRef.current.getNode().scrollToOffset({
-          offset: offset,
-          animated: true,
-        });
-      }, 10);
-
-      setTimeout(() => {
-        setMarkerPressed(false);
-      }, 3000);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -188,6 +244,14 @@ function MapScreen({ navigation, route }) {
           <LoadingModal />
         </View>
       )}
+      <MapButtonMenu
+        style={styles.sideButtonContainer}
+        onPressZoomButton={() => zoomOut()}
+        onPressMarkerButton={() => zoomIn()}
+        onPressFollowButton={() => setFollowing(!following)}
+        following={following}
+        onPressReturnButton={() => onMarkerPress(0)}
+      />
       <Animated.FlatList
         ref={flatListRef}
         data={listing_data}
@@ -294,6 +358,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     top: 250,
+  },
+  sideButtonContainer: {
+    position: "absolute",
+    left: 5,
+    top: Dimensions.get("window").height / 7,
+    height: Dimensions.get("window").height * 0.375,
+    paddingHorizontal: 5,
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    borderRadius: 7,
   },
 });
 

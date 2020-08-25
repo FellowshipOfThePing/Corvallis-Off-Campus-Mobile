@@ -8,7 +8,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
-import GoToMapButton from "../components/GoToMapButton";
+import MapButton from "../components/MapButton";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 
@@ -156,8 +156,10 @@ function ListingDetailScreen({ navigation, route }) {
             </View>
           </Marker>
         </MapView>
-        <GoToMapButton
+        <MapButton
           style={styles.mapButton}
+          iconName="google-maps"
+          iconColor={colors.light}
           onPress={() =>
             navigation.navigate("Map", {
               screen: "MapScreen",
