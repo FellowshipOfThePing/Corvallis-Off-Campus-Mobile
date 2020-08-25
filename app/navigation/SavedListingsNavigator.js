@@ -6,7 +6,7 @@ import ListingDetailNavigator from "./ListingDetailNavigator";
 import colors from "../config/colors";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
-import FilterModal from "../components/FilterModal";
+import FilterModalScreen from "../screens/FilterModalScreen";
 
 const Stack = createStackNavigator();
 
@@ -61,7 +61,7 @@ const SavedListingsNavigator = () => (
     />
     <Stack.Screen
       name="FilterScreen"
-      component={FilterModal}
+      component={FilterModalScreen}
       options={{
         headerShown: false,
       }}

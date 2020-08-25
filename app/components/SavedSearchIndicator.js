@@ -1,6 +1,6 @@
 import React from "react";
 import LottieView from "lottie-react-native";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import colors from "../config/colors";
 
 function SavedSearchIndicator({ loading = true, style }) {

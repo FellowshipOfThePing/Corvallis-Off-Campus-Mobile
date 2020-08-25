@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import MaterialTabs from "./MaterialTabs";
-import FilterModal from "../components/FilterModal";
+import FilterModalScreen from "../screens/FilterModalScreen";
 
 const Stack = createStackNavigator();
 
@@ -17,7 +17,7 @@ const HomeNavigator = () => (
     />
     <Stack.Screen
       name="FilterScreen"
-      component={FilterModal}
+      component={FilterModalScreen}
       options={{
         headerShown: false,
       }}

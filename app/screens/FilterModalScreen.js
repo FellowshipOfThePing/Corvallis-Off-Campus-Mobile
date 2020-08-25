@@ -3,19 +3,18 @@ import { StyleSheet, View, Dimensions, Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
 
-import SliderSection from "./SliderSection";
-import Button from "./Button";
+import SliderSection from "../components/SliderSection";
+import Button from "../components/Button";
 import colors from "../config/colors";
 import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import SavedSearchIndicator from "../components/SavedSearchIndicator";
-import { opacity } from "react-native-redash";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;
 const fadeDuration = 300;
 
-export default function FilterModal({ navigation }) {
+export default function FilterModalScreen({ navigation }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
   const { user, setUser } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -122,7 +121,6 @@ export default function FilterModal({ navigation }) {
           setSaving(false);
           fadeIn();
         }, fadeDuration);
-        setTimeout;
       }, 1500);
     }
   };
