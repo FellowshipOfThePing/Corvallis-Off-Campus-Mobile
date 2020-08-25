@@ -7,7 +7,7 @@ const animationDuration = 200;
 
 function ToggleFollowModal({ toggledOn }) {
   const opacityAnim = useRef(new Animated.Value(0)).current;
-  const [initialLoad, setInitialLoad] = useState(true);
+  // const [initialLoad, setInitialLoad] = useState(true);
 
   const fadeThrough = () => {
     Animated.sequence([
@@ -26,11 +26,7 @@ function ToggleFollowModal({ toggledOn }) {
   };
 
   useEffect(() => {
-    if (!initialLoad) {
-      fadeThrough();
-    } else {
-      setInitialLoad(false);
-    }
+    fadeThrough();
   }, [toggledOn]);
 
   return (

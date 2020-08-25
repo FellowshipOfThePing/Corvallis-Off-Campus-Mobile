@@ -7,7 +7,6 @@ const animationDuration = 300;
 
 function MapButtonTitles({ visible }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
-  const [initialLoad, setInitialLoad] = useState(true);
 
   const fadeOut = () => {
     Animated.timing(opacityAnim, {
@@ -28,14 +27,13 @@ function MapButtonTitles({ visible }) {
   useEffect(() => {
     setTimeout(() => {
       fadeOut();
-      setInitialLoad(false);
-    }, 3000);
+    }, 5000);
   }, []);
 
   useEffect(() => {
     if (visible) {
       fadeIn();
-    } else if (!initialLoad) {
+    } else {
       fadeOut();
     }
   }, [visible]);

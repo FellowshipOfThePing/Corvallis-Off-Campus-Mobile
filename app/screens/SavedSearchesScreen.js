@@ -6,24 +6,57 @@ import "firebase/firestore";
 
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
+import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import colors from "../config/colors";
 import SavedSearchCard from "../components/SavedSearchCard";
 import Screen from "../components/Screen";
 
-function SavedSearchesScreen() {
+function SavedSearchesScreen({ navigation }) {
   const ref = useRef(null);
-  const { user, setUser } = useContext(AuthContext);
-  const { refreshing, getSavedSearches, savedSearches } = useContext(
-    SavedContext
-  );
+  const { user } = useContext(AuthContext);
+  const { getListingsApi, setFilterState } = useContext(ApiContext);
+  const {
+    refreshing,
+    getSavedSearches,
+    setSavedSearches,
+    savedSearches,
+    saveSearch,
+  } = useContext(SavedContext);
   const isFocused = useIsFocused();
+  const [expanded, setExpanded] = useState(null);
+  const [change, setChange] = useState(true);
 
   useEffect(() => {
-    if (user !== null && isFocused === true) {
+    setExpanded(null);
+    if (isFocused === true) {
       getSavedSearches();
     }
-  }, [isFocused]);
+  }, [isFocused, change]);
+
+  const handlePress = (index) => {
+    if (index === expanded) {
+      setExpanded(null);
+    } else {
+      setExpanded(index);
+    }
+  };
+
+  const onRemove = (index) => {
+    let saved = savedSearches;
+    saved.splice(index, 1);
+    setSavedSearches(saved);
+    saveSearch();
+    setChange(!change);
+  };
+
+  const onApply = (filterState) => {
+    setFilterState(filterState);
+    setTimeout(() => {
+      getListingsApi.request(filterState);
+    }, 1000);
+    navigation.navigate("Home");
+  };
 
   return (
     <>
@@ -36,10 +69,18 @@ function SavedSearchesScreen() {
           onRefresh={() => getSavedSearches()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
-          renderItem={({ item }) => <SavedSearchCard savedSearch={item} />}
+          renderItem={({ item, index }) => (
+            <SavedSearchCard
+              savedSearch={item}
+              onPress={() => handlePress(index)}
+              onPressDelete={() => onRemove(index)}
+              onPressApply={() => onApply(item)}
+              expanded={index === expanded}
+            />
+          )}
           ListEmptyComponent={() => (
             <View style={styles.defaultCard}>
-              <AppText>No Listings Found</AppText>
+              <AppText>No Searches Found</AppText>
             </View>
           )}
         ></FlatList>
