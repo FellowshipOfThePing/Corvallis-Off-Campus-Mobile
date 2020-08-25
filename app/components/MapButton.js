@@ -16,9 +16,9 @@ function MapButton({
   iconName,
   iconColor,
   iconFamily = "Community",
-  opacity,
+  opacity = 1,
   onLongPress,
-  onPressOut
+  onPressOut,
 }) {
   return (
     <Animated.View style={{ opacity: opacity }}>
@@ -31,6 +31,7 @@ function MapButton({
       >
         {iconFamily === "Community" && (
           <MaterialCommunityIcons
+            style={styles.icon}
             name={iconName}
             size={size / 2 + 5}
             color={iconColor}
@@ -38,6 +39,7 @@ function MapButton({
         )}
         {iconFamily === "Material" && (
           <MaterialIcons
+            style={styles.icon}
             name={iconName}
             size={size / 2 + 5}
             color={iconColor}
@@ -50,5 +52,12 @@ function MapButton({
     </Animated.View>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default MapButton;

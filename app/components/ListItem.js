@@ -44,7 +44,7 @@ function ListItem({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: defaultStyles.colors.light,
+    backgroundColor: defaultStyles.colors.white,
     alignItems: "center",
   },
   detailsContainer: {

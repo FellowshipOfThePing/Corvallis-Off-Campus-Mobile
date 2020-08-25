@@ -7,9 +7,6 @@ import DrawerContent from "../screens/DrawerContent";
 import HomeNavigator from "./HomeNavigator";
 import SavedListingsNavigator from "./SavedListingsNavigator";
 import SavedSearchesNavigator from "./SavedSearchesNavigator";
-import colors from "../config/colors";
-import defaultStyles from "../config/styles";
-import Avatar from "../components/Avatar";
 
 const Drawer = createDrawerNavigator();
 const swipeBoundary = (Dimensions.get("window").width / 3);

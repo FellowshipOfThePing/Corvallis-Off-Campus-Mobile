@@ -29,7 +29,7 @@ function MapButtonTitles({ visible }) {
     setTimeout(() => {
       fadeOut();
       setInitialLoad(false);
-    }, 5000);
+    }, 3000);
   }, []);
 
   useEffect(() => {

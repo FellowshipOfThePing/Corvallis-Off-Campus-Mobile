@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
-import { View, Image, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Image } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { decode } from "@mapbox/polyline";
 
-import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
 import MapButton from "../components/MapButton";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
+import ActivityIndicator from "../components/ActivityIndicator";
+import ImageCarousel from "../components/ImageCarousel";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -47,11 +48,11 @@ function ListingDetailScreen({ navigation, route }) {
   } = useContext(SavedContext);
 
   const listing = route.params.listing;
-  const [loading, setLoading] = useState(true);
   const [coords, setCoords] = useState([]);
-  const imageUri = listing.images[0] != null ? listing.images[0] : "";
+
   const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
   const [tappedTimes, setTappedTimes] = useState(0);
+  const [loading, setLoading] = useState(true);
   const { user, setUser } = useContext(AuthContext);
 
   const onHeartPress = (listing) => {
@@ -96,23 +97,28 @@ function ListingDetailScreen({ navigation, route }) {
 
   return (
     <>
-      <View style={styles.imageContainer}>
-        <Image
-          source={
-            imageUri.length != 0
-              ? { uri: listing.images[0], cache: "default" }
-              : null
-          }
-          style={styles.image}
-          onLoadStart={() => {
-            setLoading(true);
-          }}
-          onLoadEnd={() => {
-            setLoading(false);
-          }}
-        />
-        {loading && <ActivityIndicator visible={loading} />}
-      </View>
+      {listing.images.length > 1 && (
+        <ImageCarousel listing={listing} style={styles.imageContainer} />
+      )}
+      {listing.images.length <= 1 && (
+        <View style={styles.imageContainer}>
+          <Image
+            source={
+              listing.images.length != 0
+                ? { uri: listing.images[0], cache: "default" }
+                : null
+            }
+            style={styles.image}
+            onLoadStart={() => {
+              setLoading(true);
+            }}
+            onLoadEnd={() => {
+              setLoading(false);
+            }}
+          />
+          {loading && <ActivityIndicator visible={loading} />}
+        </View>
+      )}
       <ListingDetails
         listing={listing}
         saved={tapped}
@@ -155,21 +161,21 @@ function ListingDetailScreen({ navigation, route }) {
               <FontAwesome5 name="school" size={30} color={colors.primary} />
             </View>
           </Marker>
+          <MapButton
+            style={styles.mapButton}
+            iconName="google-maps"
+            iconColor={colors.primary}
+            onPress={() =>
+              navigation.navigate("Map", {
+                screen: "MapScreen",
+                params: {
+                  listing: listing,
+                  sourceDetailScreen: true,
+                },
+              })
+            }
+          />
         </MapView>
-        <MapButton
-          style={styles.mapButton}
-          iconName="google-maps"
-          iconColor={colors.light}
-          onPress={() =>
-            navigation.navigate("Map", {
-              screen: "MapScreen",
-              params: {
-                listing: listing,
-                sourceDetailScreen: true,
-              },
-            })
-          }
-        />
       </View>
     </>
   );
@@ -181,6 +187,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 2,
+    backgroundColor: "black",
   },
   image: {
     height: "100%",
@@ -188,8 +195,12 @@ const styles = StyleSheet.create({
   },
   mapButton: {
     position: "absolute",
-    top: 10,
-    left: 10,
+    backgroundColor: colors.light,
+    borderColor: colors.black,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10
   },
   mapContainer: {
     flex: 2,
