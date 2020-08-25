@@ -23,13 +23,10 @@ function ImageCarousel({ listing, style }) {
   };
 
   const onScrolled = (e) => {
-    if (e.nativeEvent.velocity.x < 0 && index !== 1) {
-      setIndex(index - 1);
-    } else if (
-      e.nativeEvent.velocity.x > 0 &&
-      index !== listing.images.length
-    ) {
-      setIndex(index + 1);
+    let offsetX = e.nativeEvent.targetContentOffset.x;
+    let newIndex = offsetX / width + 1;
+    if (offsetX >= 0 && newIndex <= listing.images.length) {
+      setIndex(newIndex);
     }
   };
 
@@ -66,14 +63,18 @@ function ImageCarousel({ listing, style }) {
           {index}/{listing.images.length}
         </AppText>
       </View>
-      <Animated.View style={[styles.arrowBoxLeft, { opacity: opacityAnim }]}>
+      <Animated.View
+        style={[styles.arrowBox, { opacity: opacityAnim, left: 20 }]}
+      >
         <MaterialCommunityIcons
           name="chevron-left"
           color={colors.light}
           size={25}
         />
       </Animated.View>
-      <Animated.View style={[styles.arrowBoxRight, { opacity: opacityAnim }]}>
+      <Animated.View
+        style={[styles.arrowBox, { opacity: opacityAnim, right: 20 }]}
+      >
         <MaterialCommunityIcons
           name="chevron-right"
           color={colors.light}
@@ -93,21 +94,10 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  arrowBoxLeft: {
+  arrowBox: {
     position: "absolute",
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     top: Dimensions.get("window").height * 0.2 - 25,
-    left: 20,
-    padding: 5,
-    borderRadius: 5,
-    height: 50,
-    justifyContent: "center",
-  },
-  arrowBoxRight: {
-    position: "absolute",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    top: Dimensions.get("window").height * 0.2 - 25,
-    right: 20,
     padding: 5,
     borderRadius: 5,
     height: 50,

@@ -14,14 +14,14 @@ function GoToMapButton({ size = 44, onPress, style }) {
         style,
       ]}
     >
-      <MaterialCommunityIcons name="google-maps" size={25} color={colors.light} />
+      <MaterialCommunityIcons name="google-maps" size={30} color={colors.primary} />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.white,
     borderColor: colors.black,
     borderWidth: 1,
     justifyContent: "center",

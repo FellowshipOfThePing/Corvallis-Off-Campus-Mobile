@@ -54,6 +54,7 @@ function ListingDetailScreen({ navigation, route }) {
   const [tappedTimes, setTappedTimes] = useState(0);
   const [loading, setLoading] = useState(true);
   const { user, setUser } = useContext(AuthContext);
+  const imageUri = listing.images[0] !== null ? listing.images[0] : "";
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -100,11 +101,11 @@ function ListingDetailScreen({ navigation, route }) {
       {listing.images.length > 1 && (
         <ImageCarousel listing={listing} style={styles.imageContainer} />
       )}
-      {listing.images.length <= 1 && (
+      {listing.images.length === 1 && (
         <View style={styles.imageContainer}>
           <Image
             source={
-              listing.images.length != 0
+              imageUri.length != 0
                 ? { uri: listing.images[0], cache: "default" }
                 : null
             }
@@ -185,7 +186,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 2,
-    backgroundColor: "black",
   },
   image: {
     height: "100%",
