@@ -17,11 +17,16 @@ function MapButton({
   iconColor,
   iconFamily = "Community",
   opacity,
+  onLongPress,
+  onPressOut
 }) {
   return (
     <Animated.View style={{ opacity: opacity }}>
       <TouchableOpacity
         onPress={onPress}
+        onLongPress={onLongPress}
+        onPressOut={onPressOut}
+        delayLongPress={250}
         style={[{ height: size, width: size, borderRadius: size / 2 }, style]}
       >
         {iconFamily === "Community" && (

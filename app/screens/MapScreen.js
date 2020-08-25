@@ -10,6 +10,8 @@ import ApiContext from "../api/context";
 import AppText from "../components/AppText";
 import LoadingModal from "../components/LoadingModal";
 import MapButtonMenu from "../components/MapButtonMenu";
+import MapButtonTitles from "../components/MapButtonTitles";
+import ToggleFollowModal from "../components/ToggleFollowModal";
 
 function MapScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -22,6 +24,7 @@ function MapScreen({ navigation, route }) {
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
   const [following, setFollowing] = useState(true);
+  const [buttonsVisible, setButtonsVisible] = useState(false);
 
   const initialRegion = {
     latitude: 44.5547,
@@ -122,6 +125,14 @@ function MapScreen({ navigation, route }) {
       },
       700
     );
+  };
+
+  const onHoldButton = () => {
+    setButtonsVisible(true);
+  };
+
+  const onReleaseButton = () => {
+    setButtonsVisible(false);
   };
 
   const onMarkerPress = (index) => {
@@ -240,9 +251,12 @@ function MapScreen({ navigation, route }) {
         onPressZoomButton={() => zoomOut()}
         onPressMarkerButton={() => zoomIn()}
         onPressFollowButton={() => setFollowing(!following)}
-        following={following}
         onPressReturnButton={() => onMarkerPress(0)}
+        onLongPress={() => onHoldButton()}
+        onPressOut={() => onReleaseButton()}
       />
+      <MapButtonTitles visible={buttonsVisible} />
+      <ToggleFollowModal toggledOn={following} />
       <Animated.FlatList
         ref={flatListRef}
         data={listing_data}

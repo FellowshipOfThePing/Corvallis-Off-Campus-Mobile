@@ -8,7 +8,8 @@ function MapButtonMenu({
   onPressMarkerButton,
   onPressFollowButton,
   onPressReturnButton,
-  following = true,
+  onLongPress,
+  onPressOut
 }) {
   const initialHeight = Dimensions.get("window").height * 0.375;
   const animationDuration = 300;
@@ -82,6 +83,8 @@ function MapButtonMenu({
             onPress={onPressZoomButton}
             iconFamily="Material"
             opacity={opacityAnim}
+            onLongPress={onLongPress}
+            onPressOut={onPressOut}
           />
           <MapButton
             style={styles.mapButton}
@@ -90,6 +93,8 @@ function MapButtonMenu({
             onPress={onPressMarkerButton}
             iconFamily="Community"
             opacity={opacityAnim}
+            onLongPress={onLongPress}
+            onPressOut={onPressOut}
           />
           <MapButton
             style={styles.mapButton}
@@ -98,6 +103,8 @@ function MapButtonMenu({
             onPress={onPressFollowButton}
             iconFamily="Community"
             opacity={opacityAnim}
+            onLongPress={onLongPress}
+            onPressOut={onPressOut}
           />
           <MapButton
             style={styles.mapButton}
@@ -106,6 +113,8 @@ function MapButtonMenu({
             onPress={onPressReturnButton}
             iconFamily="Material"
             opacity={opacityAnim}
+            onLongPress={onLongPress}
+            onPressOut={onPressOut}
           />
         </>
       )}
@@ -116,6 +125,8 @@ function MapButtonMenu({
           iconColor={colors.dark}
           onPress={() => setExpanded(!expanded)}
           iconFamily="Material"
+          onLongPress={onLongPress}
+          onPressOut={onPressOut}
         />
       </Animated.View>
     </Animated.View>
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    backgroundColor: "rgba(0, 0, 0, 0.0)",
     borderRadius: 7,
   },
 });
