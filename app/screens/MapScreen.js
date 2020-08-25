@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Animated, View, StyleSheet, FlatList, Dimensions } from "react-native";
+import { Animated, View, StyleSheet, Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -9,8 +9,6 @@ import CustomMarker from "../components/CustomMarker";
 import ApiContext from "../api/context";
 import AppText from "../components/AppText";
 import LoadingModal from "../components/LoadingModal";
-import MapButton from "../components/MapButton";
-import colors from "../config/colors";
 import MapButtonMenu from "../components/MapButtonMenu";
 
 function MapScreen({ navigation, route }) {
@@ -164,12 +162,6 @@ function MapScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      console.log(following);
-    }, 1000);
-  }, [following]);
-
-  useEffect(() => {
     if (!firstLoad) {
       getListingsApi.request(filterState);
     } else {
@@ -245,7 +237,6 @@ function MapScreen({ navigation, route }) {
         </View>
       )}
       <MapButtonMenu
-        style={styles.sideButtonContainer}
         onPressZoomButton={() => zoomOut()}
         onPressMarkerButton={() => zoomIn()}
         onPressFollowButton={() => setFollowing(!following)}
@@ -358,17 +349,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     top: 250,
-  },
-  sideButtonContainer: {
-    position: "absolute",
-    left: 5,
-    top: Dimensions.get("window").height / 7,
-    height: Dimensions.get("window").height * 0.375,
-    paddingHorizontal: 5,
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    borderRadius: 7,
   },
 });
 
