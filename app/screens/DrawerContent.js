@@ -113,6 +113,12 @@ function DrawerContent({ navigation }) {
                 styles.bottomRowContainer,
                 { borderRightWidth: 1, borderRightColor: colors.gray },
               ]}
+              onPress={
+                user
+                  ? () => navigation.navigate("SettingsScreen")
+                  : () =>
+                      navigation.navigate("AuthNavigator", { screen: "Login" })
+              }
             >
               <MaterialCommunityIcons
                 name="settings"

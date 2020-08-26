@@ -7,6 +7,7 @@ import DrawerContent from "../screens/DrawerContent";
 import HomeNavigator from "./HomeNavigator";
 import SavedListingsNavigator from "./SavedListingsNavigator";
 import SavedSearchesNavigator from "./SavedSearchesNavigator";
+import SettingsScreen from "../screens/SettingsScreen";
 
 const Drawer = createDrawerNavigator();
 const swipeBoundary = (Dimensions.get("window").width / 3);
@@ -28,6 +29,10 @@ const DrawerNavigator = () => {
       <Drawer.Screen
         name="SavedSearchesNavigator"
         component={SavedSearchesNavigator}
+      />
+      <Drawer.Screen 
+        name="SettingsScreen"
+        component={SettingsScreen}
       />
     </Drawer.Navigator>
   );

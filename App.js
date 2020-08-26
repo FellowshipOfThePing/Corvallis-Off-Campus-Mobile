@@ -13,6 +13,7 @@ import useApi from "./app/hooks/useApi";
 import SavedSearchIndicator from "./app/components/SavedSearchIndicator";
 import ImageCarousel from "./app/components/ImageCarousel";
 import CarouselImageContainer from "./app/components/CarouselImageContainer";
+import SettingsScreen from "./app/screens/SettingsScreen";
 
 export default function App() {
   const [user, setUser] = useState(null);
