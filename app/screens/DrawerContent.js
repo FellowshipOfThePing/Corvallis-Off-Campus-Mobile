@@ -115,7 +115,7 @@ function DrawerContent({ navigation }) {
               ]}
               onPress={
                 user
-                  ? () => navigation.navigate("SettingsScreen")
+                  ? () => navigation.navigate("SettingsNavigator")
                   : () =>
                       navigation.navigate("AuthNavigator", { screen: "Login" })
               }

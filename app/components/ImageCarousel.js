@@ -59,7 +59,7 @@ function ImageCarousel({ listing, style }) {
         ListEmptyComponent={() => <CarouselImageContainer />}
       />
       <View style={styles.count}>
-        <AppText>
+        <AppText style={{ color: colors.white }}>
           {index}/{listing.images.length}
         </AppText>
       </View>
