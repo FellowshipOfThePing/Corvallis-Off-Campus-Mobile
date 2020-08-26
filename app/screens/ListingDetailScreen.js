@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 2,
+    backgroundColor: colors.white
   },
   image: {
     height: "100%",

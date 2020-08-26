@@ -46,7 +46,7 @@ function DrawerContent({ navigation }) {
   };
 
   return (
-    <Screen style={{ backgroundColor: colors.white }}>
+    <Screen style={{ backgroundColor: colors.light }}>
       <View style={styles.container}>
         <View style={styles.profile}>
           {user && (
@@ -104,7 +104,6 @@ function DrawerContent({ navigation }) {
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator
               visible={loading}
-              style={{ backgroundColor: colors.white }}
             />
           </View>
           <View style={styles.bottomRow}>

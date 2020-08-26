@@ -51,7 +51,7 @@ function Signup({ navigation }) {
   };
 
   return (
-    <Screen>
+    <Screen style={{ backgroundColor: colors.light }}>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
@@ -66,6 +66,7 @@ function Signup({ navigation }) {
             onChangeText={(name) => setName(name)}
             placeholder="Name"
             autoCapitalize="words"
+            placeholderTextColor={colors.medium}
           />
           <TextInput
             style={styles.inputBox}
@@ -73,6 +74,7 @@ function Signup({ navigation }) {
             onChangeText={(email) => setEmail(email)}
             placeholder="Email"
             autoCapitalize="none"
+            placeholderTextColor={colors.medium}
           />
           <TextInput
             style={styles.inputBox}
@@ -80,6 +82,7 @@ function Signup({ navigation }) {
             onChangeText={(password) => setPassword(password)}
             placeholder="Password"
             secureTextEntry={true}
+            placeholderTextColor={colors.medium}
           />
         </View>
         <View style={styles.buttonSection}>
@@ -112,6 +115,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray,
     borderBottomWidth: 1,
     textAlign: "center",
+    color: colors.black,
   },
   inputContainer: {
     alignItems: "center",

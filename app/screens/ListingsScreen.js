@@ -115,6 +115,7 @@ function ListingsScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   screen: {
     paddingHorizontal: 5,
+    backgroundColor: colors.light,
   },
   defaultCard: {
     backgroundColor: colors.white,

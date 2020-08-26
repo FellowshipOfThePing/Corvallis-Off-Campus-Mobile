@@ -67,6 +67,7 @@ function Login({ navigation }) {
             enablesReturnKeyAutomatically
             onSubmitEditing={(e) => handleLogin()}
             returnKeyType="go"
+            placeholderTextColor={colors.medium}
           />
           <TextInput
             style={styles.inputBox}
@@ -77,6 +78,8 @@ function Login({ navigation }) {
             enablesReturnKeyAutomatically
             onSubmitEditing={(e) => handleLogin()}
             returnKeyType="go"
+            placeholderTextColor={colors.medium}
+            selectionColor={colors.dark}
           />
         </View>
         <View style={styles.activityIndicatorContainer}>
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray,
     borderBottomWidth: 1,
     textAlign: "center",
+    color: colors.black
   },
   inputContainer: {
     alignItems: "center",

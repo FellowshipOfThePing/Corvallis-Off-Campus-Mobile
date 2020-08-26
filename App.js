@@ -3,6 +3,7 @@ import DrawerNavigator from "./app/navigation/DrawerNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import firebaseConfig from "./app/auth/config";
 
 import ApiContext from "./app/api/context";
 import AuthContext from "./app/auth/context";

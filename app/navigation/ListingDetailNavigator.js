@@ -29,6 +29,10 @@ const ListingDetailNavigator = () => (
         headerShown: true,
         headerTitle: route.params.title,
         headerBackTitle: "Listing",
+        headerStyle: {
+          backgroundColor: colors.white
+        },
+        headerTintColor: colors.black,
         headerTitleStyle: {
           fontFamily: defaultStyles.text.fontFamily,
           fontWeight: "bold",
