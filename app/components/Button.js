@@ -6,19 +6,19 @@ import colors from "../config/colors";
 
 function Button({
   title,
-  color = "black",
+  color = colors.black,
   onPress,
   textSize = 18,
-  textColor = "white",
+  textColor = colors.white,
   style,
 }) {
   return (
     <TouchableOpacity
-      style={[styles.container, style, { backgroundColor: colors[color] }]}
+      style={[styles.container, style, { backgroundColor: color }]}
       onPress={onPress}
     >
       <AppText
-        style={[styles.text, { color: colors[textColor], fontSize: textSize }]}
+        style={[styles.text, { color: textColor, fontSize: textSize }]}
       >
         {title}
       </AppText>

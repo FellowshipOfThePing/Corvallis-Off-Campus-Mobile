@@ -30,7 +30,7 @@ const SavedListingsNavigator = () => (
           paddingBottom: 8,
           fontSize: 18,
         },
-        headerTintColor: "#fff",
+        headerTintColor: colors.white,
         headerLeft: () => {
           return <Avatar size={35} onPress={() => navigation.openDrawer()} />;
         },

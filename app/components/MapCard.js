@@ -47,8 +47,8 @@ export default React.memo(({ onPress, listing, style }) => {
 const styles = StyleSheet.create({
   card: {
     elevation: 2,
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
-    shadowColor: "#000",
+    backgroundColor: colors.mapCardBackground,
+    shadowColor: colors.black,
     shadowRadius: 5,
     shadowOpacity: 0.3,
     overflow: "hidden",

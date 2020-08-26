@@ -17,7 +17,6 @@ function SettingsScreen({ navigation }) {
 
   const toggleLefty = () => setIsLefty((previousState) => !previousState);
   const toggleDarkMode = () => setIsDarkMode((previousState) => !previousState);
-  //   const { user, setUser } = useContext(AuthContext);
 
   return (
     <Screen style={styles.container}>
@@ -35,7 +34,7 @@ function SettingsScreen({ navigation }) {
                   <MaterialCommunityIcons
                     name="pencil-circle"
                     size={24}
-                    color="black"
+                    color={colors.black}
                     style={{ paddingRight: 5 }}
                   />
                   <AppText style={styles.optionText}>
@@ -57,7 +56,7 @@ function SettingsScreen({ navigation }) {
                   <MaterialIcons
                     name="verified-user"
                     size={24}
-                    color="black"
+                    color={colors.black}
                     style={{ paddingRight: 5 }}
                   />
                   <AppText style={styles.optionText}>Change Password</AppText>
@@ -75,15 +74,15 @@ function SettingsScreen({ navigation }) {
               <MaterialCommunityIcons
                 name="moon-waning-crescent"
                 size={24}
-                color="black"
+                color={colors.black}
                 style={{ paddingRight: 5 }}
               />
               <AppText style={styles.optionText}>Dark Mode</AppText>
             </View>
             <Switch
-              trackColor={{ true: colors.primary, false: "#767577" }}
+              trackColor={{ true: colors.primary, false: colors.dark }}
               thumbColor={isLefty ? colors.white : colors.white}
-              ios_backgroundColor="#3e3e3e"
+              ios_backgroundColor={colors.dark}
               onValueChange={toggleDarkMode}
               value={isDarkMode}
               style={{ borderWidth: 1, borderColor: borderColor }}
@@ -94,15 +93,15 @@ function SettingsScreen({ navigation }) {
               <MaterialCommunityIcons
                 name="hand"
                 size={24}
-                color="black"
+                color={colors.black}
                 style={{ paddingRight: 5 }}
               />
               <AppText style={styles.optionText}>Left Handed</AppText>
             </View>
             <Switch
-              trackColor={{ true: colors.primary, false: "#767577" }}
+              trackColor={{ true: colors.primary, false: colors.dark }}
               thumbColor={isLefty ? colors.white : colors.white}
-              ios_backgroundColor="#3e3e3e"
+              ios_backgroundColor={colors.dark}
               onValueChange={toggleLefty}
               value={isLefty}
               style={{ borderWidth: 1, borderColor: borderColor }}

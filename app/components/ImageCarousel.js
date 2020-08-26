@@ -88,7 +88,7 @@ function ImageCarousel({ listing, style }) {
 const styles = StyleSheet.create({
   count: {
     position: "absolute",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    backgroundColor: colors.fadedBackground,
     top: 50,
     left: 20,
     padding: 5,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   arrowBox: {
     position: "absolute",
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    backgroundColor: colors.fadedBackground,
     top: Dimensions.get("window").height * 0.2 - 25,
     padding: 5,
     borderRadius: 5,

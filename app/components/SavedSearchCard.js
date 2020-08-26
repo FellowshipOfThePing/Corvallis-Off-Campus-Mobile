@@ -142,7 +142,7 @@ function SavedSearchCard({
         <Button
           style={styles.button}
           title="Delete"
-          color="danger"
+          color={colors.danger}
           onPress={onPressDelete}
         />
       </Animated.View>

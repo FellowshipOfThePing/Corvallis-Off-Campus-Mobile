@@ -2,9 +2,10 @@ import React from 'react';
 import { useFormikContext } from "formik";
 
 import Button from "../Button";
+import colors from "../config/colors";
 
 
-function SubmitButton({ title, color = "black", textColor = "white" }) {
+function SubmitButton({ title, color = colors.black, textColor = colors.white }) {
     const { handleSubmit } = useFormikContext();
 
     return (

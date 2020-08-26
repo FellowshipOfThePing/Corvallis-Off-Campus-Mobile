@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: "space-around",
     alignItems: "flex-start",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.fadedBackground2,
     borderRadius: 7,
   },
   title: {

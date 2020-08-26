@@ -32,7 +32,7 @@ const FeedNavigator = () => (
           fontFamily: defaultStyles.text.fontFamily,
           fontWeight: "bold"
         },
-        headerTintColor: "#fff",
+        headerTintColor: colors.white,
         headerLeft: () => {
           return <Avatar size={35} onPress={() => navigation.openDrawer()} />;
         },

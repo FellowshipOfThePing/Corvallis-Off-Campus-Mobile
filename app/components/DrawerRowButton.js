@@ -5,7 +5,7 @@ import AppText from "../components/AppText";
 import colors from "../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function DrawerRowButton({ text, icon, color = "black", onPress, style }) {
+function DrawerRowButton({ text, icon, color = colors.black, onPress, style }) {
   return (
     <TouchableOpacity style={[styles.rowButton, style]} onPress={onPress}>
       <MaterialCommunityIcons name={icon} size={32} color={color} />

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   createStackNavigator,
-  HeaderBackButton,
 } from "@react-navigation/stack";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";

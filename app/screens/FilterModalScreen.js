@@ -136,12 +136,12 @@ export default function FilterModalScreen({ navigation }) {
             textSize={buttonDiameter / 6}
           />
           <Button
-            style={[styles.button, { borderWidth: 2, borderColor: "black" }]}
+            style={[styles.button, { borderWidth: 2, borderColor: colors.black }]}
             title="Clear"
             onPress={() => onClear()}
             textSize={buttonDiameter / 6}
-            color="white"
-            textColor="black"
+            color={colors.white}
+            textColor={colors.black}
           />
           <Animated.View style={{ opacity: opacityAnim }}>
             {!saving && (
@@ -149,7 +149,7 @@ export default function FilterModalScreen({ navigation }) {
                 style={[styles.button]}
                 title="Save"
                 textSize={buttonDiameter / 6}
-                color="primary"
+                color={colors.primary}
                 onPress={() => onSave()}
               />
             )}
@@ -161,9 +161,9 @@ export default function FilterModalScreen({ navigation }) {
             )}
           </Animated.View>
           <Button
-            style={[styles.button, { borderWidth: 2, borderColor: "black" }]}
+            style={[styles.button, { borderWidth: 2, borderColor: colors.black }]}
             title={
-              <AntDesign name="close" size={buttonDiameter / 2} color="black" />
+              <AntDesign name="close" size={buttonDiameter / 2} color={colors.black} />
             }
             onPress={() => {
               if (!saving) {
@@ -171,8 +171,8 @@ export default function FilterModalScreen({ navigation }) {
               }
             }}
             textSize={buttonDiameter / 6}
-            color="white"
-            textColor="black"
+            color={colors.white}
+            textColor={colors.black}
           />
         </View>
       </View>
@@ -231,10 +231,6 @@ export default function FilterModalScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#111111",
-  },
   panel: {
     height: "100%",
     backgroundColor: colors.white,

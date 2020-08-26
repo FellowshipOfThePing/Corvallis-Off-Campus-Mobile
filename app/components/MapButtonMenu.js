@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, Animated, Easing } from "react-native";
+
 import MapButton from "../components/MapButton";
 import colors from "../config/colors";
 
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     justifyContent: "space-around",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.0)",
     borderRadius: 7,
   },
 });

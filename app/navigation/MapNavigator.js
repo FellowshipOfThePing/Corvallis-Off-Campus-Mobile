@@ -5,6 +5,7 @@ import MapScreen from "../screens/MapScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
+import colors from "../config/colors";
 
 const Stack = createStackNavigator();
 
@@ -31,7 +32,7 @@ const MapNavigator = () => (
           return (
             <Avatar
               size={35}
-              color="black"
+              color={colors.black}
               onPress={() => navigation.openDrawer()}
             />
           );
@@ -44,7 +45,7 @@ const MapNavigator = () => (
           return (
             <FilterButton
               size={35}
-              color="black"
+              color={colors.black}
               onPress={() => navigation.navigate("FilterScreen")}
             />
           );

@@ -2,6 +2,8 @@ import React from "react";
 import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 
+import colors from "../config/colors";
+
 function ActivityIndicator({ visible = false, style }) {
   if (!visible) return null;
 
@@ -19,7 +21,7 @@ function ActivityIndicator({ visible = false, style }) {
 const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     height: "100%",
     width: "100%",
     zIndex: 1,

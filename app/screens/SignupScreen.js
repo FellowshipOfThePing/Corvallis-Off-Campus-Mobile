@@ -10,10 +10,8 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 
 import AuthContext from "../auth/context";
-import firebaseConfig from "../auth/config";
 import colors from "../config/colors";
 import Button from "../components/Button";
-import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 
 function Signup({ navigation }) {
@@ -87,7 +85,7 @@ function Signup({ navigation }) {
         <View style={styles.buttonSection}>
           <Button
             title="Sign Up"
-            color="primary"
+            color={colors.primary}
             onPress={() => handleSignUp()}
           />
         </View>

@@ -2,7 +2,9 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function FilterButton({ size = 25, color = "white", onPress }) {
+import colors from "../config/colors";
+
+function FilterButton({ size = 25, color = colors.white, onPress }) {
   return (
     <TouchableOpacity onPress={onPress}>
       <MaterialCommunityIcons

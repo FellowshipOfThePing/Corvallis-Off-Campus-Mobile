@@ -51,7 +51,7 @@ function DrawerContent({ navigation }) {
         <View style={styles.profile}>
           {user && (
             <>
-              <Avatar color="black" size={70} />
+              <Avatar color={colors.black} size={70} />
               <AppText style={styles.username}>{user.name}</AppText>
               <AppText style={styles.email}>{user.email}</AppText>
             </>

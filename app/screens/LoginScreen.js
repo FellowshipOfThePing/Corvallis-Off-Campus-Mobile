@@ -86,7 +86,7 @@ function Login({ navigation }) {
           />
         </View>
         <View style={styles.buttonSection}>
-          <Button color="primary" title="Login" onPress={() => handleLogin()} />
+          <Button color={colors.primary} title="Login" onPress={() => handleLogin()} />
           <TouchableOpacity
             style={styles.signUpText}
             onPress={() => navigation.navigate("Signup")}

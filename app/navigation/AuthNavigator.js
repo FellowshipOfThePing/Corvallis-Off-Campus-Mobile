@@ -17,12 +17,12 @@ const AuthNavigator = () => (
         fontSize: 18,
       },
       title: false,
-      headerTintColor: "#fff",
+      headerTintColor: colors.white,
       headerLeft: () => {
         return (
           <Avatar
             size={35}
-            color="black"
+            color={colors.black}
             onPress={() => navigation.openDrawer()}
           />
         );

@@ -11,6 +11,7 @@ import AppText from "../components/AppText";
 import LoadingModal from "../components/LoadingModal";
 import MapButtonMenu from "../components/MapButtonMenu";
 import MapButtonTitles from "../components/MapButtonTitles";
+import colors from "../config/colors";
 import ToggleFollowModal from "../components/ToggleFollowModal";
 
 function MapScreen({ navigation, route }) {
@@ -366,8 +367,8 @@ const styles = StyleSheet.create({
   },
   defaultCard: {
     elevation: 2,
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
-    shadowColor: "#000",
+    backgroundColor: colors.mapCardBackground,
+    shadowColor: colors.black,
     shadowRadius: 5,
     shadowOpacity: 0.3,
     overflow: "hidden",
