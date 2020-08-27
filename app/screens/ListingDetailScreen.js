@@ -4,7 +4,6 @@ import { View, StyleSheet, Dimensions, Image } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { decode } from "@mapbox/polyline";
 
-import colors from "../config/colors";
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
 import GoToMapButton from "../components/GoToMapButton";
@@ -12,6 +11,7 @@ import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ImageCarousel from "../components/ImageCarousel";
+import ThemeContext from "../config/context";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -46,9 +46,13 @@ function ListingDetailScreen({ navigation, route }) {
     addFavorite,
     removeFavorite,
   } = useContext(SavedContext);
+  const { colors, darkMode } = useContext(ThemeContext);
 
   const listing = route.params.listing;
   const [coords, setCoords] = useState([]);
+
+  const lightMapTheme = require("../config/lightMapTheme.json");
+  const darkMapTheme = require("../config/darkMapTheme.json");
 
   const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
   const [tappedTimes, setTappedTimes] = useState(0);
@@ -99,7 +103,10 @@ function ListingDetailScreen({ navigation, route }) {
   return (
     <>
       {listing.images.length > 1 && (
-        <ImageCarousel listing={listing} style={styles.imageContainer} />
+        <ImageCarousel
+          listing={listing}
+          style={[styles.imageContainer, { backgroundColor: colors.white }]}
+        />
       )}
       {listing.images.length === 1 && (
         <View style={styles.imageContainer}>
@@ -136,6 +143,7 @@ function ListingDetailScreen({ navigation, route }) {
         <MapView
           style={styles.mapStyle}
           provider={PROVIDER_GOOGLE}
+          customMapStyle={darkMode ? darkMapTheme : lightMapTheme}
           initialRegion={{
             latitude: centerLat,
             longitude: centerLong,
@@ -144,7 +152,11 @@ function ListingDetailScreen({ navigation, route }) {
           }}
         >
           {coords.length > 0 && (
-            <Polyline coordinates={coords} strokeWidth={2} />
+            <Polyline
+              coordinates={coords}
+              strokeWidth={2}
+              strokeColor={colors.black}
+            />
           )}
           <RadiatingMarker
             coordinate={{
@@ -186,7 +198,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 2,
-    backgroundColor: colors.white
   },
   image: {
     height: "100%",
@@ -199,8 +210,6 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 2,
-    borderTopColor: colors.medium,
-    borderTopWidth: 1,
   },
   mapStyle: {
     width: Dimensions.get("window").width,

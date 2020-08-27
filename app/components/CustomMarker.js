@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { Marker } from "react-native-maps";
 
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
   const selectedSize = size * 1.5;
@@ -11,6 +11,7 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
   const radiusAnim = useRef(new Animated.Value(selected ? size : size / 2))
     .current;
   const opacityAnim = useRef(new Animated.Value(1)).current;
+  const { colors } = useContext(ThemeContext);
 
   useEffect(() => {
     if (selected) {
@@ -61,6 +62,7 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
             style={[
               styles.ring,
               {
+                borderColor: colors.primaryMarkerRing,
                 height: selected ? sizeAnim : 0,
                 width: selected ? sizeAnim : 0,
                 borderRadius: selected ? radiusAnim : size / 2,
@@ -95,7 +97,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ring: {
-    borderColor: colors.primaryMarkerRing,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",

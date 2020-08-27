@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 import FeedNavigator from "./FeedNavigator";
 import MapNavigator from "./MapNavigator";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MaterialTabs = () => {
+  const { colors } = useContext(ThemeContext);
   return (
     <Tab.Navigator shifting barStyle={{ backgroundColor: colors.primary }}>
       <Tab.Screen

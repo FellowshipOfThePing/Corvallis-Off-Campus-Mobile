@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -6,18 +6,28 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import colors from "../config/colors";
 import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
+import ThemeContext from "../config/context";
 
 export default React.memo(({ onPress, listing, style }) => {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
   const [loading, setLoading] = useState(true);
+  const { colors } = useContext(ThemeContext);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={[styles.card, style]}>
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: colors.mapCardBackground,
+            shadowColor: colors.black,
+          },
+          style,
+        ]}
+      >
         <View style={styles.imageContainer}>
           <Image
             onLoadStart={() => {
@@ -36,7 +46,9 @@ export default React.memo(({ onPress, listing, style }) => {
           <ActivityIndicator visible={loading} />
         </View>
         <View style={styles.topRow}>
-          <AppText style={styles.price}>${listing.price_high}/mo</AppText>
+          <AppText style={[styles.price, { color: colors.black }]}>
+            ${listing.price_high}/mo
+          </AppText>
           <IconRow listing={listing} size={15} style={styles.iconRow} />
         </View>
       </View>
@@ -47,8 +59,6 @@ export default React.memo(({ onPress, listing, style }) => {
 const styles = StyleSheet.create({
   card: {
     elevation: 2,
-    backgroundColor: colors.mapCardBackground,
-    shadowColor: colors.black,
     shadowRadius: 5,
     shadowOpacity: 0.3,
     overflow: "hidden",
@@ -62,7 +72,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   price: {
-    color: colors.black,
     flex: 1,
     fontSize: 25,
     fontWeight: "bold",

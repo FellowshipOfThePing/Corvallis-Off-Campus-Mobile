@@ -12,10 +12,10 @@ import "firebase/firestore";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Button from "../components/Button";
-import colors from "../config/colors";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
 import ActivityIndicator from "../components/ActivityIndicator";
+import ThemeContext from "../config/context";
 
 function Login({ navigation }) {
   const [email, setEnteredEmail] = useState("");
@@ -23,6 +23,7 @@ function Login({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
   const { setEmail, setDB } = useContext(SavedContext);
   const [loading, setLoading] = useState(false);
+  const { colors } = useContext(ThemeContext);
 
   const handleLogin = () => {
     setLoading(true);
@@ -58,7 +59,10 @@ function Login({ navigation }) {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={styles.inputBox}
+            style={[
+              styles.inputBox,
+              { borderColor: colors.gray, color: colors.black },
+            ]}
             value={email}
             onChangeText={(email) => setEnteredEmail(email)}
             placeholder="Email"
@@ -70,7 +74,10 @@ function Login({ navigation }) {
             placeholderTextColor={colors.medium}
           />
           <TextInput
-            style={styles.inputBox}
+            style={[
+              styles.inputBox,
+              { borderColor: colors.gray, color: colors.black },
+            ]}
             value={password}
             onChangeText={(password) => setPassword(password)}
             placeholder="Password"
@@ -89,14 +96,18 @@ function Login({ navigation }) {
           />
         </View>
         <View style={styles.buttonSection}>
-          <Button color={colors.primary} title="Login" onPress={() => handleLogin()} />
+          <Button
+            color={colors.primary}
+            title="Login"
+            onPress={() => handleLogin()}
+          />
           <TouchableOpacity
             style={styles.signUpText}
             onPress={() => navigation.navigate("Signup")}
           >
             <View style={styles.textRow}>
               <AppText>Don't have an account yet? </AppText>
-              <AppText style={styles.text}>Sign up</AppText>
+              <AppText style={{ color: colors.primary }}>Sign up</AppText>
             </View>
           </TouchableOpacity>
         </View>
@@ -120,10 +131,8 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 15,
     fontSize: 18,
-    borderColor: colors.gray,
     borderBottomWidth: 1,
     textAlign: "center",
-    color: colors.black
   },
   inputContainer: {
     alignItems: "center",
@@ -147,9 +156,6 @@ const styles = StyleSheet.create({
   },
   textRow: {
     flexDirection: "row",
-  },
-  text: {
-    color: colors.primary,
   },
 });
 

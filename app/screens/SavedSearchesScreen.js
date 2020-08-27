@@ -8,9 +8,9 @@ import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
-import colors from "../config/colors";
 import SavedSearchCard from "../components/SavedSearchCard";
 import Screen from "../components/Screen";
+import ThemeContext from "../config/context";
 
 function SavedSearchesScreen({ navigation }) {
   const ref = useRef(null);
@@ -23,6 +23,7 @@ function SavedSearchesScreen({ navigation }) {
     savedSearches,
     saveSearch,
   } = useContext(SavedContext);
+  const { colors } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const [expanded, setExpanded] = useState(null);
   const [change, setChange] = useState(true);
@@ -60,7 +61,7 @@ function SavedSearchesScreen({ navigation }) {
 
   return (
     <>
-      <Screen style={styles.screen}>
+      <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
         <FlatList
           ref={ref}
           data={savedSearches}
@@ -79,7 +80,9 @@ function SavedSearchesScreen({ navigation }) {
             />
           )}
           ListEmptyComponent={() => (
-            <View style={styles.defaultCard}>
+            <View
+              style={[styles.defaultCard, { backgroundColor: colors.light }]}
+            >
               <AppText>No Searches Found</AppText>
             </View>
           )}
@@ -92,10 +95,8 @@ function SavedSearchesScreen({ navigation }) {
 const styles = StyleSheet.create({
   screen: {
     paddingHorizontal: 5,
-    backgroundColor: colors.light,
   },
   defaultCard: {
-    backgroundColor: colors.light,
     borderRadius: 15,
     marginBottom: 20,
     overflow: "hidden",

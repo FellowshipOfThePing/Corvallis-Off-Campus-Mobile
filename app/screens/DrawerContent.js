@@ -1,10 +1,6 @@
 import React, { useState, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import {
-  MaterialIcons,
-  Entypo,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import "firebase/firestore";
 
@@ -12,10 +8,10 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Avatar from "../components/Avatar";
-import colors from "../config/colors";
 import DrawerRowButton from "../components/DrawerRowButton";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
+import ThemeContext from "../config/context";
 
 function DrawerContent({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
@@ -23,6 +19,7 @@ function DrawerContent({ navigation }) {
     SavedContext
   );
   const [loading, setLoading] = useState(false);
+  const { colors } = useContext(ThemeContext);
 
   const handleLogout = () => {
     setLoading(true);
@@ -48,12 +45,14 @@ function DrawerContent({ navigation }) {
   return (
     <Screen style={{ backgroundColor: colors.light }}>
       <View style={styles.container}>
-        <View style={styles.profile}>
+        <View style={[styles.profile, { borderBottomColor: colors.gray }]}>
           {user && (
             <>
               <Avatar color={colors.black} size={70} />
               <AppText style={styles.username}>{user.name}</AppText>
-              <AppText style={styles.email}>{user.email}</AppText>
+              <AppText style={[styles.email, { color: colors.medium }]}>
+                {user.email}
+              </AppText>
             </>
           )}
           {!user && (
@@ -63,7 +62,7 @@ function DrawerContent({ navigation }) {
             />
           )}
         </View>
-        <View style={styles.rows}>
+        <View style={[styles.rows, { borderBottomColor: colors.gray }]}>
           <DrawerRowButton
             icon="home"
             text="Home"
@@ -102,9 +101,7 @@ function DrawerContent({ navigation }) {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.activityIndicatorContainer}>
-            <ActivityIndicator
-              visible={loading}
-            />
+            <ActivityIndicator visible={loading} />
           </View>
           <View style={styles.bottomRow}>
             <TouchableOpacity
@@ -112,19 +109,16 @@ function DrawerContent({ navigation }) {
                 styles.bottomRowContainer,
                 { borderRightWidth: 1, borderRightColor: colors.gray },
               ]}
-              onPress={
-                user
-                  ? () => navigation.navigate("SettingsNavigator")
-                  : () =>
-                      navigation.navigate("AuthNavigator", { screen: "Login" })
-              }
+              onPress={() => navigation.navigate("SettingsNavigator")}
             >
               <MaterialCommunityIcons
                 name="settings"
                 size={25}
                 color={colors.gray}
               />
-              <AppText style={styles.bottomRowText}>Settings</AppText>
+              <AppText style={[styles.bottomRowText, { color: colors.medium }]}>
+                Settings
+              </AppText>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.bottomRowContainer}
@@ -140,7 +134,7 @@ function DrawerContent({ navigation }) {
                 size={25}
                 color={colors.gray}
               />
-              <AppText style={styles.bottomRowText}>
+              <AppText style={[styles.bottomRowText, { color: colors.medium }]}>
                 {user ? "Logout" : "Log In"}
               </AppText>
             </TouchableOpacity>
@@ -168,7 +162,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   bottomRowText: {
-    color: colors.medium,
     fontSize: 17,
     paddingLeft: 10,
   },
@@ -176,18 +169,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   email: {
-    color: colors.medium,
     fontSize: 15,
   },
   profile: {
     alignItems: "center",
-    borderBottomColor: colors.gray,
     borderBottomWidth: 1,
     flex: 3,
     justifyContent: "center",
   },
   rows: {
-    borderBottomColor: colors.gray,
     borderBottomWidth: 1,
     flex: 3,
   },

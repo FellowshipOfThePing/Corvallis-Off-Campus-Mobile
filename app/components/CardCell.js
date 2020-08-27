@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function CardCell({
   style,
@@ -12,13 +12,20 @@ function CardCell({
   iconColor,
   leftValue,
   rightValue,
-  endingText = '',
-  changed
+  endingText = "",
+  changed,
 }) {
+  const { colors } = useContext(ThemeContext);
   return (
     <View style={[style, changed ? { backgroundColor: colors.primary } : null]}>
-      <FontAwesome5 name={iconName} size={iconSize} color={changed ? colors.white : iconColor} />
-      <AppText style={[styles.cellText, changed ? { color: colors.white } : null]}>
+      <FontAwesome5
+        name={iconName}
+        size={iconSize}
+        color={changed ? colors.white : iconColor}
+      />
+      <AppText
+        style={[styles.cellText, changed ? { color: colors.white } : null]}
+      >
         {leftValue} - {rightValue} {endingText}
       </AppText>
     </View>

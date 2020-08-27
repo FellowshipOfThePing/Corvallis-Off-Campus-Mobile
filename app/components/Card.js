@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -10,15 +10,16 @@ import ActivityIndicator from "./ActivityIndicator";
 import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
   const [loading, setLoading] = useState(true);
+  const { colors } = useContext(ThemeContext);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={styles.card}>
+      <View style={[styles.card, { backgroundColor: colors.white }]}>
         <View>
           <Image
             source={
@@ -38,7 +39,9 @@ function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
         </View>
         <View style={styles.detailContainer}>
           <View style={[styles.topRow]}>
-            <AppText style={styles.price}>${listing.price_high}/mo</AppText>
+            <AppText style={[styles.price, { color: colors.black }]}>
+              ${listing.price_high}/mo
+            </AppText>
             <Heart saved={saved} onPress={onPressHeart} />
           </View>
           <IconRow
@@ -56,12 +59,11 @@ function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.white,
     borderRadius: 15,
     marginBottom: 20,
     overflow: "hidden",
     width: "100%",
-    height: 325
+    height: 325,
   },
   detailContainer: {
     paddingVertical: 15,
@@ -81,7 +83,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 25,
     fontWeight: "bold",
-    color: colors.black,
     flex: 1,
   },
   topRow: {

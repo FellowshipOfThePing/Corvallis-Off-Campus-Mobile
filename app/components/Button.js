@@ -1,24 +1,25 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, TouchableOpacity, Platform } from "react-native";
 
 import AppText from "./AppText";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
-function Button({
-  title,
-  color = colors.black,
-  onPress,
-  textSize = 18,
-  textColor = colors.white,
-  style,
-}) {
+function Button({ title, color, onPress, textSize = 18, textColor, style }) {
+  const { colors } = useContext(ThemeContext);
   return (
     <TouchableOpacity
-      style={[styles.container, style, { backgroundColor: color }]}
+      style={[
+        styles.container,
+        style,
+        { backgroundColor: color ? color : colors.black },
+      ]}
       onPress={onPress}
     >
       <AppText
-        style={[styles.text, { color: textColor, fontSize: textSize }]}
+        style={[
+          styles.text,
+          { color: textColor ? textColor : colors.white, fontSize: textSize },
+        ]}
       >
         {title}
       </AppText>
@@ -28,15 +29,13 @@ function Button({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
-    width: "100%"
+    width: "100%",
   },
   text: {
-    color: colors.white,
     textTransform: "uppercase",
     fontWeight: "bold",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",

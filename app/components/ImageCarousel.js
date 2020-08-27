@@ -1,26 +1,28 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import { View, StyleSheet, FlatList, Dimensions, Animated } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import CarouselImageContainer from "./CarouselImageContainer";
 import AppText from "./AppText";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
+import Constants from "expo-constants";
 
 const width = Dimensions.get("window").width;
 
 function ImageCarousel({ listing, style }) {
   const carouselRef = useRef(null);
   const [index, setIndex] = useState(1);
+  const { colors } = useContext(ThemeContext);
 
-  const opacityAnim = useRef(new Animated.Value(1)).current;
+  // const opacityAnim = useRef(new Animated.Value(1)).current;
 
-  const fadeOutArrows = () => {
-    Animated.timing(opacityAnim, {
-      duration: 500,
-      toValue: 0,
-      delay: 2000,
-    }).start();
-  };
+  // const fadeOutArrows = () => {
+  //   Animated.timing(opacityAnim, {
+  //     duration: 500,
+  //     toValue: 0,
+  //     delay: 2000,
+  //   }).start();
+  // };
 
   const onScrolled = (e) => {
     let offsetX = e.nativeEvent.targetContentOffset.x;
@@ -30,9 +32,9 @@ function ImageCarousel({ listing, style }) {
     }
   };
 
-  useEffect(() => {
-    fadeOutArrows();
-  }, []);
+  // useEffect(() => {
+  //   fadeOutArrows();
+  // }, []);
 
   return (
     <View style={style}>
@@ -49,7 +51,7 @@ function ImageCarousel({ listing, style }) {
         disableIntervalMomentum
         scrollEventThrottle={1}
         data={listing.images}
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item, index) => index.toString()}
         getItemLayout={(data, index) => ({
           length: width,
           offset: width * index,
@@ -58,29 +60,35 @@ function ImageCarousel({ listing, style }) {
         renderItem={({ item }) => <CarouselImageContainer imageUri={item} />}
         ListEmptyComponent={() => <CarouselImageContainer />}
       />
-      <View style={styles.count}>
-        <AppText style={{ color: colors.white }}>
+      <View style={[styles.count, { backgroundColor: colors.fadedBackground }]}>
+        <AppText style={{ color: "#fff" }}>
           {index}/{listing.images.length}
         </AppText>
       </View>
-      <Animated.View
-        style={[styles.arrowBox, { opacity: opacityAnim, left: 20 }]}
+      {/* <Animated.View
+        style={[
+          styles.arrowBox,
+          {
+            opacity: opacityAnim,
+            left: 20,
+            backgroundColor: colors.fadedBackground,
+          },
+        ]}
       >
-        <MaterialCommunityIcons
-          name="chevron-left"
-          color={colors.light}
-          size={25}
-        />
+        <MaterialCommunityIcons name="chevron-left" color="white" size={25} />
       </Animated.View>
       <Animated.View
-        style={[styles.arrowBox, { opacity: opacityAnim, right: 20 }]}
+        style={[
+          styles.arrowBox,
+          {
+            opacity: opacityAnim,
+            right: 20,
+            backgroundColor: colors.fadedBackground,
+          },
+        ]}
       >
-        <MaterialCommunityIcons
-          name="chevron-right"
-          color={colors.light}
-          size={25}
-        />
-      </Animated.View>
+        <MaterialCommunityIcons name="chevron-right" color="white" size={25} />
+      </Animated.View> */}
     </View>
   );
 }
@@ -88,16 +96,14 @@ function ImageCarousel({ listing, style }) {
 const styles = StyleSheet.create({
   count: {
     position: "absolute",
-    backgroundColor: colors.fadedBackground,
-    top: 50,
+    top: Constants.statusBarHeight + 10,
     left: 20,
     padding: 5,
     borderRadius: 5,
   },
   arrowBox: {
     position: "absolute",
-    backgroundColor: colors.fadedBackground,
-    top: Dimensions.get("window").height * 0.2 - 25,
+    top: Dimensions.get("window").height * 0.2 - 30,
     padding: 5,
     borderRadius: 5,
     height: 50,

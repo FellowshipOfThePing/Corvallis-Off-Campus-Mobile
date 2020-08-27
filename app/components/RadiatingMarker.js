@@ -1,13 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
-
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function RadiatingMarker({ coordinate, onPress, title, size = 20 }) {
   const sizeAnim = useRef(new Animated.Value(size)).current;
   const radiusAnim = useRef(new Animated.Value(size / 2)).current;
   const opacityAnim = useRef(new Animated.Value(1)).current;
+  const { colors } = useContext(ThemeContext);
 
   useEffect(() => {
     radiate();
@@ -48,6 +48,7 @@ function RadiatingMarker({ coordinate, onPress, title, size = 20 }) {
           style={[
             styles.ring,
             {
+              borderColor: colors.primaryMarkerRing,
               height: sizeAnim,
               width: sizeAnim,
               borderRadius: radiusAnim,
@@ -59,7 +60,12 @@ function RadiatingMarker({ coordinate, onPress, title, size = 20 }) {
         <View
           style={[
             styles.dot,
-            { borderRadius: size / 2, height: size, width: size },
+            {
+              borderRadius: size / 2,
+              height: size,
+              width: size,
+              backgroundColor: colors.primary,
+            },
           ]}
         />
       </View>
@@ -73,11 +79,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dot: {
-    backgroundColor: colors.primary,
     position: "absolute",
   },
   ring: {
-    borderColor: colors.primaryMarkerRing,
     justifyContent: "center",
     alignItems: "center",
   },

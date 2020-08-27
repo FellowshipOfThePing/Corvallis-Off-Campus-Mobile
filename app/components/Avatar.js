@@ -1,18 +1,29 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import colors from "../config/colors";
-
-function Avatar({ size = 25, color = colors.white, onPress }) {
+function Avatar({ size = 25, color, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <MaterialCommunityIcons
-        name="account-circle-outline"
-        size={size}
-        color={color}
-      />
-    </TouchableOpacity>
+    <>
+      {onPress && (
+        <TouchableOpacity onPress={onPress}>
+          <MaterialCommunityIcons
+            name="account-circle-outline"
+            size={size}
+            color={color}
+          />
+        </TouchableOpacity>
+      )}
+      {!onPress && (
+        <View onPress={onPress}>
+          <MaterialCommunityIcons
+            name="account-circle-outline"
+            size={size}
+            color={color}
+          />
+        </View>
+      )}
+    </>
   );
 }
 

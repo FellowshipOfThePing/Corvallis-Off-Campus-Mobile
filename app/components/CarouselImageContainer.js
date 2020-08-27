@@ -4,11 +4,14 @@ import ActivityIndicator from "./ActivityIndicator";
 
 function CarouselImageContainer({ imageUri }) {
   const [loading, setLoading] = useState(false);
+  const defaultImage = require("../../assets/placeholder.jpg");
 
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: imageUri }}
+        source={
+          imageUri !== null ? { uri: imageUri, cache: "default" } : defaultImage
+        }
         style={styles.image}
         onLoadStart={() => {
           setLoading(true);

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import LottieView from "lottie-react-native";
 import { View, ActivityIndicator } from "react-native";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function SavedSearchIndicator({ loading = true, style }) {
+  const { colors } = useContext(ThemeContext);
   return (
     <View style={style}>
       {loading && <ActivityIndicator color={colors.primary} size="large" />}

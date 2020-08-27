@@ -6,8 +6,6 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 
-import colors from "../config/colors";
-import { View } from "react-native-animatable";
 
 function MapButton({
   size = 44,

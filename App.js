@@ -8,13 +8,10 @@ import firebaseConfig from "./app/auth/config";
 import ApiContext from "./app/api/context";
 import AuthContext from "./app/auth/context";
 import SavedContext from "./app/firestore/context";
+import ThemeContext from "./app/config/ContextWrapper";
 import listingsApi from "./app/api/listings";
 import OfflineNotice from "./app/components/OfflineNotice";
 import useApi from "./app/hooks/useApi";
-import SavedSearchIndicator from "./app/components/SavedSearchIndicator";
-import ImageCarousel from "./app/components/ImageCarousel";
-import CarouselImageContainer from "./app/components/CarouselImageContainer";
-import SettingsScreen from "./app/screens/SettingsScreen";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -143,36 +140,38 @@ export default function App() {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      <ApiContext.Provider
-        value={{ getListingsApi, filterState, setFilterState }}
-      >
-        <SavedContext.Provider
-          value={{
-            addressIDs,
-            setAddressIDs,
-            favorites,
-            setFavorites,
-            refreshing,
-            setRefreshing,
-            getAddressIDs,
-            getFavorites,
-            addFavorite,
-            removeFavorite,
-            setEmail,
-            setDB,
-            getSavedSearches,
-            savedSearches,
-            saveSearch,
-            setSavedSearches,
-          }}
+    <ThemeContext>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <ApiContext.Provider
+          value={{ getListingsApi, filterState, setFilterState }}
         >
-          <OfflineNotice />
-          <NavigationContainer>
-            <DrawerNavigator />
-          </NavigationContainer>
-        </SavedContext.Provider>
-      </ApiContext.Provider>
-    </AuthContext.Provider>
+          <SavedContext.Provider
+            value={{
+              addressIDs,
+              setAddressIDs,
+              favorites,
+              setFavorites,
+              refreshing,
+              setRefreshing,
+              getAddressIDs,
+              getFavorites,
+              addFavorite,
+              removeFavorite,
+              setEmail,
+              setDB,
+              getSavedSearches,
+              savedSearches,
+              saveSearch,
+              setSavedSearches,
+            }}
+          >
+            <OfflineNotice />
+            <NavigationContainer>
+              <DrawerNavigator />
+            </NavigationContainer>
+          </SavedContext.Provider>
+        </ApiContext.Provider>
+      </AuthContext.Provider>
+    </ThemeContext>
   );
 }

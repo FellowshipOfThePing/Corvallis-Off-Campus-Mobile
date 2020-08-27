@@ -6,69 +6,91 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Avatar from "../components/Avatar";
-import colors from "../config/colors";
-
-const borderColor = colors.medium;
-const textColor = colors.dark;
+import ThemeContext from "../config/context";
 
 function SettingsScreen({ navigation }) {
-  const [isLefty, setIsLefty] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { user, setUser } = useContext(AuthContext);
+  const { colors, darkMode, toggleTheme } = useContext(ThemeContext);
 
+  const [isLefty, setIsLefty] = useState(false);
   const toggleLefty = () => setIsLefty((previousState) => !previousState);
-  const toggleDarkMode = () => setIsDarkMode((previousState) => !previousState);
+
+  const borderColor = colors.medium;
+  const textColor = colors.dark;
 
   return (
-    <Screen style={styles.container}>
-      <View style={styles.headerSection}>
+    <Screen style={[styles.container, { backgroundColor: colors.light }]}>
+      <View
+        style={[
+          styles.headerSection,
+          { backgroundColor: colors.white, borderColor: borderColor },
+        ]}
+      >
         <Avatar color={colors.black} size={100} />
-        <AppText style={styles.username}>Username</AppText>
-        <AppText style={styles.email}>email@email.com</AppText>
+        <AppText style={styles.username}>
+          {user && user.name ? user.name : ""}
+        </AppText>
+        <AppText style={{ color: textColor }}>
+          {user ? user.email : "User Not Logged In"}
+        </AppText>
       </View>
       <View style={styles.optionsSection}>
-        <View style={styles.optionsBox}>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.rowContent}>
-              <>
-                <View style={{ flexDirection: "row" }}>
-                  <MaterialCommunityIcons
-                    name="pencil-circle"
-                    size={24}
-                    color={colors.black}
-                    style={{ paddingRight: 5 }}
-                  />
-                  <AppText style={styles.optionText}>
-                    Edit Username/Email
-                  </AppText>
-                </View>
-                <MaterialCommunityIcons
-                  name="chevron-right"
-                  size={30}
-                  color={textColor}
-                />
-              </>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.rowContent}>
-              <>
-                <View style={{ flexDirection: "row" }}>
-                  <MaterialIcons
-                    name="verified-user"
-                    size={24}
-                    color={colors.black}
-                    style={{ paddingRight: 5 }}
-                  />
-                  <AppText style={styles.optionText}>Change Password</AppText>
-                </View>
-                <MaterialCommunityIcons
-                  name="chevron-right"
-                  size={30}
-                  color={textColor}
-                />
-              </>
-            </TouchableOpacity>
-          </View>
+        <View
+          style={[
+            styles.optionsBox,
+            { backgroundColor: colors.white, borderColor: borderColor },
+          ]}
+        >
+          {user && (
+            <>
+              <View style={styles.row}>
+                <TouchableOpacity style={styles.rowContent}>
+                  <>
+                    <View style={{ flexDirection: "row" }}>
+                      <MaterialCommunityIcons
+                        name="pencil-circle"
+                        size={24}
+                        color={colors.black}
+                        style={{ paddingRight: 5 }}
+                      />
+                      <AppText
+                        style={[styles.optionText, { color: textColor }]}
+                      >
+                        Edit Username/Email
+                      </AppText>
+                    </View>
+                    <MaterialCommunityIcons
+                      name="chevron-right"
+                      size={30}
+                      color={textColor}
+                    />
+                  </>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.row}>
+                <TouchableOpacity style={styles.rowContent}>
+                  <>
+                    <View style={{ flexDirection: "row" }}>
+                      <MaterialIcons
+                        name="verified-user"
+                        size={24}
+                        color={colors.black}
+                        style={{ paddingRight: 5 }}
+                      />
+                      <AppText style={styles.optionText}>
+                        Change Password
+                      </AppText>
+                    </View>
+                    <MaterialCommunityIcons
+                      name="chevron-right"
+                      size={30}
+                      color={textColor}
+                    />
+                  </>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
           <View style={[styles.row, styles.rowContent]}>
             <View style={{ flexDirection: "row" }}>
               <MaterialCommunityIcons
@@ -80,11 +102,11 @@ function SettingsScreen({ navigation }) {
               <AppText style={styles.optionText}>Dark Mode</AppText>
             </View>
             <Switch
-              trackColor={{ true: colors.primary, false: colors.dark }}
-              thumbColor={isLefty ? colors.white : colors.white}
+              trackColor={{ true: colors.primary, false: colors.light }}
+              thumbColor={darkMode ? colors.black : colors.white}
               ios_backgroundColor={colors.dark}
-              onValueChange={toggleDarkMode}
-              value={isDarkMode}
+              onValueChange={toggleTheme}
+              value={darkMode}
               style={{ borderWidth: 1, borderColor: borderColor }}
             />
           </View>
@@ -99,8 +121,8 @@ function SettingsScreen({ navigation }) {
               <AppText style={styles.optionText}>Left Handed</AppText>
             </View>
             <Switch
-              trackColor={{ true: colors.primary, false: colors.dark }}
-              thumbColor={isLefty ? colors.white : colors.white}
+              trackColor={{ true: colors.primary, false: colors.light }}
+              thumbColor={darkMode ? colors.black : colors.white}
               ios_backgroundColor={colors.dark}
               onValueChange={toggleLefty}
               value={isLefty}
@@ -116,7 +138,6 @@ function SettingsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    backgroundColor: colors.light,
   },
   headerSection: {
     flex: 2,
@@ -125,13 +146,8 @@ const styles = StyleSheet.create({
     width: "85%",
     alignSelf: "center",
     borderWidth: 1,
-    borderColor: borderColor,
     borderRadius: 15,
     margin: 20,
-    backgroundColor: colors.white,
-  },
-  email: {
-    color: textColor,
   },
   username: {
     fontSize: 25,
@@ -143,9 +159,7 @@ const styles = StyleSheet.create({
     width: "95%",
     alignSelf: "center",
     borderWidth: 1,
-    borderColor: borderColor,
     borderRadius: 15,
-    backgroundColor: colors.white,
   },
   row: {
     width: "100%",
@@ -160,7 +174,6 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 19,
-    color: textColor,
   },
 });
 

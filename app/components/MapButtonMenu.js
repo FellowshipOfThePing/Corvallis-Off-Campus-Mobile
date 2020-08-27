@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
-import { View, StyleSheet, Dimensions, Animated, Easing } from "react-native";
+import React, { useRef, useState, useEffect, useContext } from "react";
+import { StyleSheet, Dimensions, Animated, Easing } from "react-native";
 
 import MapButton from "../components/MapButton";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function MapButtonMenu({
   onPressZoomButton,
@@ -10,8 +10,9 @@ function MapButtonMenu({
   onPressFollowButton,
   onPressReturnButton,
   onLongPress,
-  onPressOut
+  onPressOut,
 }) {
+  const { colors } = useContext(ThemeContext);
   const initialHeight = Dimensions.get("window").height * 0.375;
   const animationDuration = 300;
   const [expanded, setExpanded] = useState(true);
@@ -78,7 +79,10 @@ function MapButtonMenu({
       {expanded && (
         <>
           <MapButton
-            style={styles.mapButton}
+            style={[
+              styles.mapButton,
+              { backgroundColor: colors.light, borderColor: colors.black },
+            ]}
             iconName="zoom-out-map"
             iconColor={colors.dark}
             onPress={onPressZoomButton}
@@ -88,7 +92,10 @@ function MapButtonMenu({
             onPressOut={onPressOut}
           />
           <MapButton
-            style={styles.mapButton}
+            style={[
+              styles.mapButton,
+              { backgroundColor: colors.light, borderColor: colors.black },
+            ]}
             iconName="map-marker"
             iconColor={colors.dark}
             onPress={onPressMarkerButton}
@@ -98,7 +105,10 @@ function MapButtonMenu({
             onPressOut={onPressOut}
           />
           <MapButton
-            style={styles.mapButton}
+            style={[
+              styles.mapButton,
+              { backgroundColor: colors.light, borderColor: colors.black },
+            ]}
             iconName="map-marker-distance"
             iconColor={colors.dark}
             onPress={onPressFollowButton}
@@ -108,7 +118,10 @@ function MapButtonMenu({
             onPressOut={onPressOut}
           />
           <MapButton
-            style={styles.mapButton}
+            style={[
+              styles.mapButton,
+              { backgroundColor: colors.light, borderColor: colors.black },
+            ]}
             iconName="keyboard-return"
             iconColor={colors.dark}
             onPress={onPressReturnButton}
@@ -121,7 +134,14 @@ function MapButtonMenu({
       )}
       <Animated.View style={{ transform: [{ rotate: rotate }] }}>
         <MapButton
-          style={[styles.mapButton, { transform: [{ rotate: 3 }] }]}
+          style={[
+            styles.mapButton,
+            {
+              transform: [{ rotate: 3 }],
+              backgroundColor: colors.light,
+              borderColor: colors.black,
+            },
+          ]}
           iconName="arrow-drop-up"
           iconColor={colors.dark}
           onPress={() => setExpanded(!expanded)}
@@ -136,8 +156,6 @@ function MapButtonMenu({
 
 const styles = StyleSheet.create({
   mapButton: {
-    backgroundColor: colors.light,
-    borderColor: colors.black,
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",

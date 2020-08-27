@@ -1,12 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Dimensions, Animated } from "react-native";
-import colors from "../config/colors";
 import AppText from "./AppText";
+import ThemeContext from "../config/context";
 
 const animationDuration = 300;
 
 function MapButtonTitles({ visible }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
+  const { colors } = useContext(ThemeContext);
 
   const fadeOut = () => {
     Animated.timing(opacityAnim, {
@@ -39,7 +40,12 @@ function MapButtonTitles({ visible }) {
   }, [visible]);
 
   return (
-    <Animated.View style={[styles.titleContainer, { opacity: opacityAnim }]}>
+    <Animated.View
+      style={[
+        styles.titleContainer,
+        { opacity: opacityAnim, backgroundColor: colors.fadedBackground2 },
+      ]}
+    >
       <AppText style={styles.title}>Zoom Out</AppText>
       <AppText style={styles.title}>Zoom to Marker</AppText>
       <AppText style={styles.title}>Toggle Map-Follows-Scroll</AppText>
@@ -58,11 +64,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: "space-around",
     alignItems: "flex-start",
-    backgroundColor: colors.fadedBackground2,
     borderRadius: 7,
   },
   title: {
-    color: colors.light,
+    color: "#f8f4f4",
   },
 });
 

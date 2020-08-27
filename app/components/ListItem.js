@@ -1,10 +1,15 @@
-import React from "react";
-import { View, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
+import React, { useContext } from "react";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableWithoutFeedback,
+} from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "./AppText";
-import defaultStyles from "../config/styles";
+import ThemeContext from "../config/context";
 
 function ListItem({
   title,
@@ -15,25 +20,27 @@ function ListItem({
   renderRightActions,
   style,
 }) {
+  const { colors } = useContext(ThemeContext);
   return (
     <Swipeable renderRightActions={renderRightActions}>
-      <TouchableWithoutFeedback
-        underlayColor={defaultStyles.colors.medium}
-        onPress={onPress}
-      >
-        <View style={[styles.container, style]}>
+      <TouchableWithoutFeedback underlayColor={colors.medium} onPress={onPress}>
+        <View
+          style={[styles.container, { backgroundColor: colors.white, style }]}
+        >
           {IconComponent}
           {image && <Image source={image} style={styles.image} />}
           <View style={styles.detailsContainer}>
             <AppText style={styles.title} numberOfLines={1}>
               {title}
             </AppText>
-            {subTitle && <AppText style={styles.subTitle}>{subTitle}</AppText>}
+            {subTitle && (
+              <AppText style={{ color: colors.medium }}>{subTitle}</AppText>
+            )}
           </View>
           <MaterialCommunityIcons
             name="chevron-right"
             size={25}
-            color={defaultStyles.colors.medium}
+            color={colors.medium}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -44,7 +51,6 @@ function ListItem({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: defaultStyles.colors.white,
     alignItems: "center",
   },
   detailsContainer: {
@@ -56,9 +62,6 @@ const styles = StyleSheet.create({
     height: 70,
     width: 70,
     borderRadius: 35,
-  },
-  subTitle: {
-    color: defaultStyles.colors.medium,
   },
   title: {
     fontWeight: "500",

@@ -8,15 +8,16 @@ import ApiContext from "../api/context";
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Card from "../components/Card";
-import colors from "../config/colors";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
+import ThemeContext from "../config/context";
 
 function SavedListingsScreen({ navigation, route }) {
   const { user, setUser } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
+  const { colors } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const ref = useRef(null);
   useScrollToTop(ref);
@@ -52,7 +53,7 @@ function SavedListingsScreen({ navigation, route }) {
 
   return (
     <>
-      <Screen style={styles.screen}>
+      <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
@@ -80,7 +81,9 @@ function SavedListingsScreen({ navigation, route }) {
             />
           )}
           ListEmptyComponent={() => (
-            <View style={styles.defaultCard}>
+            <View
+              style={[styles.defaultCard, { backgroundColor: colors.light }]}
+            >
               <AppText>No Listings Found</AppText>
             </View>
           )}
@@ -93,10 +96,8 @@ function SavedListingsScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   screen: {
     paddingHorizontal: 5,
-    backgroundColor: colors.light,
   },
   defaultCard: {
-    backgroundColor: colors.light,
     borderRadius: 15,
     marginBottom: 20,
     overflow: "hidden",

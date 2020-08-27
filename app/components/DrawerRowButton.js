@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import AppText from "../components/AppText";
-import colors from "../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ThemeContext from "../config/context";
 
-function DrawerRowButton({ text, icon, color = colors.black, onPress, style }) {
+function DrawerRowButton({ text, icon, color, onPress, style }) {
+  const { colors } = useContext(ThemeContext);
   return (
     <TouchableOpacity style={[styles.rowButton, style]} onPress={onPress}>
-      <MaterialCommunityIcons name={icon} size={32} color={color} />
+      <MaterialCommunityIcons name={icon} size={32} color={color ? color : colors.dark} />
       <AppText style={styles.rowButtonText}>{text}</AppText>
     </TouchableOpacity>
   );

@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import AppText from "./AppText";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function IconWithText({
   iconName,
   iconSize = 20,
-  color = colors.medium,
+  color,
   quantity,
   textValue,
   visible,
@@ -23,13 +23,14 @@ function IconWithText({
     iconSizeOverride = Math.round((iconSize * windowWidth) / 500);
   }
 
+  const { colors } = useContext(ThemeContext)
+
   return (
     <>
       <FontAwesome5
         name={iconName}
         size={iconSize || iconSizeOverride}
-        color={color}
-        style={styles.icon}
+        color={color ? color : colors.dark}
       />
       <AppText style={styles.iconText}>
         {quantity} {textValue}
@@ -45,5 +46,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     fontSize: 15,
   },
-  icon: {},
 });

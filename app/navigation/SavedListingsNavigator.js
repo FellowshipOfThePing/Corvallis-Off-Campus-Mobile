@@ -1,72 +1,83 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import SavedListingsScreen from "../screens/SavedListingsScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
-import colors from "../config/colors";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
 import FilterModalScreen from "../screens/FilterModalScreen";
+import ThemeContext from "../config/context";
 
 const Stack = createStackNavigator();
 
-const SavedListingsNavigator = () => (
-  <Stack.Navigator
-    mode="modal"
-    screenOptions={{
-      gestureResponseDistance: { vertical: 500 },
-      gestureVelocityImpact: 0.6,
-    }}
-  >
-    <Stack.Screen
-      name="Saved Listings"
-      component={SavedListingsScreen}
-      options={({ navigation }) => ({
-        headerShown: true,
-        headerStyle: {
-          backgroundColor: colors.primary,
-        },
-        headerTitleStyle: {
-          paddingBottom: 8,
-          fontSize: 18,
-        },
-        headerTintColor: colors.white,
-        headerLeft: () => {
-          return <Avatar size={35} onPress={() => navigation.openDrawer()} />;
-        },
-        headerLeftContainerStyle: {
-          paddingLeft: 10,
-          paddingBottom: 10,
-        },
-        headerRight: () => {
-          return (
-            <FilterButton
-              size={35}
-              onPress={() => navigation.navigate("FilterScreen")}
-            />
-          );
-        },
-        headerRightContainerStyle: {
-          paddingRight: 10,
-          paddingBottom: 10,
-        },
-      })}
-    />
-    <Stack.Screen
-      name="ListingDetailNavigator"
-      component={ListingDetailNavigator}
-      options={{
-        headerShown: false,
+const SavedListingsNavigator = () => {
+  const { colors, text } = useContext(ThemeContext);
+  return (
+    <Stack.Navigator
+      mode="modal"
+      screenOptions={{
+        gestureResponseDistance: { vertical: 500 },
+        gestureVelocityImpact: 0.6,
       }}
-    />
-    <Stack.Screen
-      name="FilterScreen"
-      component={FilterModalScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-  </Stack.Navigator>
-);
+    >
+      <Stack.Screen
+        name="Saved Listings"
+        component={SavedListingsScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.primary,
+          },
+          headerTitleStyle: {
+            paddingBottom: 5,
+            fontSize: 18,
+            fontFamily: text.fontFamily,
+          },
+          headerTintColor: colors.white,
+          headerLeft: () => {
+            return (
+              <Avatar
+                size={35}
+                color={colors.white}
+                onPress={() => navigation.openDrawer()}
+              />
+            );
+          },
+          headerLeftContainerStyle: {
+            paddingLeft: 10,
+            paddingBottom: 10,
+          },
+          headerRight: () => {
+            return (
+              <FilterButton
+                size={35}
+                color={colors.white}
+                onPress={() => navigation.navigate("FilterScreen")}
+              />
+            );
+          },
+          headerRightContainerStyle: {
+            paddingRight: 10,
+            paddingBottom: 10,
+          },
+        })}
+      />
+      <Stack.Screen
+        name="ListingDetailNavigator"
+        component={ListingDetailNavigator}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="FilterScreen"
+        component={FilterModalScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export default SavedListingsNavigator;

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 
 import AppText from "./AppText";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 import Heart from "./Heart";
 import IconRow from "./IconRow";
 import ListItem from "./ListItem";
@@ -21,18 +21,23 @@ function ListingDetails({
   } else {
     var providerImage = require("../../assets/Local.png");
   }
+  const { colors } = useContext(ThemeContext);
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[{ backgroundColor: colors.white }, style]}>
       <View style={styles.listingInfo}>
         <View style={styles.topRow}>
-          <AppText style={styles.price}>${listing.price_high}/mo</AppText>
+          <AppText style={[styles.price, { color: colors.black }]}>
+            ${listing.price_high}/mo
+          </AppText>
           <Heart size={35} saved={saved} onPress={onPressHeart} />
         </View>
         <IconRow listing={listing} fullSize style={styles.iconRow} />
         <AppText>{listing.address}</AppText>
       </View>
-      <View style={styles.providerContainer}>
+      <View
+        style={[styles.providerContainer, { borderTopColor: colors.medium }]}
+      >
         {providerImage && (
           <ListItem
             image={providerImage}
@@ -51,9 +56,6 @@ function ListingDetails({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-  },
   iconRow: {
     marginVertical: 10,
   },
@@ -62,13 +64,11 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   price: {
-    color: colors.black,
     flex: 1,
     fontSize: 30,
     fontWeight: "bold",
   },
   providerContainer: {
-    borderTopColor: colors.medium,
     borderTopWidth: 1,
     paddingTop: 15,
   },

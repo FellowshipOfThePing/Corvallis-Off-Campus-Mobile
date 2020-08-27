@@ -10,15 +10,16 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 
 import AuthContext from "../auth/context";
-import colors from "../config/colors";
 import Button from "../components/Button";
 import Screen from "../components/Screen";
+import ThemeContext from "../config/context";
 
 function Signup({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
+  const { colors } = useContext(ThemeContext);
 
   const createFavorites = (email) => {
     const db = firebase.firestore();
@@ -61,7 +62,10 @@ function Signup({ navigation }) {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={styles.inputBox}
+            style={[
+              styles.inputBox,
+              { borderColor: colors.gray, color: colors.black },
+            ]}
             value={name}
             onChangeText={(name) => setName(name)}
             placeholder="Name"
@@ -69,7 +73,10 @@ function Signup({ navigation }) {
             placeholderTextColor={colors.medium}
           />
           <TextInput
-            style={styles.inputBox}
+            style={[
+              styles.inputBox,
+              { borderColor: colors.gray, color: colors.black },
+            ]}
             value={email}
             onChangeText={(email) => setEmail(email)}
             placeholder="Email"
@@ -77,7 +84,10 @@ function Signup({ navigation }) {
             placeholderTextColor={colors.medium}
           />
           <TextInput
-            style={styles.inputBox}
+            style={[
+              styles.inputBox,
+              { borderColor: colors.gray, color: colors.black },
+            ]}
             value={password}
             onChangeText={(password) => setPassword(password)}
             placeholder="Password"
@@ -112,10 +122,8 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 15,
     fontSize: 18,
-    borderColor: colors.gray,
     borderBottomWidth: 1,
     textAlign: "center",
-    color: colors.black,
   },
   inputContainer: {
     alignItems: "center",

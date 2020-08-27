@@ -1,15 +1,9 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 
 import Button from "./Button";
 import CardCell from "../components/CardCell";
-import colors from "../config/colors";
-
-const borderWidth = 1;
-const borderColor = colors.gray;
-const iconColor = colors.gray;
-const iconSize = 25;
-const animationDuration = 300;
+import ThemeContext from "../config/context";
 
 function SavedSearchCard({
   savedSearch,
@@ -29,6 +23,13 @@ function SavedSearchCard({
 
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const paddingAnim = useRef(new Animated.Value(0)).current;
+  const { colors } = useContext(ThemeContext);
+
+  const borderWidth = 1;
+  const borderColor = colors.gray;
+  const iconColor = colors.gray;
+  const iconSize = 25;
+  const animationDuration = 300;
 
   const expand = () => {
     Animated.parallel([
@@ -71,13 +72,31 @@ function SavedSearchCard({
       style={[styles.cardContainer, { paddingBottom: paddingAnim }]}
     >
       <TouchableOpacity
-        style={styles.card}
+        style={[
+          styles.card,
+          {
+            backgroundColor: colors.white,
+            borderWidth: borderWidth,
+            borderColor: borderColor,
+          },
+        ]}
         activeOpacity={0.4}
         onPress={onPress}
       >
-        <View style={[styles.cardRow, styles.topRow]}>
+        <View
+          style={[
+            styles.cardRow,
+            { borderBottomWidth: borderWidth, borderBottomColor: borderColor },
+          ]}
+        >
           <CardCell
-            style={[styles.cell, styles.leftCell]}
+            style={[
+              styles.cell,
+              {
+                borderRightColor: borderColor,
+                borderRightWidth: borderWidth,
+              },
+            ]}
             iconName="dollar-sign"
             iconSize={iconSize}
             iconColor={iconColor}
@@ -95,7 +114,13 @@ function SavedSearchCard({
             changed={bedsChanged}
           />
           <CardCell
-            style={[styles.cell, styles.rightCell]}
+            style={[
+              styles.cell,
+              {
+                borderLeftColor: borderColor,
+                borderLeftWidth: borderWidth,
+              },
+            ]}
             iconName="bath"
             iconSize={iconSize}
             iconColor={iconColor}
@@ -106,7 +131,13 @@ function SavedSearchCard({
         </View>
         <View style={styles.cardRow}>
           <CardCell
-            style={[styles.cell, styles.leftCell]}
+            style={[
+              styles.cell,
+              {
+                borderRightColor: borderColor,
+                borderRightWidth: borderWidth,
+              },
+            ]}
             iconName="school"
             iconSize={iconSize}
             iconColor={iconColor}
@@ -126,7 +157,13 @@ function SavedSearchCard({
             changed={walkChanged}
           />
           <CardCell
-            style={[styles.cell, styles.rightCell]}
+            style={[
+              styles.cell,
+              {
+                borderLeftColor: borderColor,
+                borderLeftWidth: borderWidth,
+              },
+            ]}
             iconName="car-side"
             iconSize={iconSize}
             iconColor={iconColor}
@@ -166,9 +203,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "100%",
     height: 200,
-    borderWidth: borderWidth,
-    borderColor: borderColor,
-    backgroundColor: colors.white,
     zIndex: 50,
   },
   cardContainer: {
@@ -179,22 +213,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "50%",
   },
-  topRow: {
-    borderBottomWidth: borderWidth,
-    borderBottomColor: borderColor,
-  },
   cell: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  leftCell: {
-    borderRightColor: borderColor,
-    borderRightWidth: borderWidth,
-  },
-  rightCell: {
-    borderLeftColor: borderColor,
-    borderLeftWidth: borderWidth,
   },
 });
 

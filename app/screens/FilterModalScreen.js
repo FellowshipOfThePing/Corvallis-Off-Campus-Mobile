@@ -5,11 +5,11 @@ import Constants from "expo-constants";
 
 import SliderSection from "../components/SliderSection";
 import Button from "../components/Button";
-import colors from "../config/colors";
 import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import SavedSearchIndicator from "../components/SavedSearchIndicator";
+import ThemeContext from "../config/context";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;
 const fadeDuration = 300;
@@ -26,6 +26,7 @@ export default function FilterModalScreen({ navigation }) {
     saveSearch,
     setSavedSearches,
   } = useContext(SavedContext);
+  const { colors } = useContext(ThemeContext);
 
   const [saving, setSaving] = useState(false);
 
@@ -126,7 +127,7 @@ export default function FilterModalScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.panel}>
+    <View style={[styles.panel, { backgroundColor: colors.white }]}>
       <View style={styles.topRow}>
         <View style={styles.buttonSection}>
           <Button
@@ -136,7 +137,10 @@ export default function FilterModalScreen({ navigation }) {
             textSize={buttonDiameter / 6}
           />
           <Button
-            style={[styles.button, { borderWidth: 2, borderColor: colors.black }]}
+            style={[
+              styles.button,
+              { borderWidth: 2, borderColor: colors.black },
+            ]}
             title="Clear"
             onPress={() => onClear()}
             textSize={buttonDiameter / 6}
@@ -161,9 +165,16 @@ export default function FilterModalScreen({ navigation }) {
             )}
           </Animated.View>
           <Button
-            style={[styles.button, { borderWidth: 2, borderColor: colors.black }]}
+            style={[
+              styles.button,
+              { borderWidth: 2, borderColor: colors.black },
+            ]}
             title={
-              <AntDesign name="close" size={buttonDiameter / 2} color={colors.black} />
+              <AntDesign
+                name="close"
+                size={buttonDiameter / 2}
+                color={colors.black}
+              />
             }
             onPress={() => {
               if (!saving) {
@@ -233,7 +244,6 @@ export default function FilterModalScreen({ navigation }) {
 const styles = StyleSheet.create({
   panel: {
     height: "100%",
-    backgroundColor: colors.white,
     alignItems: "center",
     paddingTop: Constants.statusBarHeight,
   },

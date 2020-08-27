@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function Heart({ saved, onPress, size = 35 }) {
   const handleOnPressLike = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     onPress();
   };
+  const { colors } = useContext(ThemeContext);
 
   return (
     <View style={styles.container}>

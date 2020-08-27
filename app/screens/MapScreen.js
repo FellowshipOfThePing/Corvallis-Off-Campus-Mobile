@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Animated, View, StyleSheet, Dimensions } from "react-native";
+import { Animated, View, StyleSheet, Dimensions, Platform } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -11,15 +11,19 @@ import AppText from "../components/AppText";
 import LoadingModal from "../components/LoadingModal";
 import MapButtonMenu from "../components/MapButtonMenu";
 import MapButtonTitles from "../components/MapButtonTitles";
-import colors from "../config/colors";
 import ToggleFollowModal from "../components/ToggleFollowModal";
+import ThemeContext from "../config/context";
 
 function MapScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
+  const { colors, darkMode } = useContext(ThemeContext);
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
+
+  const darkMapTheme = require("../config/darkMapTheme.json");
+  const lightMapTheme = require("../config/lightMapTheme.json");
 
   const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
@@ -253,6 +257,7 @@ function MapScreen({ navigation, route }) {
         ref={mapRef}
         style={styles.container}
         provider={PROVIDER_GOOGLE}
+        customMapStyle={darkMode ? darkMapTheme : lightMapTheme}
         initialRegion={initialRegion}
         showsTraffic={false}
         loadingEnabled
@@ -321,6 +326,8 @@ function MapScreen({ navigation, route }) {
             style={[
               styles.defaultCard,
               {
+                backgroundColor: colors.mapCardBackground,
+                shadowColor: colors.black,
                 height: CARD_HEIGHT,
                 width: CARD_WIDTH,
                 marginHorizontal: width * 0.05,
@@ -367,8 +374,6 @@ const styles = StyleSheet.create({
   },
   defaultCard: {
     elevation: 2,
-    backgroundColor: colors.mapCardBackground,
-    shadowColor: colors.black,
     shadowRadius: 5,
     shadowOpacity: 0.3,
     overflow: "hidden",

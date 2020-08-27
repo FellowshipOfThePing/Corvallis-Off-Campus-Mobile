@@ -8,16 +8,17 @@ import { useIsFocused } from "@react-navigation/native";
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import ApiContext from "../api/context";
-import colors from "../config/colors";
 import AppText from "../components/AppText";
 import ActivityIndicator from "../components/ActivityIndicator";
 import AuthContext from "../auth/context";
 import SavedContext from "../firestore/context";
+import ThemeContext from "../config/context";
 
 function ListingsScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
+  const { colors } = useContext(ThemeContext);
   const { user, setUser } = useContext(AuthContext);
   const width = Dimensions.get("window").width - 10;
   const isFocused = useIsFocused();
@@ -72,7 +73,7 @@ function ListingsScreen({ navigation, route }) {
 
   return (
     <>
-      <Screen style={styles.screen}>
+      <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
@@ -101,7 +102,9 @@ function ListingsScreen({ navigation, route }) {
             />
           )}
           ListEmptyComponent={() => (
-            <View style={styles.defaultCard}>
+            <View
+              style={[styles.defaultCard, { backgroundColor: colors.white }]}
+            >
               <ActivityIndicator visible={getListingsApi.loading} />
               {!getListingsApi.loading && <AppText>No Listings Found</AppText>}
             </View>
@@ -115,10 +118,8 @@ function ListingsScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   screen: {
     paddingHorizontal: 5,
-    backgroundColor: colors.light,
   },
   defaultCard: {
-    backgroundColor: colors.white,
     borderRadius: 15,
     marginBottom: 20,
     overflow: "hidden",

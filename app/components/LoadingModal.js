@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-import colors from "../config/colors";
+import ThemeContext from "../config/context";
 
 function LoadingModal() {
+  const { colors } = useContext(ThemeContext);
   return (
-    <View style={styles.container}>
-      <ActivityIndicator animating={true} size="large" color={colors.primary}/>
+    <View style={[styles.container, { backgroundColor: colors.white }]}>
+      <ActivityIndicator animating={true} size="large" color={colors.primary} />
     </View>
   );
 }
@@ -16,7 +17,6 @@ const styles = StyleSheet.create({
     width: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.white,
     opacity: 0.9,
     borderRadius: 15,
   },

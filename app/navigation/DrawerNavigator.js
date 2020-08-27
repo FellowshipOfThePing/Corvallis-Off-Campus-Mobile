@@ -7,7 +7,6 @@ import DrawerContent from "../screens/DrawerContent";
 import HomeNavigator from "./HomeNavigator";
 import SavedListingsNavigator from "./SavedListingsNavigator";
 import SavedSearchesNavigator from "./SavedSearchesNavigator";
-import SettingsScreen from "../screens/SettingsScreen";
 import SettingsNavigator from "./SettingsNavigator";
 
 const Drawer = createDrawerNavigator();
@@ -21,7 +20,7 @@ const DrawerNavigator = () => {
       drawerType="slide"
       edgeWidth={swipeBoundary}
     >
-      <Drawer.Screen name="Home" component={HomeNavigator} />
+      <Drawer.Screen name="Home" component={HomeNavigator} options={{ swipeEnabled: false }}/>
       <Drawer.Screen name="AuthNavigator" component={AuthNavigator} />
       <Drawer.Screen
         name="SavedListingsNavigator"

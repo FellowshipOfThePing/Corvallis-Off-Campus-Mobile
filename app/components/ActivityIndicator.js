@@ -2,8 +2,6 @@ import React from "react";
 import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 
-import colors from "../config/colors";
-
 function ActivityIndicator({ visible = false, style }) {
   if (!visible) return null;
 
