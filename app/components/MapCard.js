@@ -11,7 +11,7 @@ import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ThemeContext from "../theme/context";
 
-export default React.memo(({ onPress, listing, style }) => {
+const MapCard = ({ onPress, listing, style }) => {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
   const [loading, setLoading] = useState(true);
   const { colors } = useContext(ThemeContext);
@@ -54,7 +54,7 @@ export default React.memo(({ onPress, listing, style }) => {
       </View>
     </TouchableWithoutFeedback>
   );
-});
+};
 
 const styles = StyleSheet.create({
   card: {
@@ -95,3 +95,5 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
 });
+
+export default React.memo(MapCard);

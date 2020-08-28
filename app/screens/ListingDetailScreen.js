@@ -112,7 +112,9 @@ function ListingDetailScreen({ navigation, route }) {
         />
       )}
       {listing.images.length === 1 && (
-        <View style={styles.imageContainer}>
+        <View
+          style={[styles.imageContainer, { backgroundColor: colors.white }]}
+        >
           <Image
             source={
               imageUri.length != 0

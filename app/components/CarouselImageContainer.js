@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CarouselImageContainer;
+export default React.memo(CarouselImageContainer);

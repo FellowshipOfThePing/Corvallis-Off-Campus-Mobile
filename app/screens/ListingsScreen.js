@@ -86,6 +86,7 @@ function ListingsScreen({ navigation, route }) {
           ref={ref}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
+          initialNumToRender={10}
           data={getListingsApi.data}
           extraData={favorites}
           keyExtractor={(listing) => listing.address_id.toString()}
@@ -117,7 +118,7 @@ function ListingsScreen({ navigation, route }) {
               {!getListingsApi.loading && <AppText>No Listings Found</AppText>}
             </View>
           )}
-        ></FlatList>
+        />
       </Screen>
     </>
   );

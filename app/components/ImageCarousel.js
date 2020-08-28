@@ -14,16 +14,6 @@ function ImageCarousel({ listing, style }) {
   const [index, setIndex] = useState(1);
   const { colors } = useContext(ThemeContext);
 
-  // const opacityAnim = useRef(new Animated.Value(1)).current;
-
-  // const fadeOutArrows = () => {
-  //   Animated.timing(opacityAnim, {
-  //     duration: 500,
-  //     toValue: 0,
-  //     delay: 2000,
-  //   }).start();
-  // };
-
   const onScrolled = (e) => {
     let offsetX = e.nativeEvent.targetContentOffset.x;
     let newIndex = offsetX / width + 1;
@@ -31,10 +21,6 @@ function ImageCarousel({ listing, style }) {
       setIndex(newIndex);
     }
   };
-
-  // useEffect(() => {
-  //   fadeOutArrows();
-  // }, []);
 
   return (
     <View style={style}>
@@ -44,6 +30,7 @@ function ImageCarousel({ listing, style }) {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         horizontal
+        initialNumToRender={5}
         onScrollEndDrag={(e) => onScrolled(e)}
         snapToInterval={width}
         snapToAlignment="center"
@@ -65,30 +52,6 @@ function ImageCarousel({ listing, style }) {
           {index}/{listing.images.length}
         </AppText>
       </View>
-      {/* <Animated.View
-        style={[
-          styles.arrowBox,
-          {
-            opacity: opacityAnim,
-            left: 20,
-            backgroundColor: colors.fadedBackground,
-          },
-        ]}
-      >
-        <MaterialCommunityIcons name="chevron-left" color="white" size={25} />
-      </Animated.View>
-      <Animated.View
-        style={[
-          styles.arrowBox,
-          {
-            opacity: opacityAnim,
-            right: 20,
-            backgroundColor: colors.fadedBackground,
-          },
-        ]}
-      >
-        <MaterialCommunityIcons name="chevron-right" color="white" size={25} />
-      </Animated.View> */}
     </View>
   );
 }
