@@ -1,4 +1,7 @@
 import React, { useState, useContext } from "react";
+import * as firebase from "firebase";
+import "firebase/firestore";
+
 import SavedContext from "./context";
 import ApiContext from "../api/context";
 
@@ -8,10 +11,10 @@ export default ({ children }) => {
   const [savedSearches, setSavedSearches] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [email, setEmail] = useState(null);
-  const [db, setDB] = useState(null);
+  const [db, setDB] = useState(firebase.firestore());
   const { getListingsApi } = useContext(ApiContext);
 
-  const getAddressIDs = async () => {
+  const getAddressIDs = () => {
     const docRef = db.collection("Users").doc(email);
     docRef
       .get()
@@ -120,7 +123,7 @@ export default ({ children }) => {
         addFavorite,
         removeFavorite,
         setEmail,
-        setDB,
+        db,
         getSavedSearches,
         savedSearches,
         saveSearch,

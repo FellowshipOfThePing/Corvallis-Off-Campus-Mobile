@@ -15,7 +15,7 @@ import ThemeContext from "../theme/context";
 
 function DrawerContent({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
-  const { setAddressIDs, setFavorites, setEmail, setDB } = useContext(
+  const { setAddressIDs, setFavorites, setEmail } = useContext(
     SavedContext
   );
   const [loading, setLoading] = useState(false);
@@ -28,7 +28,6 @@ function DrawerContent({ navigation }) {
       .signOut()
       .then(() => {
         setEmail(null);
-        setDB(null);
         setFavorites([]);
         setAddressIDs([]);
         navigation.navigate("Home");
