@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import { StyleSheet, Dimensions, Animated, Easing } from "react-native";
 
 import MapButton from "../components/MapButton";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function MapButtonMenu({
   onPressZoomButton,

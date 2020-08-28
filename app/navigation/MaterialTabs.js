@@ -4,7 +4,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 
 import FeedNavigator from "./FeedNavigator";
 import MapNavigator from "./MapNavigator";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const Tab = createMaterialBottomTabNavigator();
 

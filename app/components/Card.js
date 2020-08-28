@@ -10,7 +10,7 @@ import ActivityIndicator from "./ActivityIndicator";
 import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";

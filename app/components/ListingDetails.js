@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 
 import AppText from "./AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import Heart from "./Heart";
 import IconRow from "./IconRow";
 import ListItem from "./ListItem";

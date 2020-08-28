@@ -10,7 +10,7 @@ import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import SavedSearchCard from "../components/SavedSearchCard";
 import Screen from "../components/Screen";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedSearchesScreen({ navigation }) {

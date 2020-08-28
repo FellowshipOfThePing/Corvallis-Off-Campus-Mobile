@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import SettingsScreen from "../screens/SettingsScreen";
 import Avatar from "../components/Avatar";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
 

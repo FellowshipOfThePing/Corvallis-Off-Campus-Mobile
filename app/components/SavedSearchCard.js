@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 
 import Button from "./Button";
 import CardCell from "../components/CardCell";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function SavedSearchCard({
   savedSearch,

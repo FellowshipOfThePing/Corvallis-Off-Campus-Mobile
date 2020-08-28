@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function RadiatingMarker({ coordinate, onPress, title, size = 20 }) {
   const sizeAnim = useRef(new Animated.Value(size)).current;

@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import CarouselImageContainer from "./CarouselImageContainer";
 import AppText from "./AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import Constants from "expo-constants";
 
 const width = Dimensions.get("window").width;

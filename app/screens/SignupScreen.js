@@ -12,7 +12,7 @@ import "firebase/firestore";
 import AuthContext from "../auth/context";
 import Button from "../components/Button";
 import Screen from "../components/Screen";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function Signup({ navigation }) {

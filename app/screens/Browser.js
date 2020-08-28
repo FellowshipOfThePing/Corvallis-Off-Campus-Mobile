@@ -4,7 +4,7 @@ import { WebView } from "react-native-webview";
 
 import Screen from "../components/Screen";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function Browser({ route }) {
   const { darkMode } = useContext(ThemeContext);

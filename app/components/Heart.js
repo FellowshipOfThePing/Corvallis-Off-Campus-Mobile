@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function Heart({ saved, onPress, size = 35 }) {
   const handleOnPressLike = () => {

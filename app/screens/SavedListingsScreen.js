@@ -10,7 +10,7 @@ import AuthContext from "../auth/context";
 import Card from "../components/Card";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedListingsScreen({ navigation, route }) {
