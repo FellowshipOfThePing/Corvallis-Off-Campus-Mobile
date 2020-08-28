@@ -12,7 +12,7 @@ function MapButtonMenu({
   onLongPress,
   onPressOut,
 }) {
-  const { colors } = useContext(ThemeContext);
+  const { colors, isLefty } = useContext(ThemeContext);
   const initialHeight = Dimensions.get("window").height * 0.375;
   const animationDuration = 300;
   const [expanded, setExpanded] = useState(true);
@@ -75,7 +75,13 @@ function MapButtonMenu({
   };
 
   return (
-    <Animated.View style={[styles.sideButtonContainer, { height: heightAnim }]}>
+    <Animated.View
+      style={[
+        styles.sideButtonContainer,
+        { height: heightAnim },
+        isLefty ? { right: 5 } : { left: 5 },
+      ]}
+    >
       {expanded && (
         <>
           <MapButton
@@ -162,7 +168,6 @@ const styles = StyleSheet.create({
   },
   sideButtonContainer: {
     position: "absolute",
-    left: 5,
     top: Dimensions.get("window").height / 8,
     paddingHorizontal: 5,
     justifyContent: "space-around",

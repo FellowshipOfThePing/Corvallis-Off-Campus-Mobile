@@ -41,6 +41,7 @@ const darkTheme = {
 export default ({ children }) => {
   const [colors, setColors] = useState(lightTheme);
   const [darkMode, setDarkMode] = useState(false);
+  const [isLefty, setIsLefty] = useState(false);
 
   const text = {
     color: colors.dark,
@@ -48,7 +49,7 @@ export default ({ children }) => {
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
   };
 
-  function toggleTheme() {
+  const toggleTheme = () => {
     if (darkMode) {
       setColors(lightTheme);
       setDarkMode(false);
@@ -56,10 +57,16 @@ export default ({ children }) => {
       setColors(darkTheme);
       setDarkMode(true);
     }
-  }
+  };
+
+  const toggleLefty = () => {
+    setIsLefty((previous) => !previous);
+  };
 
   return (
-    <ThemeContext.Provider value={{ colors, text, toggleTheme, darkMode }}>
+    <ThemeContext.Provider
+      value={{ colors, text, toggleTheme, darkMode, isLefty, toggleLefty }}
+    >
       {children}
     </ThemeContext.Provider>
   );

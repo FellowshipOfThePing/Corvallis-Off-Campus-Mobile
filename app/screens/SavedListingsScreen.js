@@ -92,7 +92,7 @@ function SavedListingsScreen({ navigation, route }) {
               <AppText>No Listings Found</AppText>
             </View>
           )}
-        ></FlatList>
+        />
       </Screen>
     </>
   );
