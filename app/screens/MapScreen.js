@@ -126,7 +126,7 @@ function MapScreen({ navigation, route }) {
         latitudeDelta: zoomedOutDelta.latitude + 0.1,
         longitudeDelta: zoomedOutDelta.latitude,
       },
-      700
+      750
     );
   };
 
@@ -135,10 +135,10 @@ function MapScreen({ navigation, route }) {
       {
         latitude: listing_data[mapIndex].latitude,
         longitude: listing_data[mapIndex].longitude,
-        latitudeDelta: zoomedOutDelta.latitude - 0.05,
+        latitudeDelta: zoomedOutDelta.latitude * 0.05,
         longitudeDelta: 0,
       },
-      700
+      750
     );
   };
 
@@ -261,7 +261,10 @@ function MapScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <FocusAwareStatusBar barStyle={darkMode ? "light-content" : "dark-content"} backgroundColor="#6a51ae" />
+      <FocusAwareStatusBar
+        barStyle={darkMode ? "light-content" : "dark-content"}
+        backgroundColor="#6a51ae"
+      />
       <MapView
         ref={mapRef}
         style={styles.container}
