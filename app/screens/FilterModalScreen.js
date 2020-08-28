@@ -17,8 +17,8 @@ const fadeDuration = 300;
 
 export default function FilterModalScreen({ navigation }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
-  const { user, setUser } = useContext(AuthContext);
-  const { getListingsApi, filterState, setFilterState } = useContext(
+  const { user } = useContext(AuthContext);
+  const { filterState, setFilterState } = useContext(
     ApiContext
   );
   const {

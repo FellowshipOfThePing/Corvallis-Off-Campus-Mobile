@@ -1,12 +1,5 @@
 import React, { useState, useContext } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import * as firebase from "firebase";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import "firebase/firestore";
 import * as Yup from "yup";
 
@@ -19,7 +12,6 @@ import {
 import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Screen from "../components/Screen";
-import SavedContext from "../firestore/context";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
@@ -30,48 +22,27 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
-  const { user, setUser } = useContext(AuthContext);
-  const { setEmail } = useContext(SavedContext);
-  const [loading, setLoading] = useState(false);
-  const [loginFailed, setLoginFailed] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { signIn, loginErrorMessage, handleLoginError } = useContext(
+    AuthContext
+  );
   const { colors, darkMode } = useContext(ThemeContext);
 
-  const handleError = (error) => {
-    console.log("[NETWORK] Error logging in:", error);
-    let errorString = error.toString();
-    if (errorString.includes("no user record")) {
-      setErrorMessage("No account with that username was found");
-    } else if (errorString.includes("password is invalid")) {
-      setErrorMessage("Incorrect Password");
-    } else {
-      setErrorMessage("Too many login attempts. Try again later.");
-    }
-  };
+  const [loading, setLoading] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [submitPressed, setSubmitPressed] = useState(false);
 
-  const handleSubmit = ({ email, password }) => {
-    setLoading(true);
+  const handleSubmit = async ({ email, password }) => {
     setLoginFailed(false);
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        setUser({
-          name: firebase.auth().currentUser.displayName,
-          email,
-          password,
-        });
-        setEmail(firebase.auth().currentUser.email);
-        navigation.navigate("Home");
-        console.log("[NETWORK] Logged In");
-        setLoading(false);
-        return setLoginFailed(false);
-      })
-      .catch((error) => {
-        handleError(error);
-        setLoading(false);
-        return setLoginFailed(true);
-      });
+    setLoading(true);
+    const signedIn = await signIn(email, password);
+    if (signedIn === false) {
+      setLoginFailed(true);
+      setLoading(false);
+      return;
+    }
+    navigation.navigate("Home");
+    setLoginFailed(false);
+    setLoading(false);
   };
 
   return (
@@ -107,7 +78,7 @@ function LoginScreen({ navigation }) {
               selectionColor={colors.dark}
               textContentType="emailAddress"
               name="email"
-              error={false}
+              error={submitPressed}
             />
             <AppFormField
               style={[
@@ -124,9 +95,9 @@ function LoginScreen({ navigation }) {
               selectionColor={colors.dark}
               textContentType="password"
               name="password"
-              error={false}
+              error={submitPressed}
             />
-            <ErrorMessage error={errorMessage} visible={loginFailed} />
+            <ErrorMessage error={loginErrorMessage} visible={loginFailed} />
           </View>
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator
@@ -139,6 +110,10 @@ function LoginScreen({ navigation }) {
               color={colors.primary}
               textColor={colors.navHeaderText}
               title="Login"
+              onPress={() => {
+                handleLoginError("");
+                setSubmitPressed(true);
+              }}
             />
             <TouchableOpacity
               style={styles.signUpText}

@@ -4,15 +4,16 @@ import "firebase/firestore";
 
 import SavedContext from "./context";
 import ApiContext from "../api/context";
+import AuthContext from "../auth/context";
 
 export default ({ children }) => {
+  const { email, db } = useContext(AuthContext);
+  const { getListingsApi } = useContext(ApiContext);
+  
   const [addressIDs, setAddressIDs] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [savedSearches, setSavedSearches] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [email, setEmail] = useState(null);
-  const [db, setDB] = useState(firebase.firestore());
-  const { getListingsApi } = useContext(ApiContext);
 
   const getAddressIDs = () => {
     const docRef = db.collection("Users").doc(email);
@@ -122,8 +123,6 @@ export default ({ children }) => {
         getFavorites,
         addFavorite,
         removeFavorite,
-        setEmail,
-        db,
         getSavedSearches,
         savedSearches,
         saveSearch,

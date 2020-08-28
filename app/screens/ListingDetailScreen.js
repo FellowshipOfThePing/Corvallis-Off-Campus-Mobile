@@ -35,15 +35,9 @@ const getDirections = async (startLoc, destinationLoc, mode) => {
 };
 
 function ListingDetailScreen({ navigation, route }) {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const {
     addressIDs,
-    setAddressIDs,
-    favorites,
-    setFavorites,
-    refreshing,
-    setRefreshing,
-    getAddressIDs,
     getFavorites,
     addFavorite,
     removeFavorite,

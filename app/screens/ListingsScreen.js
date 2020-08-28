@@ -26,7 +26,7 @@ function ListingsScreen({ navigation, route }) {
     ApiContext
   );
   const { colors } = useContext(ThemeContext);
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const width = Dimensions.get("window").width - 10;
   const isFocused = useIsFocused();
   const ref = useRef(null);
@@ -35,12 +35,7 @@ function ListingsScreen({ navigation, route }) {
 
   const {
     addressIDs,
-    setAddressIDs,
     favorites,
-    setFavorites,
-    refreshing,
-    setRefreshing,
-    getAddressIDs,
     getFavorites,
     addFavorite,
     removeFavorite,
