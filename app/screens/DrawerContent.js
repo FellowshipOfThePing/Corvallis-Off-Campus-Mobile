@@ -14,8 +14,8 @@ import SavedContext from "../firestore/context";
 import ThemeContext from "../theme/context";
 
 function DrawerContent({ navigation }) {
-  const { user, setUser } = useContext(AuthContext);
-  const { setAddressIDs, setFavorites, setEmail } = useContext(
+  const { user, setUser, setEmail } = useContext(AuthContext);
+  const { setAddressIDs, setFavorites,  } = useContext(
     SavedContext
   );
   const [loading, setLoading] = useState(false);

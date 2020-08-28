@@ -14,28 +14,21 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedListingsScreen({ navigation, route }) {
-  const { user, setUser } = useContext(AuthContext);
-  const { getListingsApi, filterState, setFilterState } = useContext(
-    ApiContext
-  );
+  const { getListingsApi } = useContext(ApiContext);
   const { colors, darkMode } = useContext(ThemeContext);
-  const isFocused = useIsFocused();
-  const ref = useRef(null);
-  useScrollToTop(ref);
-  const [tapped, setTapped] = useState(false);
-
   const {
     addressIDs,
-    setAddressIDs,
     favorites,
-    setFavorites,
     refreshing,
-    setRefreshing,
-    getAddressIDs,
     getFavorites,
     addFavorite,
     removeFavorite,
   } = useContext(SavedContext);
+
+  const [tapped, setTapped] = useState(false);
+  const isFocused = useIsFocused();
+  const ref = useRef(null);
+  useScrollToTop(ref);
 
   const onHeartPress = (listing) => {
     if (addressIDs.includes(listing.address_id)) {
