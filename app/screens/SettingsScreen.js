@@ -11,10 +11,9 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SettingsScreen({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
-  const { colors, darkMode, toggleTheme } = useContext(ThemeContext);
-
-  const [isLefty, setIsLefty] = useState(false);
-  const toggleLefty = () => setIsLefty((previousState) => !previousState);
+  const { colors, darkMode, toggleTheme, isLefty, toggleLefty } = useContext(
+    ThemeContext
+  );
 
   const borderColor = colors.medium;
   const textColor = colors.dark;

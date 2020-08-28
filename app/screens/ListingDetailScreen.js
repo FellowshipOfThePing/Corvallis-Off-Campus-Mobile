@@ -48,7 +48,7 @@ function ListingDetailScreen({ navigation, route }) {
     addFavorite,
     removeFavorite,
   } = useContext(SavedContext);
-  const { colors, darkMode } = useContext(ThemeContext);
+  const { colors, darkMode, isLefty } = useContext(ThemeContext);
 
   const listing = route.params.listing;
   const [coords, setCoords] = useState([]);
@@ -184,7 +184,7 @@ function ListingDetailScreen({ navigation, route }) {
           </Marker>
         </MapView>
         <GoToMapButton
-          style={styles.mapButton}
+          style={[styles.mapButton, isLefty ? { right: 10 } : { left: 10 }]}
           onPress={() =>
             navigation.navigate("Map", {
               screen: "MapScreen",
@@ -214,7 +214,6 @@ const styles = StyleSheet.create({
   mapButton: {
     position: "absolute",
     top: 10,
-    left: 10,
   },
   mapContainer: {
     flex: 2,

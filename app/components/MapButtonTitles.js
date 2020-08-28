@@ -7,7 +7,7 @@ const animationDuration = 300;
 
 function MapButtonTitles({ visible }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
-  const { colors } = useContext(ThemeContext);
+  const { colors, isLefty } = useContext(ThemeContext);
 
   const fadeOut = () => {
     Animated.timing(opacityAnim, {
@@ -44,6 +44,7 @@ function MapButtonTitles({ visible }) {
       style={[
         styles.titleContainer,
         { opacity: opacityAnim, backgroundColor: colors.fadedBackground2 },
+        isLefty ? { right: 59 } : { left: 59 },
       ]}
     >
       <AppText style={styles.title}>Zoom Out</AppText>
@@ -59,7 +60,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     position: "absolute",
     top: Dimensions.get("window").height / 8,
-    left: 59,
     height: Dimensions.get("window").height * 0.375,
     paddingHorizontal: 10,
     justifyContent: "space-around",
