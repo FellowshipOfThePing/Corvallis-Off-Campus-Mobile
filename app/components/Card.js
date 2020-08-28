@@ -50,7 +50,7 @@ function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
             fullSize
             style={styles.iconRow}
           />
-          <AppText>{listing.address}</AppText>
+          <AppText style={{ paddingTop: 3 }}>{listing.address}</AppText>
         </View>
       </View>
     </TouchableWithoutFeedback>

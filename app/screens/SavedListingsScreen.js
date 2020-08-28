@@ -11,13 +11,14 @@ import Card from "../components/Card";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedListingsScreen({ navigation, route }) {
   const { user, setUser } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const ref = useRef(null);
   useScrollToTop(ref);
@@ -54,6 +55,10 @@ function SavedListingsScreen({ navigation, route }) {
   return (
     <>
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
+        <FocusAwareStatusBar
+          barStyle={darkMode ? "light-content" : "dark-content"}
+          backgroundColor="#6a51ae"
+        />
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}

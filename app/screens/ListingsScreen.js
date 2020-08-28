@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  StatusBar,
+} from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import "firebase/firestore";
 import * as firebase from "firebase";
@@ -13,6 +19,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import AuthContext from "../auth/context";
 import SavedContext from "../firestore/context";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function ListingsScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -73,6 +80,7 @@ function ListingsScreen({ navigation, route }) {
 
   return (
     <>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
         <FlatList
           ref={ref}

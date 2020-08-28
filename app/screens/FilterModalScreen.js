@@ -10,6 +10,7 @@ import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import SavedSearchIndicator from "../components/SavedSearchIndicator";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;
 const fadeDuration = 300;
@@ -26,7 +27,7 @@ export default function FilterModalScreen({ navigation }) {
     saveSearch,
     setSavedSearches,
   } = useContext(SavedContext);
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
 
   const [saving, setSaving] = useState(false);
 
@@ -128,6 +129,7 @@ export default function FilterModalScreen({ navigation }) {
 
   return (
     <View style={[styles.panel, { backgroundColor: colors.white }]}>
+      <FocusAwareStatusBar barStyle={darkMode ? "light-content" : "dark-content"} backgroundColor="#6a51ae" />
       <View style={styles.topRow}>
         <View style={styles.buttonSection}>
           <Button

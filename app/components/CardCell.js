@@ -21,10 +21,10 @@ function CardCell({
       <FontAwesome5
         name={iconName}
         size={iconSize}
-        color={changed ? colors.white : iconColor}
+        color={changed ? colors.navHeaderText : iconColor}
       />
       <AppText
-        style={[styles.cellText, changed ? { color: colors.white } : null]}
+        style={[styles.cellText, changed ? { color: colors.navHeaderText } : null]}
       >
         {leftValue} - {rightValue} {endingText}
       </AppText>

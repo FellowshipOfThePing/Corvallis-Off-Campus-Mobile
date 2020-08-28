@@ -16,6 +16,8 @@ const lightTheme = {
   fadedBackground: "rgba(0, 0, 0, 0.2)",
   fadedBackground2: "rgba(0, 0, 0, 0.5)",
   mapCardBackground: "rgba(255, 255, 255, 0.85)",
+  navHeaderBackground: "#d73f09",
+  navHeaderText: "#fff",
 };
 
 const darkTheme = {
@@ -32,6 +34,8 @@ const darkTheme = {
   fadedBackground: "rgba(0, 0, 0, 0.2)",
   fadedBackground2: "rgba(0, 0, 0, 0.5)",
   mapCardBackground: "rgba(0, 0, 0, 0.85)",
+  navHeaderBackground: "#000",
+  navHeaderText: "#fff",
 };
 
 export default ({ children }) => {

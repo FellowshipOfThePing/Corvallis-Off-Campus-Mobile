@@ -12,6 +12,7 @@ import AuthContext from "../auth/context";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ImageCarousel from "../components/ImageCarousel";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -102,6 +103,7 @@ function ListingDetailScreen({ navigation, route }) {
 
   return (
     <>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       {listing.images.length > 1 && (
         <ImageCarousel
           listing={listing}
@@ -137,7 +139,12 @@ function ListingDetailScreen({ navigation, route }) {
             title: listing.provider,
           })
         }
-        style={styles.detailsContainer}
+        style={[
+          styles.detailsContainer,
+          darkMode
+            ? null
+            : { borderBottomWidth: 1, borderBottomColor: colors.dark },
+        ]}
       />
       <View style={styles.mapContainer}>
         <MapView

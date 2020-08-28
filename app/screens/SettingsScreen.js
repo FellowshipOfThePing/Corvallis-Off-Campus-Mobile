@@ -7,6 +7,7 @@ import AppText from "../components/AppText";
 import AuthContext from "../auth/context";
 import Avatar from "../components/Avatar";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SettingsScreen({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
@@ -20,6 +21,7 @@ function SettingsScreen({ navigation }) {
 
   return (
     <Screen style={[styles.container, { backgroundColor: colors.light }]}>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <View
         style={[
           styles.headerSection,

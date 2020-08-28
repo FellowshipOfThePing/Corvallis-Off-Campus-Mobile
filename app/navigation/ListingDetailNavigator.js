@@ -48,9 +48,9 @@ const ListingDetailNavigator = () => {
                 <MaterialCommunityIcons
                   name="chevron-left"
                   size={30}
-                  color={colors.medium}
+                  color={colors.black}
                 />
-                <AppText style={{ paddingTop: 2 }}>Listing</AppText>
+                <AppText style={{ paddingTop: 3 }}>Listing</AppText>
               </TouchableOpacity>
             );
           },

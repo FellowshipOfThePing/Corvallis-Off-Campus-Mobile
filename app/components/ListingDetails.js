@@ -33,7 +33,7 @@ function ListingDetails({
           <Heart size={35} saved={saved} onPress={onPressHeart} />
         </View>
         <IconRow listing={listing} fullSize style={styles.iconRow} />
-        <AppText>{listing.address}</AppText>
+        <AppText style={{ paddingTop: 4 }}>{listing.address}</AppText>
       </View>
       <View
         style={[styles.providerContainer, { borderTopColor: colors.medium }]}

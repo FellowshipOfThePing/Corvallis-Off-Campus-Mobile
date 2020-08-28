@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Animated, View, StyleSheet, Dimensions, Platform } from "react-native";
+import {
+  Animated,
+  View,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  StatusBar,
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -13,6 +20,7 @@ import MapButtonMenu from "../components/MapButtonMenu";
 import MapButtonTitles from "../components/MapButtonTitles";
 import ToggleFollowModal from "../components/ToggleFollowModal";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function MapScreen({ navigation, route }) {
   const { getListingsApi, filterState, setFilterState } = useContext(
@@ -253,6 +261,7 @@ function MapScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+      <FocusAwareStatusBar barStyle={darkMode ? "light-content" : "dark-content"} backgroundColor="#6a51ae" />
       <MapView
         ref={mapRef}
         style={styles.container}

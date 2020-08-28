@@ -11,6 +11,7 @@ import SavedContext from "../firestore/context";
 import SavedSearchCard from "../components/SavedSearchCard";
 import Screen from "../components/Screen";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedSearchesScreen({ navigation }) {
   const ref = useRef(null);
@@ -23,7 +24,7 @@ function SavedSearchesScreen({ navigation }) {
     savedSearches,
     saveSearch,
   } = useContext(SavedContext);
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const [expanded, setExpanded] = useState(null);
   const [change, setChange] = useState(true);
@@ -62,6 +63,10 @@ function SavedSearchesScreen({ navigation }) {
   return (
     <>
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
+        <FocusAwareStatusBar
+          barStyle={darkMode ? "light-content" : "dark-content"}
+          backgroundColor="#6a51ae"
+        />
         <FlatList
           ref={ref}
           data={savedSearches}

@@ -13,13 +13,14 @@ import AuthContext from "../auth/context";
 import Button from "../components/Button";
 import Screen from "../components/Screen";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function Signup({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { user, setUser } = useContext(AuthContext);
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
 
   const createFavorites = (email) => {
     const db = firebase.firestore();
@@ -53,6 +54,7 @@ function Signup({ navigation }) {
 
   return (
     <Screen style={{ backgroundColor: colors.light }}>
+      <FocusAwareStatusBar barStyle={darkMode ? "light-content" : "dark-content"} backgroundColor="#6a51ae" />
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
@@ -99,6 +101,7 @@ function Signup({ navigation }) {
           <Button
             title="Sign Up"
             color={colors.primary}
+            textColor={colors.navHeaderText}
             onPress={() => handleSignUp()}
           />
         </View>

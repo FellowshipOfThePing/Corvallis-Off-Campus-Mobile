@@ -10,7 +10,7 @@ import SavedSearchesNavigator from "./SavedSearchesNavigator";
 import SettingsNavigator from "./SettingsNavigator";
 
 const Drawer = createDrawerNavigator();
-const swipeBoundary = Dimensions.get("window").width / 3;
+const swipeBoundary = Dimensions.get("window").width;
 
 const DrawerNavigator = () => {
   return (

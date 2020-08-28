@@ -26,19 +26,19 @@ const SavedListingsNavigator = () => {
         options={({ navigation }) => ({
           headerShown: true,
           headerStyle: {
-            backgroundColor: colors.primary,
+            backgroundColor: colors.navHeaderBackground,
           },
           headerTitleStyle: {
             paddingBottom: 5,
             fontSize: 18,
             fontFamily: text.fontFamily,
           },
-          headerTintColor: colors.white,
+          headerTintColor: colors.navHeaderText,
           headerLeft: () => {
             return (
               <Avatar
                 size={35}
-                color={colors.white}
+                color={colors.navHeaderText}
                 onPress={() => navigation.openDrawer()}
               />
             );
@@ -51,7 +51,7 @@ const SavedListingsNavigator = () => {
             return (
               <FilterButton
                 size={35}
-                color={colors.white}
+                color={colors.navHeaderText}
                 onPress={() => navigation.navigate("FilterScreen")}
               />
             );

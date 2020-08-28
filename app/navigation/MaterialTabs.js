@@ -11,7 +11,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MaterialTabs = () => {
   const { colors } = useContext(ThemeContext);
   return (
-    <Tab.Navigator shifting barStyle={{ backgroundColor: colors.primary }}>
+    <Tab.Navigator shifting barStyle={{ backgroundColor: colors.navHeaderBackground }}>
       <Tab.Screen
         name="Feed"
         component={FeedNavigator}

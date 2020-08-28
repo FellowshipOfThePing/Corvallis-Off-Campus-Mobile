@@ -22,15 +22,15 @@ const SettingsNavigator = () => {
         options={({ navigation }) => ({
           headerShown: true,
           headerStyle: {
-            backgroundColor: colors.primary,
+            backgroundColor: colors.navHeaderBackground,
           },
           headerTitleStyle: {
             paddingBottom: 8,
             fontSize: 18,
           },
-          headerTintColor: colors.white,
+          headerTintColor: colors.navHeaderText,
           headerLeft: () => {
-            return <Avatar size={35} color={colors.white} onPress={() => navigation.openDrawer()} />;
+            return <Avatar size={35} color={colors.navHeaderText} onPress={() => navigation.openDrawer()} />;
           },
           headerLeftContainerStyle: {
             paddingLeft: 10,

@@ -16,6 +16,7 @@ import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ThemeContext from "../config/context";
+import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function Login({ navigation }) {
   const [email, setEnteredEmail] = useState("");
@@ -23,7 +24,7 @@ function Login({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
   const { setEmail, setDB } = useContext(SavedContext);
   const [loading, setLoading] = useState(false);
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
 
   const handleLogin = () => {
     setLoading(true);
@@ -50,6 +51,7 @@ function Login({ navigation }) {
 
   return (
     <Screen style={{ backgroundColor: colors.light }}>
+      <FocusAwareStatusBar barStyle={darkMode ? "light-content" : "dark-content"} backgroundColor="#6a51ae" />
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
@@ -98,6 +100,7 @@ function Login({ navigation }) {
         <View style={styles.buttonSection}>
           <Button
             color={colors.primary}
+            textColor={colors.navHeaderText}
             title="Login"
             onPress={() => handleLogin()}
           />
