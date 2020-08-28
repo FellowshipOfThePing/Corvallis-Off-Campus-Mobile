@@ -31,7 +31,7 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const { user, setUser } = useContext(AuthContext);
-  const { setEmail, setDB } = useContext(SavedContext);
+  const { setEmail } = useContext(SavedContext);
   const [loading, setLoading] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -62,7 +62,6 @@ function LoginScreen({ navigation }) {
           password,
         });
         setEmail(firebase.auth().currentUser.email);
-        setDB(firebase.firestore());
         navigation.navigate("Home");
         console.log("[NETWORK] Logged In");
         setLoading(false);
@@ -193,7 +192,8 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   signUpText: {
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 35,
   },
   textRow: {
     flexDirection: "row",
