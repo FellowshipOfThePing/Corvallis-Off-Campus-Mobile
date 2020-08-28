@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity, Platform } from "react-native";
 
 import AppText from "./AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function Button({ title, color, onPress, textSize = 18, textColor, style }) {
   const { colors } = useContext(ThemeContext);

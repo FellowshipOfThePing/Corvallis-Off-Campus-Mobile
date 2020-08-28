@@ -6,7 +6,7 @@ import ListingDetailNavigator from "./ListingDetailNavigator";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
 import FilterModalScreen from "../screens/FilterModalScreen";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
 

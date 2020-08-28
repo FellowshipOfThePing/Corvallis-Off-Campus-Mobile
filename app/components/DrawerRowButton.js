@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import AppText from "../components/AppText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function DrawerRowButton({ text, icon, color, onPress, style }) {
   const { colors } = useContext(ThemeContext);

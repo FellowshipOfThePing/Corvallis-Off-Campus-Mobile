@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ListingDetailScreen from "../screens/ListingDetailScreen";
 import Browser from "../screens/Browser";
 import AppText from "../components/AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
 

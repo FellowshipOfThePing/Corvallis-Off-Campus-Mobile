@@ -9,7 +9,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "./AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function ListItem({
   title,

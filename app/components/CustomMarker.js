@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { Marker } from "react-native-maps";
 
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
   const selectedSize = size * 1.5;

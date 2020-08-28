@@ -3,7 +3,7 @@ import { StyleSheet, useWindowDimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import AppText from "./AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function IconWithText({
   iconName,

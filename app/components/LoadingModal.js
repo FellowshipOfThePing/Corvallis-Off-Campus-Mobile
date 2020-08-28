@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function LoadingModal() {
   const { colors } = useContext(ThemeContext);

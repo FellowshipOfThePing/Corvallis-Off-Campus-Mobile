@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import Avatar from "../components/Avatar";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
 

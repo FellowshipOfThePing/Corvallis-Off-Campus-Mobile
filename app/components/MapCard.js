@@ -9,7 +9,7 @@ import {
 import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 export default React.memo(({ onPress, listing, style }) => {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";

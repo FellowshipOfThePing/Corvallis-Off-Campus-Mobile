@@ -15,7 +15,7 @@ import Button from "../components/Button";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
 import ActivityIndicator from "../components/ActivityIndicator";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function Login({ navigation }) {

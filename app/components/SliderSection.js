@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import AppText from "./AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function SliderSection({
   onChange,

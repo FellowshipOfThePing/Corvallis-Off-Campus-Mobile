@@ -9,7 +9,7 @@ import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import SavedSearchIndicator from "../components/SavedSearchIndicator";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;

@@ -19,7 +19,7 @@ import LoadingModal from "../components/LoadingModal";
 import MapButtonMenu from "../components/MapButtonMenu";
 import MapButtonTitles from "../components/MapButtonTitles";
 import ToggleFollowModal from "../components/ToggleFollowModal";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function MapScreen({ navigation, route }) {
@@ -30,8 +30,8 @@ function MapScreen({ navigation, route }) {
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
 
-  const darkMapTheme = require("../config/darkMapTheme.json");
-  const lightMapTheme = require("../config/lightMapTheme.json");
+  const darkMapTheme = require("../theme/darkMapTheme.json");
+  const lightMapTheme = require("../theme/lightMapTheme.json");
 
   const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);

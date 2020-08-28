@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Text, Platform, StyleSheet } from "react-native";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function AppText({ children, style, ...otherProps }) {
   const { colors } = useContext(ThemeContext);

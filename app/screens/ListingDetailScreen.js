@@ -11,7 +11,7 @@ import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ImageCarousel from "../components/ImageCarousel";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
@@ -35,6 +35,7 @@ const getDirections = async (startLoc, destinationLoc, mode) => {
 };
 
 function ListingDetailScreen({ navigation, route }) {
+  const { user, setUser } = useContext(AuthContext);
   const {
     addressIDs,
     setAddressIDs,
@@ -52,13 +53,13 @@ function ListingDetailScreen({ navigation, route }) {
   const listing = route.params.listing;
   const [coords, setCoords] = useState([]);
 
-  const lightMapTheme = require("../config/lightMapTheme.json");
-  const darkMapTheme = require("../config/darkMapTheme.json");
+  const lightMapTheme = require("../theme/lightMapTheme.json");
+  const darkMapTheme = require("../theme/darkMapTheme.json");
 
   const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
   const [tappedTimes, setTappedTimes] = useState(0);
   const [loading, setLoading] = useState(true);
-  const { user, setUser } = useContext(AuthContext);
+
   const imageUri = listing.images[0] !== null ? listing.images[0] : "";
 
   const onHeartPress = (listing) => {

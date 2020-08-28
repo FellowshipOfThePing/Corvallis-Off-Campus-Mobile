@@ -11,7 +11,7 @@ import Avatar from "../components/Avatar";
 import DrawerRowButton from "../components/DrawerRowButton";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function DrawerContent({ navigation }) {
   const { user, setUser } = useContext(AuthContext);

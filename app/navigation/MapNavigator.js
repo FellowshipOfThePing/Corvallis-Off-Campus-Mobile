@@ -5,7 +5,7 @@ import MapScreen from "../screens/MapScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
 

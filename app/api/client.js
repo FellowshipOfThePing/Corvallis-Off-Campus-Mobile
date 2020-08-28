@@ -1,4 +1,4 @@
-import settings from "../config/settings";
+import settings from "./settings";
 import { create } from "apisauce";
 
 const apiClient = create({

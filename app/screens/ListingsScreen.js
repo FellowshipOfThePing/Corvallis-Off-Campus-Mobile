@@ -18,7 +18,7 @@ import AppText from "../components/AppText";
 import ActivityIndicator from "../components/ActivityIndicator";
 import AuthContext from "../auth/context";
 import SavedContext from "../firestore/context";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function ListingsScreen({ navigation, route }) {

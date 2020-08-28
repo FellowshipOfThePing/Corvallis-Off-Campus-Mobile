@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";
-import ThemeContext from "../config/context";
+import ThemeContext from "../theme/context";
 
 function CardCell({
   style,
