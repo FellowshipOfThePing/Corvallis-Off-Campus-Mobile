@@ -26,7 +26,7 @@
     "expo-updates": "~0.2.0",
     "expo-web-browser": "~8.2.1",
     "firebase": "7.9.0",
-    "formik": "^2.1.4",
+    "formik": "^2.1.5",
     "lottie-react-native": "^3.5.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
@@ -51,7 +51,7 @@
     "react-native-webview": "8.1.1",
     "react-native-zoom-lightbox": "0.0.2",
     "reanimated-bottom-sheet": "^1.0.0-alpha.20",
-    "yup": "^0.29.1"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
