@@ -13,6 +13,7 @@ import ImageCarousel from "../components/ImageCarousel";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import LogInLayover from "../components/LogInLayover";
+import MiniMapButtonMenu from "../components/MiniMapButtonMenu";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -66,8 +67,7 @@ function ListingDetailScreen({ navigation, route }) {
     }
   };
 
-  useEffect(() => {
-    var mode = listing.walk_to_campus_minutes <= 20 ? "walking" : "driving";
+  const directions = (mode) => {
     getDirections(
       listing.latitude + "," + listing.longitude,
       OSU_lat + "," + OSU_long,
@@ -78,7 +78,7 @@ function ListingDetailScreen({ navigation, route }) {
         console.log("[NETWORK] Directions successfully retrieved from Google.");
       })
       .catch((err) => console.log("[NETWORK] Something went wrong:", err));
-  }, []);
+  };
 
   const OSU_lat = 44.5647;
   const OSU_long = -123.28225;
@@ -163,9 +163,8 @@ function ListingDetailScreen({ navigation, route }) {
             </View>
           </Marker>
         </MapView>
-        <GoToMapButton
-          style={[styles.mapButton, isLefty ? { right: 10 } : { left: 10 }]}
-          onPress={() =>
+        <MiniMapButtonMenu
+          onPressGoToMap={() =>
             navigation.navigate("Map", {
               screen: "MapScreen",
               params: {
@@ -174,6 +173,8 @@ function ListingDetailScreen({ navigation, route }) {
               },
             })
           }
+          onPressWalking={() => directions("walking")}
+          onPressDriving={() => directions("driving")}
         />
       </View>
     </>
