@@ -22,24 +22,25 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function ListingsScreen({ navigation, route }) {
+  const { colors } = useContext(ThemeContext);
+  const { user } = useContext(AuthContext);
   const { getListingsApi, filterState, setFilterState } = useContext(
     ApiContext
   );
-  const { colors } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
-  const width = Dimensions.get("window").width - 10;
-  const isFocused = useIsFocused();
-  const ref = useRef(null);
-  useScrollToTop(ref);
-  const [tapped, setTapped] = useState(false);
-
   const {
     addressIDs,
     favorites,
     getFavorites,
     addFavorite,
     removeFavorite,
+    toggleHeartPressed,
   } = useContext(SavedContext);
+
+  const width = Dimensions.get("window").width - 10;
+  const isFocused = useIsFocused();
+  const ref = useRef(null);
+  useScrollToTop(ref);
+  const [tapped, setTapped] = useState(false);
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -101,8 +102,14 @@ function ListingsScreen({ navigation, route }) {
                   params: { listing: item },
                 })
               }
+              colors={colors}
               saved={addressIDs.includes(item.address_id)}
-              onPressHeart={() => onHeartPress(item)}
+              onPressHeart={() => {
+                if (!user) {
+                  toggleHeartPressed();
+                }
+                onHeartPress(item);
+              }}
             />
           )}
           ListEmptyComponent={() => (

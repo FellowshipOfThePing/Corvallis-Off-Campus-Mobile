@@ -47,6 +47,7 @@ export default ({ children }) => {
     color: colors.dark,
     fontSize: 18,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
+    fontWeight: "400"
   };
 
   const toggleTheme = () => {

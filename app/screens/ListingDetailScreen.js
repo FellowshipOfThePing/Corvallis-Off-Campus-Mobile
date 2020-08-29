@@ -9,10 +9,10 @@ import RadiatingMarker from "../components/RadiatingMarker";
 import GoToMapButton from "../components/GoToMapButton";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
-import ActivityIndicator from "../components/ActivityIndicator";
 import ImageCarousel from "../components/ImageCarousel";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import LogInLayover from "../components/LogInLayover";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -36,25 +36,21 @@ const getDirections = async (startLoc, destinationLoc, mode) => {
 
 function ListingDetailScreen({ navigation, route }) {
   const { user } = useContext(AuthContext);
+  const { colors, darkMode, isLefty } = useContext(ThemeContext);
   const {
     addressIDs,
     getFavorites,
     addFavorite,
     removeFavorite,
+    toggleHeartPressed,
   } = useContext(SavedContext);
-  const { colors, darkMode, isLefty } = useContext(ThemeContext);
-
-  const listing = route.params.listing;
-  const [coords, setCoords] = useState([]);
 
   const lightMapTheme = require("../theme/lightMapTheme.json");
   const darkMapTheme = require("../theme/darkMapTheme.json");
 
+  const listing = route.params.listing;
+  const [coords, setCoords] = useState([]);
   const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
-  const [tappedTimes, setTappedTimes] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  const imageUri = listing.images[0] !== null ? listing.images[0] : "";
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -99,37 +95,25 @@ function ListingDetailScreen({ navigation, route }) {
   return (
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
-      {listing.images.length > 1 && (
+      <View style={styles.imageContainer}>
         <ImageCarousel
           listing={listing}
-          style={[styles.imageContainer, { backgroundColor: colors.white }]}
+          style={{ backgroundColor: colors.white }}
         />
-      )}
-      {listing.images.length === 1 && (
-        <View
-          style={[styles.imageContainer, { backgroundColor: colors.white }]}
-        >
-          <Image
-            source={
-              imageUri.length != 0
-                ? { uri: listing.images[0], cache: "default" }
-                : null
-            }
-            style={styles.image}
-            onLoadStart={() => {
-              setLoading(true);
-            }}
-            onLoadEnd={() => {
-              setLoading(false);
-            }}
-          />
-          {loading && <ActivityIndicator visible={loading} />}
-        </View>
-      )}
+        <LogInLayover
+          color={colors.fadedBackground2}
+          textStyle={{ fontSize: 25 }}
+        />
+      </View>
       <ListingDetails
         listing={listing}
         saved={tapped}
-        onPressHeart={() => onHeartPress(listing)}
+        onPressHeart={() => {
+          if (!user) {
+            toggleHeartPressed();
+          }
+          onHeartPress(listing);
+        }}
         onPressProvider={() =>
           navigation.navigate("Browser", {
             url: listing.URL,
@@ -202,6 +186,8 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
     height: "100%",
