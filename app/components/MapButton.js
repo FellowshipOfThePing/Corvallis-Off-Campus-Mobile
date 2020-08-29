@@ -4,14 +4,15 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
   AntDesign,
+  FontAwesome5,
 } from "@expo/vector-icons";
-
 
 function MapButton({
   size = 44,
   onPress,
   style,
   iconName,
+  iconSize,
   iconColor,
   iconFamily = "Community",
   opacity = 1,
@@ -31,7 +32,7 @@ function MapButton({
           <MaterialCommunityIcons
             style={styles.icon}
             name={iconName}
-            size={size / 2 + 5}
+            size={iconSize ? iconSize : size / 2 + 5}
             color={iconColor}
           />
         )}
@@ -39,12 +40,24 @@ function MapButton({
           <MaterialIcons
             style={styles.icon}
             name={iconName}
-            size={size / 2 + 5}
+            size={iconSize ? iconSize : size / 2 + 5}
             color={iconColor}
           />
         )}
         {iconFamily === "AntDesign" && (
-          <AntDesign name={iconName} size={size / 2 + 5} color={iconColor} />
+          <AntDesign
+            name={iconName}
+            size={iconSize ? iconSize : size / 2 + 5}
+            color={iconColor}
+          />
+        )}
+        {iconFamily === "FontAwesome5" && (
+          <FontAwesome5
+            style={styles.icon}
+            name={iconName}
+            size={iconSize ? iconSize : size / 2 + 5}
+            color={iconColor}
+          />
         )}
       </TouchableOpacity>
     </Animated.View>
