@@ -13,7 +13,7 @@ function OfflineNotice() {
   if (netInfo.type !== "unknown" && netInfo.isInternetReachable === false)
     return (
       <View style={[styles.container, { backgroundColor: colors.primary }]}>
-        <AppText style={{ color: colors.white }}>
+        <AppText style={{ color: colors.navHeaderText }}>
           No Internet Connection
         </AppText>
       </View>

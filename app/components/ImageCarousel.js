@@ -26,6 +26,7 @@ function ImageCarousel({ listing, style }) {
     <View style={style}>
       <FlatList
         ref={carouselRef}
+        scrollEnabled={listing.images.length > 1}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         pagingEnabled

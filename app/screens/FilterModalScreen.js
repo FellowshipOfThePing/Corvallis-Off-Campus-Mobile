@@ -16,11 +16,8 @@ const buttonDiameter = Dimensions.get("window").height * 0.09;
 const fadeDuration = 300;
 
 export default function FilterModalScreen({ navigation }) {
-  const opacityAnim = useRef(new Animated.Value(1)).current;
   const { user } = useContext(AuthContext);
-  const { filterState, setFilterState } = useContext(
-    ApiContext
-  );
+  const { filterState, setFilterState } = useContext(ApiContext);
   const {
     refreshing,
     savedSearches,
@@ -30,6 +27,7 @@ export default function FilterModalScreen({ navigation }) {
   const { colors, darkMode } = useContext(ThemeContext);
 
   const [saving, setSaving] = useState(false);
+  const opacityAnim = useRef(new Animated.Value(1)).current;
 
   const [priceLow, setPriceLow] = useState(filterState.price_low);
   const [priceHigh, setPriceHigh] = useState(filterState.price_high);
@@ -129,7 +127,10 @@ export default function FilterModalScreen({ navigation }) {
 
   return (
     <View style={[styles.panel, { backgroundColor: colors.white }]}>
-      <FocusAwareStatusBar barStyle={darkMode ? "light-content" : "dark-content"} backgroundColor="#6a51ae" />
+      <FocusAwareStatusBar
+        barStyle={darkMode ? "light-content" : "dark-content"}
+        backgroundColor="#6a51ae"
+      />
       <View style={styles.topRow}>
         <View style={styles.buttonSection}>
           <Button

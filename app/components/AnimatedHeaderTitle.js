@@ -1,16 +1,24 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, Animated } from "react-native";
+import { useNetInfo } from "@react-native-community/netinfo";
+
 import AppText from "./AppText";
 import SavedContext from "../firestore/context";
 
 const fadeTime = 200;
 const delayTime = 1500;
 
-function LogInBanner({ headerTitle, color, textStyle, bannerStyle }) {
-  const { heartPressed } = useContext(SavedContext);
-  const opacityAnim = useRef(new Animated.Value(1)).current;
+function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
+  const netInfo = useNetInfo();
+  const offline =
+    netInfo.type !== "unknown" && netInfo.isInternetReachable === false;
+
   const [fading, setFading] = useState(false);
   const [title, setTitle] = useState(headerTitle);
+
+  const { heartPressed } = useContext(SavedContext);
+
+  const opacityAnim = useRef(new Animated.Value(1)).current;
 
   const transition = () => {
     Animated.sequence([
@@ -39,7 +47,7 @@ function LogInBanner({ headerTitle, color, textStyle, bannerStyle }) {
   };
 
   useEffect(() => {
-    if (!fading) {
+    if (!fading && !offline) {
       setFading(true);
       setTimeout(() => {
         setTitle("Log In to Save Listings");
@@ -62,7 +70,9 @@ function LogInBanner({ headerTitle, color, textStyle, bannerStyle }) {
         bannerStyle,
       ]}
     >
-      <AppText style={[styles.text, textStyle]}>{title}</AppText>
+      <AppText style={[styles.text, textStyle]}>
+        {offline ? "No Internet Connection" : title}
+      </AppText>
     </Animated.View>
   );
 }
@@ -79,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogInBanner;
+export default AnimatedHeaderTitle;
