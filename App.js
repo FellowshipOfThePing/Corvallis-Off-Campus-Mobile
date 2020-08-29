@@ -10,7 +10,6 @@ import ApiContext from "./app/api/ContextWrapper";
 import AuthContext from "./app/auth/ContextWrapper";
 import SavedContext from "./app/firestore/ContextWrapper";
 import ThemeContext from "./app/theme/ContextWrapper";
-import OfflineNotice from "./app/components/OfflineNotice";
 
 export default function App() {
   return (
@@ -18,7 +17,6 @@ export default function App() {
       <AuthContext>
         <ApiContext>
           <SavedContext>
-            <OfflineNotice />
             <NavigationContainer>
               <DrawerNavigator />
             </NavigationContainer>

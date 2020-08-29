@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 import ListingsScreen from "../screens/ListingsScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
-import LogInBanner from "../components/LogInBanner";
+import AnimatedHeaderTitle from "../components/AnimatedHeaderTitle";
 import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
@@ -30,7 +31,7 @@ const FeedNavigator = () => {
             backgroundColor: colors.navHeaderBackground,
           },
           headerTitle: (props) => (
-            <LogInBanner
+            <AnimatedHeaderTitle
               headerTitle="Listings"
               colors={colors.navHeaderBackground}
               bannerStyle={{ paddingBottom: 5 }}
