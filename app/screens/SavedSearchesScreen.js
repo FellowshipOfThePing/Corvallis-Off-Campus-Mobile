@@ -64,7 +64,7 @@ function SavedSearchesScreen({ navigation }) {
     <>
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
         <FocusAwareStatusBar
-          barStyle={darkMode ? "light-content" : "dark-content"}
+          barStyle="light-content"
           backgroundColor="#6a51ae"
         />
         <FlatList

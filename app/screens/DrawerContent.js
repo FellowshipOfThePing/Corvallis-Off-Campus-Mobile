@@ -14,31 +14,23 @@ import SavedContext from "../firestore/context";
 import ThemeContext from "../theme/context";
 
 function DrawerContent({ navigation }) {
-  const { user, setUser, setEmail } = useContext(AuthContext);
-  const { setAddressIDs, setFavorites,  } = useContext(
-    SavedContext
-  );
-  const [loading, setLoading] = useState(false);
+  const { user, email, logout } = useContext(AuthContext);
+  const { setAddressIDs, setFavorites } = useContext(SavedContext);
   const { colors } = useContext(ThemeContext);
 
-  const handleLogout = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
     setLoading(true);
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        setEmail(null);
-        setFavorites([]);
-        setAddressIDs([]);
-        navigation.navigate("Home");
-        setUser(null);
-        console.log("[NETWORK] Signed Out");
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("[NETWORK] Error Signing Out", error);
-        setLoading(false);
-      });
+    const loggedOut = await logout();
+    if (loggedOut === false) {
+      setLoading(false);
+      return;
+    }
+    setFavorites([]);
+    setAddressIDs([]);
+    setLoading(false);
+    navigation.navigate("Home");
   };
 
   return (
@@ -48,9 +40,9 @@ function DrawerContent({ navigation }) {
           {user && (
             <>
               <Avatar color={colors.black} size={70} />
-              <AppText style={styles.username}>{user.name}</AppText>
+              <AppText style={styles.username}>{user.username}</AppText>
               <AppText style={[styles.email, { color: colors.medium }]}>
-                {user.email}
+                {email}
               </AppText>
             </>
           )}

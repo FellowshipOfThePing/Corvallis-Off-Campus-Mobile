@@ -10,7 +10,7 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SettingsScreen({ navigation }) {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, email } = useContext(AuthContext);
   const { colors, darkMode, toggleTheme, isLefty, toggleLefty } = useContext(
     ThemeContext
   );
@@ -29,10 +29,10 @@ function SettingsScreen({ navigation }) {
       >
         <Avatar color={colors.black} size={100} />
         <AppText style={styles.username}>
-          {user && user.name ? user.name : ""}
+          {user && user.username ? user.username : ""}
         </AppText>
         <AppText style={{ color: textColor }}>
-          {user ? user.email : "User Not Logged In"}
+          {user ? email : "User Not Logged In"}
         </AppText>
       </View>
       <View style={styles.optionsSection}>
