@@ -1,4 +1,5 @@
 import React from "react";
+import { View, StyleSheet } from "react-native";
 import DrawerNavigator from "./app/navigation/DrawerNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import * as firebase from "firebase";

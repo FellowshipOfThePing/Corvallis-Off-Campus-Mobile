@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import ListingsScreen from "../screens/ListingsScreen";
 import ListingDetailNavigator from "./ListingDetailNavigator";
 import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
+import LogInBanner from "../components/LogInBanner";
 import ThemeContext from "../theme/context";
 
 const Stack = createStackNavigator();
@@ -28,11 +29,17 @@ const FeedNavigator = () => {
           headerStyle: {
             backgroundColor: colors.navHeaderBackground,
           },
-          headerTitleStyle: {
-            paddingBottom: 5,
-            fontSize: 18,
-            fontFamily: text.fontFamily,
-          },
+          headerTitle: (props) => (
+            <LogInBanner
+              headerTitle="Listings"
+              colors={colors.navHeaderBackground}
+              bannerStyle={{ paddingBottom: 5 }}
+              textStyle={{
+                fontSize: 18,
+                fontFamily: text.fontFamily,
+              }}
+            />
+          ),
           headerTintColor: colors.navHeaderText,
           headerLeft: () => {
             return (

@@ -9,11 +9,16 @@ import AuthContext from "../auth/context";
 export default ({ children }) => {
   const { email, db } = useContext(AuthContext);
   const { getListingsApi } = useContext(ApiContext);
-  
+
   const [addressIDs, setAddressIDs] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [savedSearches, setSavedSearches] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [heartPressed, setHeartPressed] = useState(false);
+
+  const toggleHeartPressed = () => {
+    setHeartPressed((previous) => !previous);
+  };
 
   const getAddressIDs = () => {
     const docRef = db.collection("Users").doc(email);
@@ -127,6 +132,8 @@ export default ({ children }) => {
         savedSearches,
         saveSearch,
         setSavedSearches,
+        heartPressed,
+        toggleHeartPressed,
       }}
     >
       {children}

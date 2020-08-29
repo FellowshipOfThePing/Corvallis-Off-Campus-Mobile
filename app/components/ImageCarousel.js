@@ -59,18 +59,10 @@ function ImageCarousel({ listing, style }) {
 const styles = StyleSheet.create({
   count: {
     position: "absolute",
-    top: Constants.statusBarHeight + 10,
+    top: Constants.statusBarHeight,
     left: 20,
     padding: 5,
     borderRadius: 5,
-  },
-  arrowBox: {
-    position: "absolute",
-    top: Dimensions.get("window").height * 0.2 - 30,
-    padding: 5,
-    borderRadius: 5,
-    height: 50,
-    justifyContent: "center",
   },
 });
 

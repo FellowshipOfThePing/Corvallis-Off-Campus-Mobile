@@ -30,8 +30,9 @@ const SavedListingsNavigator = () => {
           },
           headerTitleStyle: {
             paddingBottom: 5,
-            fontSize: 18,
+            fontSize: text.fontSize,
             fontFamily: text.fontFamily,
+            fontWeight: text.fontWeight,
           },
           headerTintColor: colors.navHeaderText,
           headerLeft: () => {

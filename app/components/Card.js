@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -11,11 +11,11 @@ import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
 import ThemeContext from "../theme/context";
+import SavedContext from "../firestore/context";
 
-function Card({ listing, iconRowSize, onPress, saved, onPressHeart }) {
+function Card({ listing, iconRowSize, onPress, saved, onPressHeart, colors }) {
   const imageUri = listing.images[0] != null ? listing.images[0] : "";
   const [loading, setLoading] = useState(true);
-  const { colors } = useContext(ThemeContext);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>

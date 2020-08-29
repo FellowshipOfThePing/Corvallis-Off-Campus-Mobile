@@ -48,7 +48,10 @@ function SavedListingsScreen({ navigation, route }) {
   return (
     <>
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#6a51ae"
+        />
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
@@ -65,6 +68,7 @@ function SavedListingsScreen({ navigation, route }) {
           renderItem={({ item }) => (
             <Card
               listing={item}
+              colors={colors}
               onPress={() =>
                 navigation.navigate("ListingDetailNavigator", {
                   screen: "ListingDetailScreen",
