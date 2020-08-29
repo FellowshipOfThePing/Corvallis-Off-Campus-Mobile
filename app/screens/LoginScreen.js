@@ -1,5 +1,12 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import "firebase/firestore";
 import * as Yup from "yup";
 
@@ -15,6 +22,7 @@ import Screen from "../components/Screen";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import DismissKeyboard from "../components/DismissKeyboard";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -52,18 +60,23 @@ function LoginScreen({ navigation }) {
         backgroundColor="#6a51ae"
       />
       <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/Logo.png")}
-          />
-        </View>
+        <DismissKeyboard>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require("../../assets/Logo.png")}
+            />
+          </View>
+        </DismissKeyboard>
         <AppForm
           initialValues={{ email: "", password: "" }}
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
         >
-          <View style={styles.inputContainer}>
+          <KeyboardAvoidingView
+            style={styles.inputContainer}
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
             <AppFormField
               style={[
                 styles.inputBox,
@@ -93,12 +106,12 @@ function LoginScreen({ navigation }) {
               returnKeyType="go"
               placeholderTextColor={colors.medium}
               selectionColor={colors.dark}
-              textContentType="password"
+              textContentType="oneTimeCode"
               name="password"
               error={submitPressed}
             />
             <ErrorMessage error={loginErrorMessage} visible={loginFailed} />
-          </View>
+          </KeyboardAvoidingView>
           <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator
               visible={loading}

@@ -15,6 +15,7 @@ import AuthContext from "../auth/context";
 import Screen from "../components/Screen";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import DismissKeyboard from "../components/DismissKeyboard";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required().label("Username"),
@@ -53,7 +54,7 @@ function SignupScreen({ navigation }) {
       setLoading(false);
       return;
     }
-    await updateUsername(username);
+    await updateUsername(username, password);
     await createFavorites(email);
     await createSavedSearches(email);
     navigation.navigate("Home");
@@ -68,12 +69,14 @@ function SignupScreen({ navigation }) {
         backgroundColor="#6a51ae"
       />
       <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require("../../assets/Logo.png")}
-          />
-        </View>
+        <DismissKeyboard>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require("../../assets/Logo.png")}
+            />
+          </View>
+        </DismissKeyboard>
         <AppForm
           initialValues={{ username: "", email: "", password: "" }}
           onSubmit={handleSubmit}
@@ -93,7 +96,7 @@ function SignupScreen({ navigation }) {
               textContentType="emailAddress"
               selectionColor={colors.dark}
               name="username"
-              returnKeyType="go"
+              returnKeyType="done"
               error={submitPressed}
             />
             <AppFormField
@@ -105,7 +108,7 @@ function SignupScreen({ navigation }) {
               autoCapitalize="none"
               keyboardType="email-address"
               enablesReturnKeyAutomatically
-              returnKeyType="go"
+              returnKeyType="done"
               placeholderTextColor={colors.medium}
               selectionColor={colors.dark}
               textContentType="emailAddress"
@@ -122,10 +125,10 @@ function SignupScreen({ navigation }) {
               autoCorrect={false}
               secureTextEntry
               enablesReturnKeyAutomatically
-              returnKeyType="go"
+              returnKeyType="done"
               placeholderTextColor={colors.medium}
               selectionColor={colors.dark}
-              textContentType="password"
+              textContentType="oneTimeCode"
               name="password"
               error={submitPressed}
             />
@@ -184,7 +187,6 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "center",
-    justifyContent: "center",
     flex: 2,
   },
   signUpText: {

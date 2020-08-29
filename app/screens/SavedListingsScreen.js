@@ -48,10 +48,7 @@ function SavedListingsScreen({ navigation, route }) {
   return (
     <>
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <FocusAwareStatusBar
-          barStyle={darkMode ? "light-content" : "dark-content"}
-          backgroundColor="#6a51ae"
-        />
+        <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}

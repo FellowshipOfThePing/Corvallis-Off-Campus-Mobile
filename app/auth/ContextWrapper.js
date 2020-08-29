@@ -52,6 +52,9 @@ export default ({ children }) => {
   const signIn = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
+      setUser({ email, password });
+      setEmail(email);
+      getUsername(password);
       console.log("[NETWORK] Logged In");
       return true;
     } catch (error) {
@@ -61,11 +64,12 @@ export default ({ children }) => {
     }
   };
 
-  const updateUsername = async (username) => {
+  const updateUsername = async (username, password) => {
     try {
       await firebase.auth().currentUser.updateProfile({
         displayName: username,
       });
+      setUser({ username, email, password});
       console.log("[NETWORK] Profile Name Update Successful!");
       return true;
     } catch (error) {
@@ -120,6 +124,29 @@ export default ({ children }) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await firebase.auth().signOut();
+      setEmail(null);
+      setUser(null);
+      console.log("[NETWORK] Signed Out");
+      return true;
+    } catch (error) {
+      console.log("[ERROR] Error Signing Out", error);
+      return false;
+    }
+  };
+
+  const getUsername = (password) => {
+    try {
+      const username = firebase.auth().currentUser.displayName;
+      setUser({ username, email, password });
+      console.log("[NETWORK] Profile Name Successfully Retrieved!");
+    } catch (error) {
+      console.log("[ERROR] Error Retrieving Profile Name", error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -137,6 +164,7 @@ export default ({ children }) => {
         setSignupErrorMessage,
         signUp,
         signIn,
+        logout,
         updateUsername,
         createFavorites,
         createSavedSearches,
