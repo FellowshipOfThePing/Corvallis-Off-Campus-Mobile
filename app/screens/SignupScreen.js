@@ -91,7 +91,6 @@ function SignupScreen({ navigation }) {
               placeholder="Username"
               autoCapitalize="none"
               enablesReturnKeyAutomatically
-              placeholder="Username"
               placeholderTextColor={colors.medium}
               textContentType="emailAddress"
               selectionColor={colors.dark}

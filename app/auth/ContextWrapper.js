@@ -69,7 +69,7 @@ export default ({ children }) => {
       await firebase.auth().currentUser.updateProfile({
         displayName: username,
       });
-      setUser({ username, email, password});
+      setUser({ username, email, password });
       console.log("[NETWORK] Profile Name Update Successful!");
       return true;
     } catch (error) {
@@ -147,6 +147,30 @@ export default ({ children }) => {
     }
   };
 
+  const updatePassword = async (password) => {
+    try {
+      await firebase.auth().currentUser.updatePassword(password);
+      setUser({ username: user.username, email, password });
+      console.log("[NETWORK] Password Successfully Updated!");
+      return true;
+    } catch (error) {
+      console.log("[NETWORK] Error Updating Password:", error);
+      return false;
+    }
+  };
+
+  const updateEmail = async (email) => {
+    try {
+      await firebase.auth().currentUser.updateEmail(email);
+      setUser({ username: user.username, email, password: user.password });
+      console.log("[NETWORK] Email Successfully Updated!");
+      return true;
+    } catch (error) {
+      console.log("[NETWORK] Error Updating Email:", error);
+      return false;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -168,6 +192,8 @@ export default ({ children }) => {
         updateUsername,
         createFavorites,
         createSavedSearches,
+        updatePassword,
+        updateEmail
       }}
     >
       {children}
