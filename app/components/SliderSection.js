@@ -4,6 +4,7 @@ import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import AppText from "./AppText";
 import ThemeContext from "../theme/context";
+import SliderLabel from "./SliderLabel";
 
 function SliderSection({
   onChange,
@@ -15,6 +16,8 @@ function SliderSection({
   changeFilterHigh,
   extremes,
   step = 1,
+  low,
+  high,
 }) {
   const [touched, setTouched] = useState(false);
   const { colors } = useContext(ThemeContext);
@@ -23,10 +26,11 @@ function SliderSection({
     <View
       style={[styles.sliderSection, { backgroundColor: colors.white }, style]}
     >
-      <AppText style={styles.sliderTitle}>{title}</AppText>
+      <AppText style={styles.sliderTitle}>
+        {title}: {low} - {high}
+      </AppText>
       <MultiSlider
         allowOverlap
-        enableLabel={touched}
         snapped={snapped}
         containerStyle={{ alignSelf: "center" }}
         onValuesChangeStart={() => {
@@ -60,13 +64,12 @@ function SliderSection({
 
 const styles = StyleSheet.create({
   sliderSection: {
-    height: "14%",
-    width: "100%",
+    flex: 1,
     justifyContent: "center",
   },
   sliderTitle: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 18,
     paddingLeft: 20,
   },
 });

@@ -51,9 +51,9 @@ function SettingsScreen({ navigation }) {
     ThemeContext
   );
 
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(true);
   const [changingProfile, setChangingProfile] = useState(false);
-  const [changingPassword, setChangingPassword] = useState(true);
+  const [changingPassword, setChangingPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [submitPressed, setSubmitPressed] = useState(false);
