@@ -190,56 +190,70 @@ export default function FilterModalScreen({ navigation }) {
           />
         </View>
       </View>
-      <SliderSection
-        title="Price Range"
-        changeFilterLow={setPriceLow}
-        changeFilterHigh={setPriceHigh}
-        initialValues={[priceLow, priceHigh]}
-        extremes={[0, 5000]}
-        step={100}
-        snapped
-      />
-      <SliderSection
-        title="Beds"
-        initialValues={[bedsLow, bedsHigh]}
-        snapped
-        changeFilterLow={setBedsLow}
-        changeFilterHigh={setBedsHigh}
-        extremes={[1, 5]}
-      />
-      <SliderSection
-        title="Baths"
-        initialValues={[bathsLow, bathsHigh]}
-        snapped
-        changeFilterLow={setBathsLow}
-        changeFilterHigh={setBathsHigh}
-        extremes={[1, 5]}
-      />
-      <SliderSection
-        title="Distance to Campus - Miles"
-        changeFilterLow={setDistanceLow}
-        changeFilterHigh={setDistanceHigh}
-        initialValues={[distanceLow, distanceHigh]}
-        extremes={[0, 25]}
-      />
-      <SliderSection
-        title="Drive Time to Campus - Minutes"
-        changeFilterLow={setDriveLow}
-        changeFilterHigh={setDriveHigh}
-        initialValues={[driveLow, driveHigh]}
-        extremes={[0, 40]}
-        step={5}
-        snapped
-      />
-      <SliderSection
-        title="Walk Time to Campus - Minutes"
-        changeFilterLow={setWalkLow}
-        changeFilterHigh={setWalkHigh}
-        initialValues={[walkLow, walkHigh]}
-        extremes={[0, 50]}
-        step={5}
-        snapped
-      />
+      <View style={styles.sliders}>
+        <SliderSection
+          title="Price Range"
+          changeFilterLow={setPriceLow}
+          changeFilterHigh={setPriceHigh}
+          initialValues={[priceLow, priceHigh]}
+          extremes={[0, 5000]}
+          step={100}
+          snapped
+          low={priceLow}
+          high={priceHigh}
+        />
+        <SliderSection
+          title="Beds"
+          initialValues={[bedsLow, bedsHigh]}
+          snapped
+          changeFilterLow={setBedsLow}
+          changeFilterHigh={setBedsHigh}
+          extremes={[1, 5]}
+          low={bedsLow}
+          high={bedsHigh}
+        />
+        <SliderSection
+          title="Baths"
+          initialValues={[bathsLow, bathsHigh]}
+          snapped
+          changeFilterLow={setBathsLow}
+          changeFilterHigh={setBathsHigh}
+          extremes={[1, 5]}
+          low={bathsLow}
+          high={bathsHigh}
+        />
+        <SliderSection
+          title="Miles to Campus"
+          changeFilterLow={setDistanceLow}
+          changeFilterHigh={setDistanceHigh}
+          initialValues={[distanceLow, distanceHigh]}
+          extremes={[0, 25]}
+          low={distanceLow}
+          high={distanceHigh}
+        />
+        <SliderSection
+          title="Drive to Campus (Minutes)"
+          changeFilterLow={setDriveLow}
+          changeFilterHigh={setDriveHigh}
+          initialValues={[driveLow, driveHigh]}
+          extremes={[0, 40]}
+          step={5}
+          snapped
+          low={driveLow}
+          high={driveHigh}
+        />
+        <SliderSection
+          title="Walk to Campus (Minutes)"
+          changeFilterLow={setWalkLow}
+          changeFilterHigh={setWalkHigh}
+          initialValues={[walkLow, walkHigh]}
+          extremes={[0, 50]}
+          step={5}
+          snapped
+          low={walkLow}
+          high={walkHigh}
+        />
+      </View>
     </View>
   );
 }
@@ -272,5 +286,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "center",
     top: 350,
+  },
+  sliders: {
+    height: "84%",
+    width: "100%",
   },
 });
