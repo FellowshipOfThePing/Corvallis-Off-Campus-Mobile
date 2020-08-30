@@ -6,7 +6,6 @@ import { decode } from "@mapbox/polyline";
 
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
-import GoToMapButton from "../components/GoToMapButton";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import ImageCarousel from "../components/ImageCarousel";
@@ -17,9 +16,8 @@ import MiniMapButtonMenu from "../components/MiniMapButtonMenu";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
-    const KEY = "AIzaSyA-bCS80fMCp6T5Em6u8RvIIs-l8_skXM0";
     let resp = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}&mode=${mode}`
+      `https://7al5auoqme.execute-api.us-west-2.amazonaws.com/Prod?startLoc=${startLoc}&destinationLoc=${destinationLoc}&mode=${mode}`
     );
     let respJson = await resp.json();
     let points = decode(respJson.routes[0].overview_polyline.points);
