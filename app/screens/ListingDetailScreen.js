@@ -1,6 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
-import { View, StyleSheet, Dimensions, Image } from "react-native";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import MapView, {
+  Marker,
+  PROVIDER_GOOGLE,
+  Polyline,
+  Callout,
+} from "react-native-maps";
+import { View, StyleSheet, Dimensions, Image, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { decode } from "@mapbox/polyline";
 
@@ -13,6 +18,7 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import LogInOverlay from "../components/LogInOverlay";
 import MiniMapButtonMenu from "../components/MiniMapButtonMenu";
+import TimeToCampusBanner from "../components/TimeToCampusBanner";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -48,8 +54,14 @@ function ListingDetailScreen({ navigation, route }) {
   const darkMapTheme = require("../theme/darkMapTheme.json");
 
   const listing = route.params.listing;
+  const [loading, setLoading] = useState(false);
+  const [directionsMode, setDirectionsMode] = useState(null);
+  const [directionsDistance, setDirectionsDistance] = useState(0);
   const [coords, setCoords] = useState([]);
   const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
+  const [bannerVisible, setBannerVisible] = useState(false);
+  const [drivingCoords, setDrivingCoords] = useState(null);
+  const [walkingCoords, setWalkingCoords] = useState(null);
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -66,16 +78,49 @@ function ListingDetailScreen({ navigation, route }) {
   };
 
   const directions = (mode) => {
-    getDirections(
-      listing.latitude + "," + listing.longitude,
-      OSU_lat + "," + OSU_long,
-      mode
-    )
-      .then((coords) => {
-        setCoords(coords);
-        console.log("[NETWORK] Directions successfully retrieved from Google.");
-      })
-      .catch((err) => console.log("[NETWORK] Something went wrong:", err));
+    setLoading(true);
+    if (bannerVisible) {
+      setBannerVisible(false);
+    }
+    if (mode === "walking" && walkingCoords) {
+      setCoords(walkingCoords);
+      setDirectionsDistance(Math.round(listing.walk_to_campus_minutes));
+      setDirectionsMode("walking");
+      setLoading(false);
+      setBannerVisible(true);
+    } else if (mode === "driving" && drivingCoords) {
+      setCoords(drivingCoords);
+      setDirectionsDistance(Math.round(listing.drive_to_campus_minutes));
+      setDirectionsMode("driving");
+      setLoading(false);
+      setBannerVisible(true);
+    } else {
+      getDirections(
+        listing.latitude + "," + listing.longitude,
+        OSU_lat + "," + OSU_long,
+        mode
+      )
+        .then((coords) => {
+          setCoords(coords);
+          setDirectionsMode(mode);
+          if (mode === "walking") {
+            setDirectionsDistance(Math.round(listing.walk_to_campus_minutes));
+            setWalkingCoords(coords);
+          } else {
+            setDirectionsDistance(Math.round(listing.drive_to_campus_minutes));
+            setDrivingCoords(coords);
+          }
+          setLoading(false);
+          setBannerVisible(true);
+          console.log(
+            "[NETWORK] Directions successfully retrieved from Google."
+          );
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("[NETWORK] Something went wrong:", err);
+        });
+    }
   };
 
   const OSU_lat = 44.5647;
@@ -173,6 +218,12 @@ function ListingDetailScreen({ navigation, route }) {
           }
           onPressWalking={() => directions("walking")}
           onPressDriving={() => directions("driving")}
+        />
+        <TimeToCampusBanner
+          minutes={directionsDistance}
+          mode={directionsMode}
+          visible={bannerVisible}
+          colors={colors}
         />
       </View>
     </>

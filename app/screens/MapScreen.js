@@ -330,6 +330,7 @@ function MapScreen({ navigation, route }) {
         renderItem={({ item }) => (
           <MapCard
             listing={item}
+            colors={colors}
             onPress={() =>
               navigation.navigate("ListingDetailNavigator", {
                 screen: "ListingDetailScreen",

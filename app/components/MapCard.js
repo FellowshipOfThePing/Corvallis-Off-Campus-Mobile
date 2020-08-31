@@ -11,10 +11,10 @@ import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
 import ThemeContext from "../theme/context";
 
-const MapCard = ({ onPress, listing, style }) => {
-  const imageUri = listing.images[0] != null ? listing.images[0] : "";
+const MapCard = ({ onPress, listing, style, colors }) => {
+  const defaultImage = require("../../assets/placeholder.jpg");
+  const imageUri = listing.images.length > 0 ? listing.images[0] : defaultImage;
   const [loading, setLoading] = useState(true);
-  const { colors } = useContext(ThemeContext);
 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
@@ -37,9 +37,9 @@ const MapCard = ({ onPress, listing, style }) => {
               setLoading(false);
             }}
             source={
-              imageUri.length != 0
-                ? { uri: listing.images[0], cache: "default" }
-                : null
+              imageUri !== null
+                ? { uri: imageUri, cache: "default" }
+                : defaultImage
             }
             style={styles.image}
           />
