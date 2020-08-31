@@ -6,7 +6,7 @@ import SavedContext from "../firestore/context";
 const fadeTime = 200;
 const delayTime = 1200;
 
-function LogInLayover({ color, textStyle }) {
+function LogInOverlay({ color, textStyle }) {
   const { heartPressed } = useContext(SavedContext);
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const [fading, setFading] = useState(false);
@@ -25,15 +25,16 @@ function LogInLayover({ color, textStyle }) {
         useNativeDriver: true,
         delay: delayTime,
       }),
-    ]).start();
+    ]).start((done) => {
+      if (done.finished) {
+        setFading(false);
+      }
+    });
   };
 
   useEffect(() => {
     if (!fading && !firstRender) {
       setFading(true);
-      setTimeout(() => {
-        setFading(false);
-      }, fadeTime * 2 + delayTime);
       transition();
     } else {
       setFirstRender(false);
@@ -68,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogInLayover;
+export default LogInOverlay;

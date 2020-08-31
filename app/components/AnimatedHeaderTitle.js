@@ -13,6 +13,7 @@ function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
   const offline =
     netInfo.type !== "unknown" && netInfo.isInternetReachable === false;
 
+  const [initialLoad, setInitialLoad] = useState(true);
   const [fading, setFading] = useState(false);
   const [title, setTitle] = useState(headerTitle);
 
@@ -47,18 +48,22 @@ function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
   };
 
   useEffect(() => {
-    if (!fading && !offline) {
-      setFading(true);
-      setTimeout(() => {
-        setTitle("Log In to Save Listings");
-      }, fadeTime);
-      setTimeout(() => {
-        setTitle(headerTitle);
-      }, fadeTime * 3 + delayTime);
-      setTimeout(() => {
-        setFading(false);
-      }, fadeTime * 4 + delayTime);
-      transition();
+    if (!initialLoad) {
+      if (!fading && !offline) {
+        setFading(true);
+        setTimeout(() => {
+          setTitle("Log In to Save Listings");
+        }, fadeTime);
+        setTimeout(() => {
+          setTitle(headerTitle);
+        }, fadeTime * 3 + delayTime);
+        setTimeout(() => {
+          setFading(false);
+        }, fadeTime * 4 + delayTime);
+        transition();
+      }
+    } else {
+      setInitialLoad(false);
     }
   }, [heartPressed]);
 

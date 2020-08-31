@@ -36,9 +36,8 @@ function MapScreen({ navigation, route }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
+
   const [following, setFollowing] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [longPressOn, setLongPressOn] = useState(true);
   const [titlesVisible, setTitlesVisible] = useState(false);
 
   const initialRegion = {
@@ -142,23 +141,6 @@ function MapScreen({ navigation, route }) {
     );
   };
 
-  const onHoldButton = () => {
-    setLongPressOn(true);
-    setTitlesVisible(true);
-  };
-
-  const onReleaseButton = () => {
-    setTitlesVisible(false);
-  };
-
-  const onPressFollow = () => {
-    setModalVisible(true);
-    setFollowing(!following);
-    setTimeout(() => {
-      setModalVisible(false);
-    }, 1200);
-  };
-
   const onMarkerPress = (index) => {
     const markerID = index;
 
@@ -195,12 +177,6 @@ function MapScreen({ navigation, route }) {
       }, 3000);
     }
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLongPressOn(false);
-    }, 5000);
-  });
 
   useEffect(() => {
     if (!firstLoad) {
@@ -285,13 +261,13 @@ function MapScreen({ navigation, route }) {
       <MapButtonMenu
         onPressZoomButton={() => zoomOut()}
         onPressMarkerButton={() => zoomIn()}
-        onPressFollowButton={() => onPressFollow()}
+        onPressFollowButton={() => setFollowing((previous) => !previous)}
         onPressReturnButton={() => onMarkerPress(0)}
-        onLongPress={() => onHoldButton()}
-        onPressOut={() => onReleaseButton()}
+        onLongPress={() => setTitlesVisible(true)}
+        onPressOut={() => setTitlesVisible(false)}
       />
-      {longPressOn && <MapButtonTitles visible={titlesVisible} />}
-      {modalVisible && <ToggleFollowModal toggledOn={following} />}
+      <MapButtonTitles visible={titlesVisible} />
+      <ToggleFollowModal toggledOn={following} />
       <Animated.FlatList
         ref={flatListRef}
         data={listing_data}
