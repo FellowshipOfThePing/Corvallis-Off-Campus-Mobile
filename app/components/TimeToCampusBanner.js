@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, StyleSheet, Animated, Dimensions } from "react-native";
+import { StyleSheet, Animated, Dimensions } from "react-native";
 
 import AppText from "./AppText";
 
-const height = Dimensions.get("window").height / 22;
+const height = Dimensions.get("window").height / 20;
 const animationDuration = 300;
 
 function TimeToCampusBanner({ minutes, mode, visible, colors }) {
   const positionAnim = useRef(new Animated.Value(-height)).current;
   const [initiaLoad, setInitialLoad] = useState(true);
-  const [moving, setMoving] = useState(false);
 
   const raiseBanner = () => {
     Animated.timing(positionAnim, {

@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
-import { View, StyleSheet, FlatList, Dimensions, Animated } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useRef, useState, useContext } from "react";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 
 import CarouselImageContainer from "./CarouselImageContainer";
 import AppText from "./AppText";

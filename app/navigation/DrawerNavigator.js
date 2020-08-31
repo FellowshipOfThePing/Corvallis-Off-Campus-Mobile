@@ -20,11 +20,16 @@ const DrawerNavigator = () => {
       drawerType="slide"
       edgeWidth={swipeBoundary}
     >
-      <Drawer.Screen name="Home" component={HomeNavigator} options={{ swipeEnabled: false }}/>
+      <Drawer.Screen
+        name="Home"
+        component={HomeNavigator}
+        options={{ swipeEnabled: false }}
+      />
       <Drawer.Screen name="AuthNavigator" component={AuthNavigator} />
       <Drawer.Screen
         name="SavedListingsNavigator"
         component={SavedListingsNavigator}
+        options={{ swipeEnabled: false }}
       />
       <Drawer.Screen
         name="SavedSearchesNavigator"
