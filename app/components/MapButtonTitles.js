@@ -7,6 +7,7 @@ const animationDuration = 300;
 
 function MapButtonTitles({ visible }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
+  const [initialLoad, setInitialLoad] = useState(true);
   const { colors, isLefty } = useContext(ThemeContext);
 
   const fadeOut = () => {
@@ -32,7 +33,12 @@ function MapButtonTitles({ visible }) {
   }, []);
 
   useEffect(() => {
-    if (visible) {
+    if (initialLoad) {
+      setInitialLoad(false);
+      setTimeout(() => {
+        fadeOut();
+      }, 3000);
+    } else if (visible) {
       fadeIn();
     } else {
       fadeOut();
@@ -41,6 +47,7 @@ function MapButtonTitles({ visible }) {
 
   return (
     <Animated.View
+      pointerEvents="none"
       style={[
         styles.titleContainer,
         { opacity: opacityAnim, backgroundColor: colors.fadedBackground2 },

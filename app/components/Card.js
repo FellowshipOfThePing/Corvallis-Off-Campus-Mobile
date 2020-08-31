@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -14,7 +14,8 @@ import ThemeContext from "../theme/context";
 import SavedContext from "../firestore/context";
 
 function Card({ listing, iconRowSize, onPress, saved, onPressHeart, colors }) {
-  const imageUri = listing.images[0] != null ? listing.images[0] : "";
+  const defaultImage = require("../../assets/placeholder.jpg");
+  const imageUri = listing.images.length > 0 ? listing.images[0] : defaultImage;
   const [loading, setLoading] = useState(true);
 
   return (
@@ -23,9 +24,9 @@ function Card({ listing, iconRowSize, onPress, saved, onPressHeart, colors }) {
         <View>
           <Image
             source={
-              imageUri.length != 0
-                ? { uri: listing.images[0], cache: "default" }
-                : null
+              imageUri !== null
+                ? { uri: imageUri, cache: "default" }
+                : defaultImage
             }
             style={styles.image}
             onLoadStart={() => {

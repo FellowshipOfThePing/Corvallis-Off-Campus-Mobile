@@ -7,7 +7,7 @@ const animationDuration = 200;
 
 function ToggleFollowModal({ toggledOn }) {
   const opacityAnim = useRef(new Animated.Value(0)).current;
-  // const [initialLoad, setInitialLoad] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
   const { colors } = useContext(ThemeContext);
 
   const fadeThrough = () => {
@@ -27,11 +27,16 @@ function ToggleFollowModal({ toggledOn }) {
   };
 
   useEffect(() => {
-    fadeThrough();
+    if (!initialLoad) {
+      fadeThrough();
+    } else {
+      setInitialLoad(false);
+    }
   }, [toggledOn]);
 
   return (
     <Animated.View
+      pointerEvents="none"
       style={[
         styles.titleContainer,
         { opacity: opacityAnim, backgroundColor: colors.fadedBackground2 },

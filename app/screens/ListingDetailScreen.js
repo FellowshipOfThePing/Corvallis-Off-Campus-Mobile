@@ -11,7 +11,7 @@ import AuthContext from "../auth/context";
 import ImageCarousel from "../components/ImageCarousel";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
-import LogInLayover from "../components/LogInLayover";
+import LogInOverlay from "../components/LogInOverlay";
 import MiniMapButtonMenu from "../components/MiniMapButtonMenu";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
@@ -98,7 +98,7 @@ function ListingDetailScreen({ navigation, route }) {
           listing={listing}
           style={{ backgroundColor: colors.white }}
         />
-        <LogInLayover
+        <LogInOverlay
           color={colors.fadedBackground2}
           textStyle={{ fontSize: 25 }}
         />
