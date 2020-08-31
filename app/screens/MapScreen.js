@@ -23,9 +23,7 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function MapScreen({ navigation, route }) {
-  const { getListingsApi, filterState, setFilterState } = useContext(
-    ApiContext
-  );
+  const { getListingsApi, filterState } = useContext(ApiContext);
   const { colors, darkMode } = useContext(ThemeContext);
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
@@ -36,9 +34,15 @@ function MapScreen({ navigation, route }) {
   const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
-
   const [following, setFollowing] = useState(true);
   const [titlesVisible, setTitlesVisible] = useState(false);
+
+  const [listingData, setListingData] = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const [latitudes, setLatitudes] = useState([]);
+  const [longitudes, setLongitudes] = useState([]);
+  const [zoomedOutDelta, setZoomedOutDelta] = useState(null);
+  const [markerArray, setMarkerArray] = useState(null);
 
   const initialRegion = {
     latitude: 44.5547,
@@ -53,49 +57,63 @@ function MapScreen({ navigation, route }) {
   });
 
   let mapAnimation = new Animated.Value(0);
-  const { width, height } = Dimensions.get("window");
+  const { width } = Dimensions.get("window");
   const CARD_HEIGHT = 220;
   const CARD_WIDTH = width * 0.9;
   const SPACING_FOR_CARD_INSET = width * 0.05;
 
-  const listing_data = getListingsApi.data.map((marker) => {
-    return marker;
-  });
+  useEffect(() => {
+    if (getListingsApi.data) {
+      setListingData(
+        getListingsApi.data.map((marker) => {
+          return marker;
+        })
+      );
 
-  const addresses = getListingsApi.data.map((marker) => {
-    return marker.address;
-  });
+      setAddresses(
+        getListingsApi.data.map((marker) => {
+          return marker.address;
+        })
+      );
 
-  const latitudes = Object.values(
-    getListingsApi.data.map((marker, index) => {
-      return marker.latitude;
-    })
-  );
+      setLatitudes(
+        Object.values(
+          getListingsApi.data.map((marker, index) => {
+            return marker.latitude;
+          })
+        )
+      );
 
-  const longitudes = Object.keys(
-    getListingsApi.data.map((marker, index) => {
-      return marker.longitude;
-    })
-  );
+      setLongitudes(
+        Object.keys(
+          getListingsApi.data.map((marker, index) => {
+            return marker.longitude;
+          })
+        )
+      );
 
-  const zoomedOutDelta = {
-    latitude: Math.max(...latitudes) - Math.min(...latitudes),
-    longitude: Math.max(...longitudes) - Math.min(...longitudes),
-  };
+      setZoomedOutDelta({
+        latitude: Math.max(...latitudes) - Math.min(...latitudes),
+        longitude: Math.max(...longitudes) - Math.min(...longitudes),
+      });
 
-  const markerArray = listing_data.map((marker, index) => {
-    return (
-      <CustomMarker
-        key={index}
-        coordinate={{
-          latitude: marker.latitude,
-          longitude: marker.longitude,
-        }}
-        onPress={() => onMarkerPress(index)}
-        selected={index === mapIndex}
-      />
-    );
-  });
+      setMarkerArray(
+        listingData.map((marker, index) => {
+          return (
+            <CustomMarker
+              key={index}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+              onPress={() => onMarkerPress(index)}
+              selected={index === mapIndex}
+            />
+          );
+        })
+      );
+    }
+  }, [getListingsApi.data]);
 
   const waitForMapIndex = (newMapIndex) => {
     if (
@@ -119,24 +137,38 @@ function MapScreen({ navigation, route }) {
 
   const zoomOut = () => {
     mapRef.current.animateToRegion(
-      {
-        latitude: initialRegion.latitude,
-        longitude: initialRegion.longitude,
-        latitudeDelta: zoomedOutDelta.latitude + 0.1,
-        longitudeDelta: zoomedOutDelta.latitude,
-      },
+      zoomedOutDelta
+        ? {
+            latitude: initialRegion.latitude,
+            longitude: initialRegion.longitude,
+            latitudeDelta: zoomedOutDelta.latitude + 0.1,
+            longitudeDelta: zoomedOutDelta.latitude,
+          }
+        : {
+            latitude: initialRegion.latitude,
+            longitude: initialRegion.longitude,
+            latitudeDelta: initialRegion.latitudeDelta,
+            longitudeDelta: initialRegion.longitudeDelta,
+          },
       750
     );
   };
 
   const zoomIn = () => {
     mapRef.current.animateToRegion(
-      {
-        latitude: listing_data[mapIndex].latitude,
-        longitude: listing_data[mapIndex].longitude,
-        latitudeDelta: zoomedOutDelta.latitude * 0.05,
-        longitudeDelta: 0,
-      },
+      listingData !== [] && zoomedOutDelta
+        ? {
+            latitude: listingData[mapIndex].latitude,
+            longitude: listingData[mapIndex].longitude,
+            latitudeDelta: zoomedOutDelta.latitude * 0.05,
+            longitudeDelta: 0,
+          }
+        : {
+            latitude: initialRegion.latitude,
+            longitude: initialRegion.longitude,
+            latitudeDelta: initialRegion.latitudeDelta,
+            longitudeDelta: initialRegion.longitudeDelta,
+          },
       750
     );
   };
@@ -150,12 +182,12 @@ function MapScreen({ navigation, route }) {
       setMapIndex(markerID);
     }
 
-    if (listing_data.length > 0) {
+    if (listingData.length > 0) {
       if (following) {
         mapRef.current.animateToRegion(
           {
-            latitude: listing_data[markerID].latitude,
-            longitude: listing_data[markerID].longitude,
+            latitude: listingData[markerID].latitude,
+            longitude: listingData[markerID].longitude,
             latitudeDelta: mapDelta.latitudeDelta,
             longitudeDelta: mapDelta.longitudeDelta,
           },
@@ -193,7 +225,7 @@ function MapScreen({ navigation, route }) {
   useFocusEffect(
     React.useCallback(() => {
       if (route.params) {
-        if (route.params.sourceDetailScreen && listing_data.length > 0) {
+        if (route.params.sourceDetailScreen && listingData.length > 0) {
           let newMapIndex = addresses.indexOf(route.params.listing.address);
           waitForMapIndex(newMapIndex);
         }
@@ -205,8 +237,8 @@ function MapScreen({ navigation, route }) {
   useEffect(() => {
     mapAnimation.addListener(({ value }) => {
       let index = Math.round(value / width);
-      if (index >= listing_data.length) {
-        index = listing_data.length - 1;
+      if (index >= listingData.length) {
+        index = listingData.length - 1;
       }
       if (index <= 0) {
         index = 0;
@@ -221,8 +253,8 @@ function MapScreen({ navigation, route }) {
             if (following) {
               mapRef.current.animateToRegion(
                 {
-                  latitude: listing_data[index].latitude,
-                  longitude: listing_data[index].longitude,
+                  latitude: listingData[index].latitude,
+                  longitude: listingData[index].longitude,
                   latitudeDelta: mapDelta.latitudeDelta,
                   longitudeDelta: mapDelta.longitudeDelta,
                 },
@@ -270,7 +302,7 @@ function MapScreen({ navigation, route }) {
       <ToggleFollowModal toggledOn={following} />
       <Animated.FlatList
         ref={flatListRef}
-        data={listing_data}
+        data={listingData}
         horizontal
         pagingEnabled
         initialNumToRender={10}
