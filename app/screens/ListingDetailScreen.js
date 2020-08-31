@@ -19,6 +19,7 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import LogInOverlay from "../components/LogInOverlay";
 import MiniMapButtonMenu from "../components/MiniMapButtonMenu";
 import TimeToCampusBanner from "../components/TimeToCampusBanner";
+import LoadingModal from "../components/LoadingModal";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -224,6 +225,9 @@ function ListingDetailScreen({ navigation, route }) {
           visible={bannerVisible}
           colors={colors}
         />
+        <View style={styles.loadingModal}>
+          {loading && <LoadingModal style={styles.loadingIndicator} />}
+        </View>
       </View>
     </>
   );
@@ -232,6 +236,15 @@ function ListingDetailScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   detailsContainer: {
     padding: 18,
+  },
+  loadingModal: {
+    height: "100%",
+    justifyContent: "center",
+    position: "absolute",
+    alignSelf: "center",
+  },
+  loadingIndicator: {
+    backgroundColor: "rgba(0,0,0,0)",
   },
   imageContainer: {
     flex: 2,
