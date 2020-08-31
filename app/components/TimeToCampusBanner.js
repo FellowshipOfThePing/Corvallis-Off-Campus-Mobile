@@ -44,7 +44,7 @@ function TimeToCampusBanner({ minutes, mode, visible, colors }) {
       ]}
     >
       <AppText style={{ color: colors.navHeaderText }}>
-        {minutes} minutes {mode} to campus
+        {minutes} minutes {mode} to campus center
       </AppText>
     </Animated.View>
   );

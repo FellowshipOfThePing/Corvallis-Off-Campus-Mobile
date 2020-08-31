@@ -194,7 +194,7 @@ export default function FilterModalScreen({ navigation }) {
       </View>
       <View style={styles.sliders}>
         <SliderSection
-          title="Price Range"
+          title="Price"
           changeFilterLow={setPriceLow}
           changeFilterHigh={setPriceHigh}
           initialValues={[priceLow, priceHigh]}
@@ -203,6 +203,7 @@ export default function FilterModalScreen({ navigation }) {
           snapped
           low={priceLow}
           high={priceHigh}
+          price
         />
         <SliderSection
           title="Beds"

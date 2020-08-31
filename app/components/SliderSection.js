@@ -17,6 +17,7 @@ function SliderSection({
   step = 1,
   low,
   high,
+  price = false,
 }) {
   const [touched, setTouched] = useState(false);
   const { colors } = useContext(ThemeContext);
@@ -26,7 +27,8 @@ function SliderSection({
       style={[styles.sliderSection, { backgroundColor: colors.white }, style]}
     >
       <AppText style={styles.sliderTitle}>
-        {title}: {low} - {high}
+        {title}: {price ? "$" : ""}
+        {low} - {high}
       </AppText>
       <MultiSlider
         allowOverlap

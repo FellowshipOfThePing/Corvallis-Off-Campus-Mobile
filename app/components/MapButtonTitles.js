@@ -37,7 +37,7 @@ function MapButtonTitles({ visible }) {
       setInitialLoad(false);
       setTimeout(() => {
         fadeOut();
-      }, 3000);
+      }, 2000);
     } else if (visible) {
       fadeIn();
     } else {

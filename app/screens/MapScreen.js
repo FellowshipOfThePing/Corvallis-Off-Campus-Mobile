@@ -273,6 +273,7 @@ function MapScreen({ navigation, route }) {
         data={listing_data}
         horizontal
         pagingEnabled
+        initialNumToRender={10}
         removeClippedSubviews
         scrollEventThrottle={1}
         style={styles.flatList}

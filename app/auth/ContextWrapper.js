@@ -52,14 +52,16 @@ export default ({ children }) => {
   const signIn = async (email, password) => {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
-      setUser({ email, password });
-      setEmail(email);
       getUsername(password);
+      setEmail(email);
+      setUser({ email, password });
       console.log("[NETWORK] Logged In");
       return true;
     } catch (error) {
       console.log("[ERROR] Error Logging In:", error);
       handleLoginError(error);
+      setEmail(null);
+      setUser(null);
       return false;
     }
   };
@@ -193,7 +195,7 @@ export default ({ children }) => {
         createFavorites,
         createSavedSearches,
         updatePassword,
-        updateEmail
+        updateEmail,
       }}
     >
       {children}

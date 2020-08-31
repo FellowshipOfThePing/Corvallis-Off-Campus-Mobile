@@ -26,6 +26,7 @@ function SavedListingsScreen({ navigation, route }) {
   } = useContext(SavedContext);
 
   const [tapped, setTapped] = useState(false);
+
   const isFocused = useIsFocused();
   const ref = useRef(null);
   useScrollToTop(ref);
@@ -37,10 +38,11 @@ function SavedListingsScreen({ navigation, route }) {
       addFavorite(listing);
     }
     setTapped(!tapped);
+    setFavsChanged(true);
   };
 
   useEffect(() => {
-    if (isFocused === true) {
+    if (isFocused) {
       getFavorites();
     }
   }, [isFocused, tapped]);

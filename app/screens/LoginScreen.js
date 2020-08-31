@@ -42,15 +42,19 @@ function LoginScreen({ navigation }) {
   const handleSubmit = async ({ email, password }) => {
     setLoginFailed(false);
     setLoading(true);
-    const signedIn = await signIn(email, password);
-    if (signedIn === false) {
-      setLoginFailed(true);
+    try {
+      const signedIn = await signIn(email, password);
+      if (signedIn === false) {
+        setLoginFailed(true);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        navigation.navigate("Home");
+      }
+    } catch {
+      setLoginFailed(false);
       setLoading(false);
-      return;
     }
-    navigation.navigate("Home");
-    setLoginFailed(false);
-    setLoading(false);
   };
 
   return (
