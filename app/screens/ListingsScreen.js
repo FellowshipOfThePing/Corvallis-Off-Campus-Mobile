@@ -23,10 +23,8 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function ListingsScreen({ navigation, route }) {
   const { colors } = useContext(ThemeContext);
-  const { user } = useContext(AuthContext);
-  const { getListingsApi, filterState, setFilterState } = useContext(
-    ApiContext
-  );
+  const { user, email } = useContext(AuthContext);
+  const { getListingsApi, filterState } = useContext(ApiContext);
   const {
     addressIDs,
     favorites,
@@ -36,11 +34,13 @@ function ListingsScreen({ navigation, route }) {
     toggleHeartPressed,
   } = useContext(SavedContext);
 
-  const width = Dimensions.get("window").width - 10;
-  const isFocused = useIsFocused();
   const ref = useRef(null);
   useScrollToTop(ref);
+
+  const isFocused = useIsFocused();
   const [tapped, setTapped] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [favsChanged, setFavsChanged] = useState(false);
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -50,13 +50,7 @@ function ListingsScreen({ navigation, route }) {
         addFavorite(listing);
       }
       setTapped(!tapped);
-    }
-  };
-
-  const refresh = () => {
-    getListingsApi.request(filterState);
-    if (user !== null) {
-      getFavorites();
+      setFavsChanged(true);
     }
   };
 
@@ -65,14 +59,22 @@ function ListingsScreen({ navigation, route }) {
   }, [getListingsApi.data, filterState]);
 
   useEffect(() => {
-    refresh();
+    getListingsApi.request(filterState);
   }, [filterState]);
 
   useEffect(() => {
-    if (user !== null && isFocused === true) {
+    if (email && initialLoad) {
       getFavorites();
+      setInitialLoad(false);
     }
-  }, [tapped, isFocused]);
+  }, [email]);
+
+  useEffect(() => {
+    if (user && !isFocused && favsChanged) {
+      getFavorites();
+      setFavsChanged(false);
+    }
+  }, [isFocused]);
 
   return (
     <>

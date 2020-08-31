@@ -64,7 +64,7 @@ export default ({ children }) => {
     setRefreshing(false);
   };
 
-  const addFavorite = (listing) => {
+  const addFavorite = async (listing) => {
     let addresses = addressIDs;
     addresses.push(listing.address_id);
     setAddressIDs(addresses);
@@ -75,7 +75,7 @@ export default ({ children }) => {
     console.log("[NETWORK] Listing added to favorites");
   };
 
-  const removeFavorite = (listing) => {
+  const removeFavorite = async (listing) => {
     let index = addressIDs.indexOf(listing.address_id);
     let addresses = addressIDs;
     addresses.splice(index, 1);

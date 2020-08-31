@@ -66,7 +66,6 @@ function ListingDetailScreen({ navigation, route }) {
   const onHeartPress = (listing) => {
     if (user !== null) {
       setTapped(!tapped);
-      getFavorites();
       if (addressIDs.includes(listing.address_id)) {
         removeFavorite(listing);
         setTapped(false);
