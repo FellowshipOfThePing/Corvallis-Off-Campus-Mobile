@@ -41,7 +41,11 @@ export default ({ children }) => {
   const getFavorites = () => {
     setRefreshing(true);
     getAddressIDs();
-    if (getListingsApi.data.length > 0 && addressIDs.length > 0) {
+    if (
+      getListingsApi.data &&
+      getListingsApi.data.length > 0 &&
+      addressIDs.length > 0
+    ) {
       let listings = [];
       let addresses = [];
 

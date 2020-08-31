@@ -89,7 +89,7 @@ function ListingsScreen({ navigation, route }) {
           extraData={favorites}
           keyExtractor={(listing) => listing.address_id.toString()}
           refreshing={getListingsApi.loading}
-          onRefresh={() => refresh()}
+          onRefresh={() => getListingsApi.request(filterState)}
           getItemLayout={(data, index) => ({
             length: 345,
             offset: 345 * index,
