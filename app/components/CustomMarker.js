@@ -5,7 +5,7 @@ import { Marker } from "react-native-maps";
 import ThemeContext from "../theme/context";
 
 const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
-  const selectedSize = size * 1;
+  const selectedSize = size * 1.4;
   const sizeAnim = useRef(new Animated.Value(selected ? selectedSize : size))
     .current;
   const radiusAnim = useRef(new Animated.Value(selected ? size : size / 2))
@@ -48,43 +48,42 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
       onPress={onPress}
       flat
       anchor={{ x: 0.5, y: 0.5 }}
+      style={selected ? { zIndex: 9999 } : null}
     >
-      <TouchableOpacity>
+      <TouchableOpacity
+        style={[
+          styles.wrapper,
+          selected
+            ? { height: selectedSize * 3, width: selectedSize * 3 }
+            : { height: size * 3, width: size * 3 },
+        ]}
+      >
+        <Animated.View
+          style={[
+            styles.ring,
+            {
+              borderColor: colors.primaryMarkerRing,
+              height: selected ? sizeAnim : 0,
+              width: selected ? sizeAnim : 0,
+              borderRadius: selected ? radiusAnim : size / 2,
+              opacity: selected ? opacityAnim : 0,
+              borderWidth: selected ? selectedSize / 5 : size / 5,
+            },
+          ]}
+        />
         <View
           style={[
-            styles.wrapper,
-            selected
-              ? { height: selectedSize * 3, width: selectedSize * 3 }
-              : { height: size * 3, width: size * 3 },
+            styles.dot,
+            {
+              backgroundColor: selected ? colors.primary : "#fff",
+              borderWidth: 1,
+              borderColor: "#000",
+              borderRadius: selected ? size : size / 2,
+              height: selected ? selectedSize : size,
+              width: selected ? selectedSize : size,
+            },
           ]}
-        >
-          <Animated.View
-            style={[
-              styles.ring,
-              {
-                borderColor: colors.primaryMarkerRing,
-                height: selected ? sizeAnim : 0,
-                width: selected ? sizeAnim : 0,
-                borderRadius: selected ? radiusAnim : size / 2,
-                opacity: selected ? opacityAnim : 0,
-                borderWidth: selected ? selectedSize / 5 : size / 5,
-              },
-            ]}
-          />
-          <View
-            style={[
-              styles.dot,
-              {
-                backgroundColor: selected ? colors.primary : "#fff",
-                borderWidth: 1,
-                borderColor: "#000",
-                borderRadius: selected ? size : size / 2,
-                height: selected ? selectedSize : size,
-                width: selected ? selectedSize : size,
-              },
-            ]}
-          />
-        </View>
+        />
       </TouchableOpacity>
     </Marker>
   );

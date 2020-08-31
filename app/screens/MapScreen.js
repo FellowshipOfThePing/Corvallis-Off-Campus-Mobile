@@ -42,7 +42,7 @@ function MapScreen({ navigation, route }) {
   const [latitudes, setLatitudes] = useState([]);
   const [longitudes, setLongitudes] = useState([]);
   const [zoomedOutDelta, setZoomedOutDelta] = useState(null);
-  const [markerArray, setMarkerArray] = useState(null);
+  // const [markerArray, setMarkerArray] = useState(null);
 
   const initialRegion = {
     latitude: 44.5547,
@@ -96,24 +96,24 @@ function MapScreen({ navigation, route }) {
         latitude: Math.max(...latitudes) - Math.min(...latitudes),
         longitude: Math.max(...longitudes) - Math.min(...longitudes),
       });
-
-      setMarkerArray(
-        listingData.map((marker, index) => {
-          return (
-            <CustomMarker
-              key={index}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              onPress={() => onMarkerPress(index)}
-              selected={index === mapIndex}
-            />
-          );
-        })
-      );
     }
   }, [getListingsApi.data]);
+
+  const markerArray = listingData
+    ? listingData.map((marker, index) => {
+        return (
+          <CustomMarker
+            key={index}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}
+            onPress={() => onMarkerPress(index)}
+            selected={index === mapIndex}
+          />
+        );
+      })
+    : null;
 
   const waitForMapIndex = (newMapIndex) => {
     if (
