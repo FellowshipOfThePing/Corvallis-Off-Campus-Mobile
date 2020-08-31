@@ -274,7 +274,6 @@ function MapScreen({ navigation, route }) {
         horizontal
         pagingEnabled
         initialNumToRender={10}
-        removeClippedSubviews
         scrollEventThrottle={1}
         style={styles.flatList}
         snapToInterval={width}
