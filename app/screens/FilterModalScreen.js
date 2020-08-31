@@ -46,6 +46,7 @@ export default function FilterModalScreen({ navigation }) {
     Animated.timing(opacityAnim, {
       toValue: 0,
       duration: fadeDuration,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -53,6 +54,7 @@ export default function FilterModalScreen({ navigation }) {
     Animated.timing(opacityAnim, {
       toValue: 1,
       duration: fadeDuration,
+      useNativeDriver: true,
     }).start();
   };
 

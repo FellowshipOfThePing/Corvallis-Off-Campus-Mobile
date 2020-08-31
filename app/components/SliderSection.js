@@ -4,7 +4,6 @@ import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import AppText from "./AppText";
 import ThemeContext from "../theme/context";
-import SliderLabel from "./SliderLabel";
 
 function SliderSection({
   onChange,
