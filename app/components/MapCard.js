@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -10,50 +10,67 @@ import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
 
-const MapCard = ({ onPress, listing, style, colors }) => {
-  const defaultImage = "../../assets/placeholder.jpg";
-  const imageUri = listing.images.length > 0 ? listing.images[0] : null;
-  const [loading, setLoading] = useState(true);
-
-  return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View
-        style={[
-          styles.card,
-          {
-            backgroundColor: colors.mapCardBackground,
-            shadowColor: colors.black,
-          },
-          style,
-        ]}
-      >
-        <View style={styles.imageContainer}>
-          <Image
-            source={
-              imageUri
-                ? { uri: imageUri, cache: "default" }
-                : require(defaultImage)
-            }
-            style={styles.image}
-            onLoadStart={() => {
-              setLoading(true);
-            }}
-            onLoadEnd={() => {
-              setLoading(false);
-            }}
-          />
-          <ActivityIndicator visible={loading} />
+class MapCard extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.defaultImage = require("../../assets/placeholder.jpg");
+    this.imageUri =
+      this.props.listing.images.length > 0
+        ? this.props.listing.images[0]
+        : null;
+    this.state = {
+      loading: true,
+    };
+  }
+  render() {
+    return (
+      <TouchableWithoutFeedback onPress={this.props.onPress}>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: this.props.colors.mapCardBackground,
+              shadowColor: this.props.colors.black,
+            },
+            this.props.style,
+          ]}
+        >
+          <View style={styles.imageContainer}>
+            <Image
+              source={
+                this.imageUri
+                  ? { uri: this.imageUri, cache: "default" }
+                  : this.defaultImage
+              }
+              style={styles.image}
+              onLoadStart={() => {
+                this.setState({
+                  loading: true,
+                });
+              }}
+              onLoadEnd={() => {
+                this.setState({
+                  loading: false,
+                });
+              }}
+            />
+            <ActivityIndicator visible={loading} />
+          </View>
+          <View style={styles.topRow}>
+            <AppText style={[styles.price, { color: this.props.colors.black }]}>
+              ${this.props.listing.price_high}/mo
+            </AppText>
+            <IconRow
+              listing={this.props.listing}
+              size={15}
+              style={styles.iconRow}
+            />
+          </View>
         </View>
-        <View style={styles.topRow}>
-          <AppText style={[styles.price, { color: colors.black }]}>
-            ${listing.price_high}/mo
-          </AppText>
-          <IconRow listing={listing} size={15} style={styles.iconRow} />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
+      </TouchableWithoutFeedback>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   card: {
