@@ -49,7 +49,7 @@ function ImageCarousel({ listing, style }) {
       />
       <View style={[styles.count, { backgroundColor: colors.fadedBackground }]}>
         <AppText style={{ color: "#fff" }}>
-          {index}/{listing.images.length}
+          {index}/{listing.images.length > 0 ? listing.images.length : "1"}
         </AppText>
       </View>
     </View>

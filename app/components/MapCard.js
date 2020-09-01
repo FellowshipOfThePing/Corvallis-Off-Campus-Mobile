@@ -9,11 +9,10 @@ import {
 import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
-import ThemeContext from "../theme/context";
 
 const MapCard = ({ onPress, listing, style, colors }) => {
-  const defaultImage = require("../../assets/placeholder.jpg");
-  const imageUri = listing.images.length > 0 ? listing.images[0] : defaultImage;
+  const defaultImage = "../../assets/placeholder.jpg";
+  const imageUri = listing.images.length > 0 ? listing.images[0] : null;
   const [loading, setLoading] = useState(true);
 
   return (
@@ -30,18 +29,18 @@ const MapCard = ({ onPress, listing, style, colors }) => {
       >
         <View style={styles.imageContainer}>
           <Image
+            source={
+              imageUri
+                ? { uri: imageUri, cache: "default" }
+                : require(defaultImage)
+            }
+            style={styles.image}
             onLoadStart={() => {
               setLoading(true);
             }}
             onLoadEnd={() => {
               setLoading(false);
             }}
-            source={
-              imageUri !== null
-                ? { uri: imageUri, cache: "default" }
-                : defaultImage
-            }
-            style={styles.image}
           />
           <ActivityIndicator visible={loading} />
         </View>

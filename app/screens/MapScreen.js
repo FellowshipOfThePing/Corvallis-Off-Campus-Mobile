@@ -23,13 +23,26 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function MapScreen({ navigation, route }) {
-  const { getListingsApi, filterState } = useContext(ApiContext);
-  const { colors, darkMode } = useContext(ThemeContext);
-  const mapRef = useRef(null);
-  const flatListRef = useRef(null);
+  const initialRegion = {
+    latitude: 44.5547,
+    longitude: -123.28225,
+    latitudeDelta: 0.04864195044303443,
+    longitudeDelta: 0.040142817690068,
+  };
 
   const darkMapTheme = require("../theme/darkMapTheme.json");
   const lightMapTheme = require("../theme/lightMapTheme.json");
+  const { width } = Dimensions.get("window");
+  const CARD_HEIGHT = 220;
+  const CARD_WIDTH = width * 0.9;
+  const SPACING_FOR_CARD_INSET = width * 0.05;
+
+  const { getListingsApi, filterState } = useContext(ApiContext);
+  const { colors, darkMode, isLefty } = useContext(ThemeContext);
+
+  const mapRef = useRef(null);
+  const flatListRef = useRef(null);
+  let mapAnimation = new Animated.Value(0);
 
   const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
@@ -41,79 +54,82 @@ function MapScreen({ navigation, route }) {
   const [addresses, setAddresses] = useState([]);
   const [latitudes, setLatitudes] = useState([]);
   const [longitudes, setLongitudes] = useState([]);
-  const [zoomedOutDelta, setZoomedOutDelta] = useState(null);
-  // const [markerArray, setMarkerArray] = useState(null);
-
-  const initialRegion = {
-    latitude: 44.5547,
-    longitude: -123.28225,
-    latitudeDelta: 0.04864195044303443,
-    longitudeDelta: 0.040142817690068,
-  };
+  const [zoomedOutDelta, setZoomedOutDelta] = useState({
+    latitude: initialRegion.latitudeDelta,
+    longitude: initialRegion.longitudeDelta,
+  });
 
   const [mapDelta, setMapDelta] = useState({
     latitudeDelta: initialRegion.latitudeDelta,
     longitudeDelta: initialRegion.longitudeDelta,
   });
 
-  let mapAnimation = new Animated.Value(0);
-  const { width } = Dimensions.get("window");
-  const CARD_HEIGHT = 220;
-  const CARD_WIDTH = width * 0.9;
-  const SPACING_FOR_CARD_INSET = width * 0.05;
-
   useEffect(() => {
-    if (getListingsApi.data) {
-      setListingData(
-        getListingsApi.data.map((marker) => {
-          return marker;
-        })
-      );
-
-      setAddresses(
-        getListingsApi.data.map((marker) => {
-          return marker.address;
-        })
-      );
-
-      setLatitudes(
-        Object.values(
-          getListingsApi.data.map((marker, index) => {
-            return marker.latitude;
-          })
-        )
-      );
-
-      setLongitudes(
-        Object.keys(
-          getListingsApi.data.map((marker, index) => {
-            return marker.longitude;
-          })
-        )
-      );
-
-      setZoomedOutDelta({
-        latitude: Math.max(...latitudes) - Math.min(...latitudes),
-        longitude: Math.max(...longitudes) - Math.min(...longitudes),
+    if (getListingsApi.data !== []) {
+      let data = getListingsApi.data.map((marker) => {
+        return marker;
       });
+      setListingData(data);
     }
   }, [getListingsApi.data]);
 
-  const markerArray = listingData
-    ? listingData.map((marker, index) => {
-        return (
-          <CustomMarker
-            key={index}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}
-            onPress={() => onMarkerPress(index)}
-            selected={index === mapIndex}
-          />
-        );
-      })
-    : null;
+  useEffect(() => {
+    if (listingData.length > 0) {
+      let adds = getListingsApi.data.map((marker) => {
+        return marker.address;
+      });
+      setAddresses(adds);
+    }
+  }, [listingData]);
+
+  useEffect(() => {
+    if (addresses.length > 0) {
+      let lats = Object.values(
+        getListingsApi.data.map((marker) => {
+          return marker.latitude;
+        })
+      );
+      setLatitudes(lats);
+    }
+  }, [addresses]);
+
+  useEffect(() => {
+    if (latitudes.length > 0) {
+      let longs = Object.values(
+        getListingsApi.data.map((marker) => {
+          return marker.longitude;
+        })
+      );
+      setLongitudes(longs);
+    }
+  }, [latitudes]);
+
+  useEffect(() => {
+    if (longitudes.length > 1) {
+      let zoom = {
+        latitude: Math.max(...latitudes) - Math.min(...latitudes),
+        longitude: Math.max(...longitudes) - Math.min(...longitudes),
+      };
+      setZoomedOutDelta(zoom);
+    }
+  }, [longitudes]);
+
+  const markerArray =
+    listingData.length > 0
+      ? listingData.map((marker, index) => {
+          return (
+            <CustomMarker
+              key={index}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+              onPress={() => onMarkerPress(index)}
+              selected={index === mapIndex}
+            />
+          );
+        })
+      : null;
 
   const waitForMapIndex = (newMapIndex) => {
     if (
@@ -136,58 +152,76 @@ function MapScreen({ navigation, route }) {
   };
 
   const zoomOut = () => {
-    mapRef.current.animateToRegion(
-      zoomedOutDelta
-        ? {
-            latitude: initialRegion.latitude,
-            longitude: initialRegion.longitude,
-            latitudeDelta: zoomedOutDelta.latitude + 0.1,
-            longitudeDelta: zoomedOutDelta.latitude,
-          }
-        : {
-            latitude: initialRegion.latitude,
-            longitude: initialRegion.longitude,
-            latitudeDelta: initialRegion.latitudeDelta,
-            longitudeDelta: initialRegion.longitudeDelta,
-          },
-      750
-    );
+    if (listingData.length > 0 && isFinite(zoomedOutDelta.latitude)) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: initialRegion.latitude,
+          longitude: initialRegion.longitude,
+          latitudeDelta: zoomedOutDelta.latitude + 0.1,
+          longitudeDelta: zoomedOutDelta.latitude,
+        },
+        750
+      );
+    } else {
+      mapRef.current.animateToRegion(
+        {
+          latitude: initialRegion.latitude,
+          longitude: initialRegion.longitude,
+          latitudeDelta: initialRegion.latitudeDelta,
+          longitudeDelta: initialRegion.longitudeDelta,
+        },
+        750
+      );
+    }
   };
 
   const zoomIn = () => {
-    mapRef.current.animateToRegion(
-      listingData !== [] && zoomedOutDelta
-        ? {
-            latitude: listingData[mapIndex].latitude,
-            longitude: listingData[mapIndex].longitude,
-            latitudeDelta: zoomedOutDelta.latitude * 0.05,
-            longitudeDelta: 0,
-          }
-        : {
-            latitude: initialRegion.latitude,
-            longitude: initialRegion.longitude,
-            latitudeDelta: initialRegion.latitudeDelta,
-            longitudeDelta: initialRegion.longitudeDelta,
-          },
-      750
-    );
+    if (listingData.length > 0 && isFinite(zoomedOutDelta.latitude)) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: listingData[mapIndex].latitude,
+          longitude: listingData[mapIndex].longitude,
+          latitudeDelta: zoomedOutDelta.latitude * 0.05,
+          longitudeDelta: 0,
+        },
+        750
+      );
+    } else if (listingData.length > 0 && !isFinite(zoomedOutDelta.latitude)) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: listingData[mapIndex].latitude,
+          longitude: listingData[mapIndex].longitude,
+          latitudeDelta: initialRegion.latitudeDelta,
+          longitudeDelta: initialRegion.longitudeDelta,
+        },
+        750
+      );
+    } else {
+      mapRef.current.animateToRegion(
+        {
+          latitude: initialRegion.latitude,
+          longitude: initialRegion.longitude,
+          latitudeDelta: initialRegion.latitudeDelta,
+          longitudeDelta: initialRegion.longitudeDelta,
+        },
+        750
+      );
+    }
   };
 
   const onMarkerPress = (index) => {
-    const markerID = index;
+    let offset = index * width;
 
-    let offset = markerID * width;
-
-    if (mapIndex !== markerID) {
-      setMapIndex(markerID);
+    if (mapIndex !== index) {
+      setMapIndex(index);
     }
 
     if (listingData.length > 0) {
       if (following) {
         mapRef.current.animateToRegion(
           {
-            latitude: listingData[markerID].latitude,
-            longitude: listingData[markerID].longitude,
+            latitude: listingData[index].latitude,
+            longitude: listingData[index].longitude,
             latitudeDelta: mapDelta.latitudeDelta,
             longitudeDelta: mapDelta.longitudeDelta,
           },
@@ -220,7 +254,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     onMarkerPress(0);
-  }, [getListingsApi.data]);
+  }, [listingData]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -297,6 +331,8 @@ function MapScreen({ navigation, route }) {
         onPressReturnButton={() => onMarkerPress(0)}
         onLongPress={() => setTitlesVisible(true)}
         onPressOut={() => setTitlesVisible(false)}
+        colors={colors}
+        isLefty={isLefty}
       />
       <MapButtonTitles visible={titlesVisible} />
       <ToggleFollowModal toggledOn={following} />

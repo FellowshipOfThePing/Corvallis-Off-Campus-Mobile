@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as firebase from "firebase";
+import firebase from "../auth/config";
 import "firebase/firestore";
 
 import AuthContext from "./context";
