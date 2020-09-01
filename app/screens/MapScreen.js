@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import {
-  Animated,
-  View,
-  StyleSheet,
-  Dimensions,
-  Platform,
-  StatusBar,
-} from "react-native";
+import { Animated, View, StyleSheet, Dimensions, Platform } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
 import MapCard from "../components/MapCard";
@@ -36,15 +29,15 @@ function MapScreen({ navigation, route }) {
   const CARD_HEIGHT = 220;
   const CARD_WIDTH = width * 0.9;
   const SPACING_FOR_CARD_INSET = width * 0.05;
+  const isFocused = useIsFocused();
 
-  const { getListingsApi, filterState } = useContext(ApiContext);
+  const { getListingsApi } = useContext(ApiContext);
   const { colors, darkMode, isLefty } = useContext(ThemeContext);
 
   const mapRef = useRef(null);
   const flatListRef = useRef(null);
   let mapAnimation = new Animated.Value(0);
 
-  const [firstLoad, setFirstLoad] = useState(true);
   const [markerPressed, setMarkerPressed] = useState(false);
   const [mapIndex, setMapIndex] = useState(0);
   const [following, setFollowing] = useState(true);
@@ -70,6 +63,7 @@ function MapScreen({ navigation, route }) {
         return marker;
       });
       setListingData(data);
+      setMapIndex(0);
     }
   }, [getListingsApi.data]);
 
@@ -114,6 +108,10 @@ function MapScreen({ navigation, route }) {
     }
   }, [longitudes]);
 
+  useEffect(() => {
+    onMarkerPress(0);
+  }, [zoomedOutDelta]);
+
   const markerArray =
     listingData.length > 0
       ? listingData.map((marker, index) => {
@@ -131,20 +129,7 @@ function MapScreen({ navigation, route }) {
         })
       : null;
 
-  const waitForMapIndex = (newMapIndex) => {
-    if (
-      typeof newMapIndex !== "undefined" &&
-      newMapIndex !== -1 &&
-      newMapIndex !== mapIndex
-    ) {
-      console.log("New Map Index: " + newMapIndex);
-      onMarkerPress(newMapIndex);
-    } else {
-      setTimeout(waitForMapIndex, 250);
-    }
-  };
-
-  const changeRegion = (region) => {
+  const changeRegionDelta = (region) => {
     setMapDelta({
       latitudeDelta: region.latitudeDelta,
       longitudeDelta: region.longitudeDelta,
@@ -210,71 +195,61 @@ function MapScreen({ navigation, route }) {
   };
 
   const onMarkerPress = (index) => {
-    let offset = index * width;
+    if (!markerPressed) {
+      let offset = index * width;
 
-    if (mapIndex !== index) {
-      setMapIndex(index);
-    }
-
-    if (listingData.length > 0) {
-      if (following) {
-        mapRef.current.animateToRegion(
-          {
-            latitude: listingData[index].latitude,
-            longitude: listingData[index].longitude,
-            latitudeDelta: mapDelta.latitudeDelta,
-            longitudeDelta: mapDelta.longitudeDelta,
-          },
-          500
-        );
+      if (mapIndex !== index) {
+        setMapIndex(index);
       }
 
-      setMarkerPressed(true);
+      if (listingData.length > 0) {
+        setMarkerPressed(true);
+        clearTimeout(scrollTimeout);
+        clearTimeout(markerPressedTimeout);
 
-      setTimeout(() => {
-        flatListRef.current.getNode().scrollToOffset({
-          offset: offset,
-          animated: true,
-        });
-      }, 10);
+        const scrollTimeout = setTimeout(() => {
+          flatListRef.current.getNode().scrollToOffset({
+            offset: offset,
+            animated: true,
+          });
+        }, 10);
 
-      setTimeout(() => {
-        setMarkerPressed(false);
-      }, 3000);
+        const markerPressedTimeout = setTimeout(() => {
+          setMarkerPressed(false);
+        }, 1000);
+      }
     }
   };
 
   useEffect(() => {
-    if (!firstLoad) {
-      getListingsApi.request(filterState);
-    } else {
-      setFirstLoad(false);
+    if (route.params) {
+      if (route.params.index && listingData.length > 0) {
+        setFollowing(true);
+        setMapIndex(route.params.index);
+      }
     }
-  }, [filterState]);
+  }, [route]);
 
   useEffect(() => {
-    onMarkerPress(0);
-  }, [listingData]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      if (route.params) {
-        if (route.params.sourceDetailScreen && listingData.length > 0) {
-          let newMapIndex = addresses.indexOf(route.params.listing.address);
-          waitForMapIndex(newMapIndex);
-        }
-        route.params.sourceDetailScreen = false;
-      }
-    }, [route])
-  );
+    if (following && listingData.length > 0) {
+      mapRef.current.animateToRegion(
+        {
+          latitude: listingData[mapIndex].latitude,
+          longitude: listingData[mapIndex].longitude,
+          latitudeDelta: mapDelta.latitudeDelta,
+          longitudeDelta: mapDelta.longitudeDelta,
+        },
+        500
+      );
+    }
+  }, [mapIndex]);
 
   useEffect(() => {
     mapAnimation.addListener(({ value }) => {
       let index = Math.round(value / width);
       if (index >= listingData.length) {
         index = listingData.length - 1;
-      }
-      if (index <= 0) {
+      } else if (index <= 0) {
         index = 0;
       }
 
@@ -284,22 +259,30 @@ function MapScreen({ navigation, route }) {
         const regionTimeout = setTimeout(() => {
           if (mapIndex !== index) {
             setMapIndex(index);
-            if (following) {
-              mapRef.current.animateToRegion(
-                {
-                  latitude: listingData[index].latitude,
-                  longitude: listingData[index].longitude,
-                  latitudeDelta: mapDelta.latitudeDelta,
-                  longitudeDelta: mapDelta.longitudeDelta,
-                },
-                500
-              );
-            }
           }
-        }, 10);
+        }, 100);
       }
     });
   });
+
+  const renderItem = ({ item }) => (
+    <MapCard
+      listing={item}
+      colors={colors}
+      onPress={() =>
+        navigation.navigate("ListingDetailNavigator", {
+          screen: "ListingDetailScreen",
+          params: { listing: item },
+        })
+      }
+      style={{
+        shadowOffset: { x: 2, y: -2 },
+        height: CARD_HEIGHT,
+        width: CARD_WIDTH,
+        marginHorizontal: width * 0.05,
+      }}
+    />
+  );
 
   return (
     <View style={styles.container}>
@@ -315,7 +298,7 @@ function MapScreen({ navigation, route }) {
         initialRegion={initialRegion}
         showsTraffic={false}
         loadingEnabled
-        onRegionChangeComplete={(region) => changeRegion(region)}
+        onRegionChangeComplete={(region) => changeRegionDelta(region)}
       >
         {markerArray}
       </MapView>
@@ -395,24 +378,7 @@ function MapScreen({ navigation, route }) {
           </View>
         )}
         keyExtractor={(listing, index) => index.toString()}
-        renderItem={({ item }) => (
-          <MapCard
-            listing={item}
-            colors={colors}
-            onPress={() =>
-              navigation.navigate("ListingDetailNavigator", {
-                screen: "ListingDetailScreen",
-                params: { listing: item },
-              })
-            }
-            style={{
-              shadowOffset: { x: 2, y: -2 },
-              height: CARD_HEIGHT,
-              width: CARD_WIDTH,
-              marginHorizontal: width * 0.05,
-            }}
-          />
-        )}
+        renderItem={renderItem}
       />
     </View>
   );

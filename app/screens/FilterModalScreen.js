@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { StyleSheet, View, Dimensions, Animated } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
@@ -17,7 +17,9 @@ const fadeDuration = 300;
 
 export default function FilterModalScreen({ navigation }) {
   const { user } = useContext(AuthContext);
-  const { filterState, setFilterState } = useContext(ApiContext);
+  const { getListingsApi, filterState, setFilterState } = useContext(
+    ApiContext
+  );
   const {
     refreshing,
     savedSearches,
@@ -27,6 +29,7 @@ export default function FilterModalScreen({ navigation }) {
   const { colors, darkMode } = useContext(ThemeContext);
 
   const [saving, setSaving] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   const opacityAnim = useRef(new Animated.Value(1)).current;
 
   const [priceLow, setPriceLow] = useState(filterState.price_low);
@@ -41,6 +44,15 @@ export default function FilterModalScreen({ navigation }) {
   const [driveHigh, setDriveHigh] = useState(filterState.drive_high);
   const [walkLow, setWalkLow] = useState(filterState.walk_low);
   const [walkHigh, setWalkHigh] = useState(filterState.walk_high);
+
+  useEffect(() => {
+    if (!initialLoad) {
+      getListingsApi.request(filterState);
+      navigation.pop();
+    } else {
+      setInitialLoad(false);
+    }
+  }, [filterState]);
 
   const fadeOut = () => {
     Animated.timing(opacityAnim, {
@@ -93,7 +105,6 @@ export default function FilterModalScreen({ navigation }) {
           walk_high: walkHigh,
         });
       }, 1000);
-      navigation.pop();
     }
   };
 

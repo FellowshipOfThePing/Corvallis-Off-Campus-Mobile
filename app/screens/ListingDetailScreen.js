@@ -42,10 +42,9 @@ const getDirections = async (startLoc, destinationLoc, mode) => {
 
 function ListingDetailScreen({ navigation, route }) {
   const { user } = useContext(AuthContext);
-  const { colors, darkMode, isLefty } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
   const {
     addressIDs,
-    getFavorites,
     addFavorite,
     removeFavorite,
     toggleHeartPressed,
@@ -55,6 +54,7 @@ function ListingDetailScreen({ navigation, route }) {
   const darkMapTheme = require("../theme/darkMapTheme.json");
 
   const listing = route.params.listing;
+  const index = route.params.index;
   const [loading, setLoading] = useState(false);
   const [directionsMode, setDirectionsMode] = useState(null);
   const [directionsDistance, setDirectionsDistance] = useState(0);
@@ -212,7 +212,7 @@ function ListingDetailScreen({ navigation, route }) {
               screen: "MapScreen",
               params: {
                 listing: listing,
-                sourceDetailScreen: true,
+                index: index,
               },
             })
           }
