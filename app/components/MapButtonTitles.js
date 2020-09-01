@@ -1,14 +1,12 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
-import { View, StyleSheet, Dimensions, Animated } from "react-native";
+import React, { useRef, useState, useEffect } from "react";
+import { StyleSheet, Dimensions, Animated } from "react-native";
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 
 const animationDuration = 300;
 
-function MapButtonTitles({ visible }) {
+function MapButtonTitles({ visible, colors, isLefty }) {
   const opacityAnim = useRef(new Animated.Value(1)).current;
   const [initialLoad, setInitialLoad] = useState(true);
-  const { colors, isLefty } = useContext(ThemeContext);
 
   const fadeOut = () => {
     Animated.timing(opacityAnim, {

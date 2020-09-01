@@ -2,19 +2,16 @@ import React, { useEffect, useRef, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { Marker } from "react-native-maps";
 
-import ThemeContext from "../theme/context";
-
 const animationDuration = 1500;
 const animationDelay = 0;
 
-const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
+const CustomMarker = ({ coordinate, onPress, selected, size = 10, colors }) => {
   const selectedSize = size * 1.1;
   const sizeAnim = useRef(new Animated.Value(selected ? selectedSize : size))
     .current;
   const radiusAnim = useRef(new Animated.Value(selected ? size : size / 2))
     .current;
   const opacityAnim = useRef(new Animated.Value(1)).current;
-  const { colors } = useContext(ThemeContext);
 
   useEffect(() => {
     if (selected) {

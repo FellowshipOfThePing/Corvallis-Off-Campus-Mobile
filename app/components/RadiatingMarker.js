@@ -1,13 +1,11 @@
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect } from "react";
 import { Animated, View, StyleSheet } from "react-native";
 import { Marker } from "react-native-maps";
-import ThemeContext from "../theme/context";
 
-function RadiatingMarker({ coordinate, onPress, title, size = 20 }) {
+function RadiatingMarker({ coordinate, onPress, title, size = 20, colors }) {
   const sizeAnim = useRef(new Animated.Value(size)).current;
   const radiusAnim = useRef(new Animated.Value(size / 2)).current;
   const opacityAnim = useRef(new Animated.Value(1)).current;
-  const { colors } = useContext(ThemeContext);
 
   useEffect(() => {
     radiate();

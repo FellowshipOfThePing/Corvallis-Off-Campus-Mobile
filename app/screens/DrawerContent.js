@@ -54,6 +54,7 @@ function DrawerContent({ navigation }) {
         </View>
         <View style={[styles.rows, { borderBottomColor: colors.gray }]}>
           <DrawerRowButton
+          colors={colors}
             icon="home"
             text="Home"
             onPress={() => {
@@ -61,6 +62,7 @@ function DrawerContent({ navigation }) {
             }}
           />
           <DrawerRowButton
+            colors={colors}
             icon="folder"
             text="Saved Listings"
             onPress={
@@ -82,6 +84,7 @@ function DrawerContent({ navigation }) {
             }
           />
           <DrawerRowButton
+            colors={colors}
             icon="folder-search"
             text="Saved Searches"
             onPress={

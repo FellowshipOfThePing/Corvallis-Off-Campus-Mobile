@@ -6,9 +6,8 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import AppText from "./AppText";
 import ThemeContext from "../theme/context";
 
-function OfflineNotice() {
+function OfflineNotice({ colors }) {
   const netInfo = useNetInfo();
-  const { colors } = useContext(ThemeContext);
 
   if (netInfo.type !== "unknown" && netInfo.isInternetReachable === false)
     return (

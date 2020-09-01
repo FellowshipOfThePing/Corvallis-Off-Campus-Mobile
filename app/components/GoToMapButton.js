@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ThemeContext from "../theme/context";
 
-function GoToMapButton({ size = 44, onPress, style }) {
-  const { colors } = useContext(ThemeContext);
+function GoToMapButton({ size = 44, onPress, style, colors }) {
   return (
     <TouchableOpacity
       onPress={onPress}

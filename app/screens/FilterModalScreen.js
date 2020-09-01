@@ -193,6 +193,7 @@ export default function FilterModalScreen({ navigation }) {
               <SavedSearchIndicator
                 loading={refreshing}
                 style={[styles.button]}
+                colors={colors}
               />
             )}
           </Animated.View>
@@ -231,6 +232,7 @@ export default function FilterModalScreen({ navigation }) {
           low={priceLow}
           high={priceHigh}
           price
+          colors={colors}
         />
         <SliderSection
           title="Beds"
@@ -241,6 +243,7 @@ export default function FilterModalScreen({ navigation }) {
           extremes={[1, 5]}
           low={bedsLow}
           high={bedsHigh}
+          colors={colors}
         />
         <SliderSection
           title="Baths"
@@ -251,6 +254,7 @@ export default function FilterModalScreen({ navigation }) {
           extremes={[1, 5]}
           low={bathsLow}
           high={bathsHigh}
+          colors={colors}
         />
         <SliderSection
           title="Distance to Campus (Miles)"
@@ -260,6 +264,7 @@ export default function FilterModalScreen({ navigation }) {
           extremes={[0, 25]}
           low={distanceLow}
           high={distanceHigh}
+          colors={colors}
         />
         <SliderSection
           title="Drive to Campus (Minutes)"
@@ -271,6 +276,7 @@ export default function FilterModalScreen({ navigation }) {
           snapped
           low={driveLow}
           high={driveHigh}
+          colors={colors}
         />
         <SliderSection
           title="Walk to Campus (Minutes)"
@@ -282,6 +288,7 @@ export default function FilterModalScreen({ navigation }) {
           snapped
           low={walkLow}
           high={walkHigh}
+          colors={colors}
         />
       </View>
     </View>

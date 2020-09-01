@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import "firebase/firestore";
 
 import AppText from "../components/AppText";
-import AuthContext from "../auth/context";
 import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import SavedSearchCard from "../components/SavedSearchCard";
@@ -15,7 +13,6 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedSearchesScreen({ navigation }) {
   const ref = useRef(null);
-  const { user } = useContext(AuthContext);
   const { getListingsApi, setFilterState } = useContext(ApiContext);
   const {
     refreshing,
@@ -24,17 +21,17 @@ function SavedSearchesScreen({ navigation }) {
     savedSearches,
     saveSearch,
   } = useContext(SavedContext);
-  const { colors, darkMode } = useContext(ThemeContext);
+  const { colors } = useContext(ThemeContext);
   const isFocused = useIsFocused();
   const [expanded, setExpanded] = useState(null);
   const [change, setChange] = useState(true);
 
   useEffect(() => {
     setExpanded(null);
-    if (isFocused) {
+    if (!isFocused) {
       getSavedSearches();
     }
-  }, [isFocused, change]);
+  }, [isFocused]);
 
   const handlePress = (index) => {
     if (index === expanded) {
@@ -77,6 +74,7 @@ function SavedSearchesScreen({ navigation }) {
           contentContainerStyle={{ paddingTop: 10 }}
           renderItem={({ item, index }) => (
             <SavedSearchCard
+              colors={colors}
               savedSearch={item}
               onPress={() => handlePress(index)}
               onPressDelete={() => onRemove(index)}

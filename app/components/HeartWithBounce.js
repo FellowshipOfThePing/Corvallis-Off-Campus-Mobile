@@ -4,13 +4,11 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import * as Animatable from "react-native-animatable";
 
-import ThemeContext from "../config/context";
 
 const AnimatedIcon = Animatable.createAnimatableComponent(FontAwesome);
 
-function Heart({ saved, onPress, size = 35 }) {
+function Heart({ saved, onPress, size = 35, colors }) {
   const [animatedIcon, setAnimatedIcon] = useState(null);
-  const { colors } = useContext(ThemeContext);
 
   const handleIconRef = (ref) => {
     setAnimatedIcon(ref);

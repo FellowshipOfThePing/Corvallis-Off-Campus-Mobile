@@ -3,7 +3,6 @@ import { View, StyleSheet, TouchableOpacity, Animated } from "react-native";
 
 import Button from "./Button";
 import CardCell from "../components/CardCell";
-import ThemeContext from "../theme/context";
 
 function SavedSearchCard({
   savedSearch,
@@ -11,6 +10,7 @@ function SavedSearchCard({
   onPressDelete,
   onPressApply,
   expanded,
+  colors
 }) {
   const priceChanged =
     savedSearch.price_low > 0 || savedSearch.price_high < 5000;
@@ -23,7 +23,6 @@ function SavedSearchCard({
 
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const paddingAnim = useRef(new Animated.Value(0)).current;
-  const { colors } = useContext(ThemeContext);
 
   const borderWidth = 1;
   const borderColor = colors.gray;
@@ -103,6 +102,7 @@ function SavedSearchCard({
             leftValue={savedSearch.price_low}
             rightValue={savedSearch.price_high}
             changed={priceChanged}
+            colors={colors}
           />
           <CardCell
             style={styles.cell}
@@ -112,6 +112,7 @@ function SavedSearchCard({
             leftValue={savedSearch.beds_low}
             rightValue={savedSearch.beds_high}
             changed={bedsChanged}
+            colors={colors}
           />
           <CardCell
             style={[
@@ -127,6 +128,7 @@ function SavedSearchCard({
             leftValue={savedSearch.baths_low}
             rightValue={savedSearch.baths_high}
             changed={bathsChanged}
+            colors={colors}
           />
         </View>
         <View style={styles.cardRow}>
@@ -145,6 +147,7 @@ function SavedSearchCard({
             rightValue={savedSearch.distance_high}
             endingText="miles"
             changed={distanceChanged}
+            colors={colors}
           />
           <CardCell
             style={styles.cell}
@@ -155,6 +158,7 @@ function SavedSearchCard({
             rightValue={savedSearch.walk_high}
             endingText="min"
             changed={walkChanged}
+            colors={colors}
           />
           <CardCell
             style={[
@@ -171,6 +175,7 @@ function SavedSearchCard({
             rightValue={savedSearch.drive_high}
             endingText="min"
             changed={driveChanged}
+            colors={colors}
           />
         </View>
       </TouchableOpacity>

@@ -3,7 +3,6 @@ import { View, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";
-import ThemeContext from "../theme/context";
 
 function CardCell({
   style,
@@ -14,8 +13,8 @@ function CardCell({
   rightValue,
   endingText = "",
   changed,
+  colors
 }) {
-  const { colors } = useContext(ThemeContext);
   return (
     <View style={[style, changed ? { backgroundColor: colors.primary } : null]}>
       <FontAwesome5
