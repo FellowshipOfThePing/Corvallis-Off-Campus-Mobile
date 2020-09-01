@@ -38,6 +38,7 @@ const ListingDetailNavigator = () => {
           headerTitleStyle: {
             fontFamily: text.fontFamily,
             paddingBottom: 5,
+            fontSize: 15
           },
           headerLeft: () => {
             return (
