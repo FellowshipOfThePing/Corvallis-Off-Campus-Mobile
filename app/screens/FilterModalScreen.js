@@ -9,11 +9,12 @@ import ApiContext from "../api/context";
 import SavedContext from "../firestore/context";
 import AuthContext from "../auth/context";
 import SavedSearchIndicator from "../components/SavedSearchIndicator";
+import AppliedSearchIndicator from "../components/AppliedSearchIndicator.js";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 const buttonDiameter = Dimensions.get("window").height * 0.09;
-const fadeDuration = 300;
+const saveFadeDuration = 300;
 
 export default function FilterModalScreen({ navigation }) {
   const { user } = useContext(AuthContext);
@@ -29,8 +30,10 @@ export default function FilterModalScreen({ navigation }) {
   const { colors, darkMode } = useContext(ThemeContext);
 
   const [saving, setSaving] = useState(false);
+  const [applying, setApplying] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
-  const opacityAnim = useRef(new Animated.Value(1)).current;
+
+  const saveOpacityAnim = useRef(new Animated.Value(1)).current;
 
   const [priceLow, setPriceLow] = useState(filterState.price_low);
   const [priceHigh, setPriceHigh] = useState(filterState.price_high);
@@ -54,18 +57,18 @@ export default function FilterModalScreen({ navigation }) {
     }
   }, [filterState]);
 
-  const fadeOut = () => {
-    Animated.timing(opacityAnim, {
+  const fadeOutSave = () => {
+    Animated.timing(saveOpacityAnim, {
       toValue: 0,
-      duration: fadeDuration,
+      duration: saveFadeDuration,
       useNativeDriver: true,
     }).start();
   };
 
-  const fadeIn = () => {
-    Animated.timing(opacityAnim, {
+  const fadeInSave = () => {
+    Animated.timing(saveOpacityAnim, {
       toValue: 1,
-      duration: fadeDuration,
+      duration: saveFadeDuration,
       useNativeDriver: true,
     }).start();
   };
@@ -89,6 +92,7 @@ export default function FilterModalScreen({ navigation }) {
 
   const onApply = () => {
     if (!saving) {
+      setApplying(true);
       setTimeout(() => {
         setFilterState({
           price_low: priceLow,
@@ -129,11 +133,11 @@ export default function FilterModalScreen({ navigation }) {
       setSavedSearches(saved);
       saveSearch();
       setTimeout(() => {
-        fadeOut();
+        fadeOutSave();
         setTimeout(() => {
           setSaving(false);
-          fadeIn();
-        }, fadeDuration);
+          fadeInSave();
+        }, saveFadeDuration);
       }, 1500);
     }
   };
@@ -146,12 +150,24 @@ export default function FilterModalScreen({ navigation }) {
       />
       <View style={styles.topRow}>
         <View style={styles.buttonSection}>
-          <Button
-            style={styles.button}
-            title="Apply"
-            onPress={() => onApply()}
-            textSize={buttonDiameter / 6}
-          />
+          <View style={styles.button}>
+            {!applying && (
+              <Button
+                style={styles.button}
+                title="Apply"
+                onPress={() => onApply()}
+                textSize={buttonDiameter / 6}
+              />
+            )}
+            {applying && (
+              <AppliedSearchIndicator
+                style={[
+                  styles.button,
+                  { justifyContent: "center", alignItems: "center" },
+                ]}
+              />
+            )}
+          </View>
           <Button
             style={[
               styles.button,
@@ -163,7 +179,7 @@ export default function FilterModalScreen({ navigation }) {
             color={colors.white}
             textColor={colors.black}
           />
-          <Animated.View style={{ opacity: opacityAnim }}>
+          <Animated.View style={{ opacity: saveOpacityAnim }}>
             {!saving && (
               <Button
                 style={[styles.button]}
