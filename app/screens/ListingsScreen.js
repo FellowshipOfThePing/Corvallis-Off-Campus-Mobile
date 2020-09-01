@@ -1,10 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import firebase from "../auth/config";
 import "firebase/firestore";
@@ -54,12 +49,14 @@ function ListingsScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    ref.current.scrollToOffset({ animated: true, offset: 0 });
-  }, [getListingsApi.data, filterState]);
+    if (initialLoad) {
+      getListingsApi.request(filterState);
+    }
+  }, []);
 
   useEffect(() => {
-    getListingsApi.request(filterState);
-  }, [filterState]);
+    ref.current.scrollToOffset({ animated: true, offset: 0 });
+  }, [getListingsApi.data, filterState]);
 
   useEffect(() => {
     if (email && initialLoad) {
@@ -74,6 +71,26 @@ function ListingsScreen({ navigation, route }) {
       setFavsChanged(false);
     }
   }, [isFocused]);
+
+  const renderItem = ({ item, index }) => (
+    <Card
+      listing={item}
+      onPress={() =>
+        navigation.navigate("ListingDetailNavigator", {
+          screen: "ListingDetailScreen",
+          params: { listing: item, index: index },
+        })
+      }
+      colors={colors}
+      saved={addressIDs.includes(item.address_id)}
+      onPressHeart={() => {
+        if (!user) {
+          toggleHeartPressed();
+        }
+        onHeartPress(item);
+      }}
+    />
+  );
 
   return (
     <>
@@ -94,25 +111,7 @@ function ListingsScreen({ navigation, route }) {
             offset: 345 * index,
             index: index,
           })}
-          renderItem={({ item }) => (
-            <Card
-              listing={item}
-              onPress={() =>
-                navigation.navigate("ListingDetailNavigator", {
-                  screen: "ListingDetailScreen",
-                  params: { listing: item },
-                })
-              }
-              colors={colors}
-              saved={addressIDs.includes(item.address_id)}
-              onPressHeart={() => {
-                if (!user) {
-                  toggleHeartPressed();
-                }
-                onHeartPress(item);
-              }}
-            />
-          )}
+          renderItem={renderItem}
           ListEmptyComponent={() => (
             <View
               style={[styles.defaultCard, { backgroundColor: colors.white }]}
