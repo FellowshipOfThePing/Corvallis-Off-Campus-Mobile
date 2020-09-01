@@ -64,6 +64,7 @@ class MapCard extends React.PureComponent {
               listing={this.props.listing}
               size={15}
               style={styles.iconRow}
+              colors={this.props.colors}
             />
           </View>
         </View>
