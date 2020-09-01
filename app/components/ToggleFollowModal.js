@@ -1,14 +1,12 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
-import { View, StyleSheet, Dimensions, Animated } from "react-native";
+import React, { useRef, useState, useEffect } from "react";
+import { StyleSheet, Dimensions, Animated } from "react-native";
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 
 const animationDuration = 200;
 
-function ToggleFollowModal({ toggledOn }) {
+function ToggleFollowModal({ toggledOn, colors }) {
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const [initialLoad, setInitialLoad] = useState(true);
-  const { colors } = useContext(ThemeContext);
 
   const fadeThrough = () => {
     Animated.sequence([

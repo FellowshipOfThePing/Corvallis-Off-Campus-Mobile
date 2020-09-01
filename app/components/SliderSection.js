@@ -1,12 +1,10 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 
 function SliderSection({
-  onChange,
   style,
   title,
   initialValues,
@@ -18,10 +16,8 @@ function SliderSection({
   low,
   high,
   price = false,
+  colors,
 }) {
-  const [touched, setTouched] = useState(false);
-  const { colors } = useContext(ThemeContext);
-
   return (
     <View
       style={[styles.sliderSection, { backgroundColor: colors.white }, style]}
@@ -34,15 +30,9 @@ function SliderSection({
         allowOverlap
         snapped={snapped}
         containerStyle={{ alignSelf: "center" }}
-        onValuesChangeStart={() => {
-          setTouched(true);
-        }}
         onValuesChange={(values) => {
           changeFilterLow(values[0]);
           changeFilterHigh(values[1]);
-        }}
-        onValuesChangeFinish={() => {
-          setTouched(false);
         }}
         selectedStyle={{
           backgroundColor: colors.primary,

@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-import ThemeContext from "../theme/context";
 
-function LoadingModal({ style }) {
-  const { colors } = useContext(ThemeContext);
+function LoadingModal({ style, colors }) {
   return (
     <View
       style={[styles.container, { backgroundColor: colors.white }, style]}

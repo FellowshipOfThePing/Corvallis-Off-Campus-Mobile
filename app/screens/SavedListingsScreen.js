@@ -14,7 +14,7 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedListingsScreen({ navigation, route }) {
   const { getListingsApi } = useContext(ApiContext);
-  const { colors, darkMode } = useContext(ThemeContext);
+  const { colors } = useContext(ThemeContext);
   const {
     addressIDs,
     favorites,

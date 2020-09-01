@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import MapView, {
-  Marker,
-  PROVIDER_GOOGLE,
-  Polyline,
-  Callout,
-} from "react-native-maps";
-import { View, StyleSheet, Dimensions, Image, Text } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { decode } from "@mapbox/polyline";
+import { useIsFocused } from "@react-navigation/native";
 
 import ListingDetails from "../components/ListingDetails";
 import RadiatingMarker from "../components/RadiatingMarker";
@@ -42,12 +38,13 @@ const getDirections = async (startLoc, destinationLoc, mode) => {
 
 function ListingDetailScreen({ navigation, route }) {
   const { user } = useContext(AuthContext);
-  const { colors, darkMode } = useContext(ThemeContext);
+  const { colors, darkMode, isLefty } = useContext(ThemeContext);
   const {
     addressIDs,
     addFavorite,
     removeFavorite,
     toggleHeartPressed,
+    syncFavorites,
   } = useContext(SavedContext);
 
   const lightMapTheme = require("../theme/lightMapTheme.json");
@@ -55,11 +52,14 @@ function ListingDetailScreen({ navigation, route }) {
 
   const listing = route.params.listing;
   const index = route.params.index;
+
+  const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
   const [directionsMode, setDirectionsMode] = useState(null);
   const [directionsDistance, setDirectionsDistance] = useState(0);
   const [coords, setCoords] = useState([]);
   const [tapped, setTapped] = useState(addressIDs.includes(listing.address_id));
+  const [changed, setChanged] = useState(false);
   const [bannerVisible, setBannerVisible] = useState(false);
   const [drivingCoords, setDrivingCoords] = useState(null);
   const [walkingCoords, setWalkingCoords] = useState(null);
@@ -74,8 +74,15 @@ function ListingDetailScreen({ navigation, route }) {
         addFavorite(listing);
         setTapped(true);
       }
+      setChanged(true);
     }
   };
+
+  useEffect(() => {
+    if (!isFocused && changed) {
+      syncFavorites();
+    }
+  }, [isFocused]);
 
   const directions = (mode) => {
     setLoading(true);
@@ -140,6 +147,7 @@ function ListingDetailScreen({ navigation, route }) {
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <View style={styles.imageContainer}>
         <ImageCarousel
+          colors={colors}
           listing={listing}
           style={{ backgroundColor: colors.white }}
         />
@@ -149,6 +157,7 @@ function ListingDetailScreen({ navigation, route }) {
         />
       </View>
       <ListingDetails
+        colors={colors}
         listing={listing}
         saved={tapped}
         onPressHeart={() => {
@@ -196,6 +205,7 @@ function ListingDetailScreen({ navigation, route }) {
             }}
             size={15}
             title={listing.address}
+            colors={colors}
           />
           <Marker
             coordinate={{ latitude: OSU_lat, longitude: OSU_long }}
@@ -207,6 +217,8 @@ function ListingDetailScreen({ navigation, route }) {
           </Marker>
         </MapView>
         <MiniMapButtonMenu
+          colors={colors}
+          isLefty={isLefty}
           onPressGoToMap={() =>
             navigation.navigate("Map", {
               screen: "MapScreen",
@@ -226,7 +238,9 @@ function ListingDetailScreen({ navigation, route }) {
           colors={colors}
         />
         <View style={styles.loadingModal}>
-          {loading && <LoadingModal style={styles.loadingIndicator} />}
+          {loading && (
+            <LoadingModal colors={colors} style={styles.loadingIndicator} />
+          )}
         </View>
       </View>
     </>

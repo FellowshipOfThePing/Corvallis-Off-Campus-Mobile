@@ -3,7 +3,6 @@ import { StyleSheet, useWindowDimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 
 function IconWithText({
   iconName,
@@ -12,6 +11,7 @@ function IconWithText({
   quantity,
   textValue,
   visible,
+  colors
 }) {
   if (!visible) {
     return null;
@@ -22,8 +22,6 @@ function IconWithText({
   if (windowWidth < 500) {
     iconSizeOverride = Math.round((iconSize * windowWidth) / 500);
   }
-
-  const { colors } = useContext(ThemeContext)
 
   return (
     <>

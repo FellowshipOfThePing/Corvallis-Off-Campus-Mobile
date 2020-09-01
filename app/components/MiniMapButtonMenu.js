@@ -1,15 +1,23 @@
-import React, { useContext } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import MapButton from "../components/MapButton";
-import ThemeContext from "../theme/context";
 
-function MiniMapButtonMenu({ onPressGoToMap, onPressWalking, onPressDriving, style }) {
-  const { colors, isLefty } = useContext(ThemeContext);
-
+function MiniMapButtonMenu({
+  onPressGoToMap,
+  onPressWalking,
+  onPressDriving,
+  style,
+  colors,
+  isLefty,
+}) {
   return (
     <View
-      style={[styles.sideButtonContainer, style, isLefty ? { right: 5 } : { left: 5 }]}
+      style={[
+        styles.sideButtonContainer,
+        style,
+        isLefty ? { right: 5 } : { left: 5 },
+      ]}
     >
       <MapButton
         style={[

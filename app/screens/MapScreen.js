@@ -121,6 +121,7 @@ function MapScreen({ navigation, route }) {
           return (
             <CustomMarker
               key={index}
+              colors={colors}
               coordinate={{
                 latitude: marker.latitude,
                 longitude: marker.longitude,
@@ -316,7 +317,7 @@ function MapScreen({ navigation, route }) {
       </MapView>
       {getListingsApi.loading && (
         <View style={styles.loadingIndicator}>
-          <LoadingModal />
+          <LoadingModal colors={colors} />
         </View>
       )}
       <MapButtonMenu
@@ -329,8 +330,12 @@ function MapScreen({ navigation, route }) {
         colors={colors}
         isLefty={isLefty}
       />
-      <MapButtonTitles visible={titlesVisible} />
-      <ToggleFollowModal toggledOn={following} />
+      <MapButtonTitles
+        isLefty={isLefty}
+        colors={colors}
+        visible={titlesVisible}
+      />
+      <ToggleFollowModal toggledOn={following} colors={colors} />
       <Animated.FlatList
         ref={flatListRef}
         data={listingData}

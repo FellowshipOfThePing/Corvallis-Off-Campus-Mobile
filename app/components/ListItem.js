@@ -9,7 +9,6 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 
 function ListItem({
   title,
@@ -19,8 +18,8 @@ function ListItem({
   onPress,
   renderRightActions,
   style,
+  colors
 }) {
-  const { colors } = useContext(ThemeContext);
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <TouchableWithoutFeedback underlayColor={colors.medium} onPress={onPress}>

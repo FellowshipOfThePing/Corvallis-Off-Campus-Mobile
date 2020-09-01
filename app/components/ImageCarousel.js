@@ -3,15 +3,13 @@ import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 
 import CarouselImageContainer from "./CarouselImageContainer";
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 import Constants from "expo-constants";
 
 const width = Dimensions.get("window").width;
 
-function ImageCarousel({ listing, style }) {
+function ImageCarousel({ listing, style, colors }) {
   const carouselRef = useRef(null);
   const [index, setIndex] = useState(1);
-  const { colors } = useContext(ThemeContext);
 
   const onScrolled = (e) => {
     let offsetX = e.nativeEvent.targetContentOffset.x;

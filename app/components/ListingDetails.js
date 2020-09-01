@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 
 import AppText from "./AppText";
-import ThemeContext from "../theme/context";
 import Heart from "./Heart";
 import IconRow from "./IconRow";
 import ListItem from "./ListItem";
@@ -13,6 +12,7 @@ function ListingDetails({
   onPressHeart,
   saved,
   style,
+  colors,
 }) {
   if (listing.provider === "Trulia") {
     var providerImage = require("../../assets/Trulia.png");
@@ -21,7 +21,6 @@ function ListingDetails({
   } else {
     var providerImage = require("../../assets/Local.png");
   }
-  const { colors } = useContext(ThemeContext);
 
   return (
     <View style={[{ backgroundColor: colors.white }, style]}>
@@ -30,9 +29,19 @@ function ListingDetails({
           <AppText style={[styles.price, { color: colors.black }]}>
             ${listing.price_high}/mo
           </AppText>
-          <Heart size={35} saved={saved} onPress={onPressHeart} />
+          <Heart
+            colors={colors}
+            size={35}
+            saved={saved}
+            onPress={onPressHeart}
+          />
         </View>
-        <IconRow listing={listing} fullSize style={styles.iconRow} />
+        <IconRow
+          colors={colors}
+          listing={listing}
+          fullSize
+          style={styles.iconRow}
+        />
         <AppText style={{ paddingTop: 4 }}>{listing.address}</AppText>
       </View>
       <View
@@ -40,6 +49,7 @@ function ListingDetails({
       >
         {providerImage && (
           <ListItem
+            colors={colors}
             image={providerImage}
             title={listing.provider}
             subTitle="See Listing Details"
@@ -48,7 +58,11 @@ function ListingDetails({
           />
         )}
         {!providerImage && (
-          <ListItem title={listing.provider} subTitle="See Listing Details" />
+          <ListItem
+            colors={colors}
+            title={listing.provider}
+            subTitle="See Listing Details"
+          />
         )}
       </View>
     </View>

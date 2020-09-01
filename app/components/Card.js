@@ -59,6 +59,7 @@ class Card extends React.PureComponent {
                 ${this.props.listing.price_high}/mo
               </AppText>
               <Heart
+                colors={this.props.colors}
                 saved={this.props.saved}
                 onPress={this.props.onPressHeart}
               />
@@ -68,6 +69,7 @@ class Card extends React.PureComponent {
               size={this.props.iconRowSize}
               fullSize
               style={styles.iconRow}
+              colors={this.props.colors}
             />
             <AppText style={{ paddingTop: 3 }}>
               {this.props.listing.address}

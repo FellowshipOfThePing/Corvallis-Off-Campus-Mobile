@@ -1,10 +1,8 @@
 import React from "react";
 import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
-import ThemeContext from "../theme/context";
 
 function SavedSearchIndicator({ style }) {
-
   return (
     <View style={[styles.overlay, style]}>
       <LottieView
