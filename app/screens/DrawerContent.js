@@ -71,7 +71,13 @@ function DrawerContent({ navigation }) {
                     });
                   }
                 : () => {
-                    navigation.navigate("AuthNavigator", { screen: "Login" });
+                    navigation.navigate("AuthNavigator", {
+                      screen: "Login",
+                      params: {
+                        intendedNavigator: "SavedListingsNavigator",
+                        intendedScreen: "Saved Listings",
+                      },
+                    });
                   }
             }
           />
@@ -84,7 +90,13 @@ function DrawerContent({ navigation }) {
                     navigation.navigate("SavedSearchesNavigator");
                   }
                 : () => {
-                    navigation.navigate("AuthNavigator", { screen: "Login" });
+                    navigation.navigate("AuthNavigator", {
+                      screen: "Login",
+                      params: {
+                        intendedNavigator: "SavedSearchesNavigator",
+                        intendedScreen: "Saved Searches",
+                      },
+                    });
                   }
             }
           />
@@ -116,7 +128,11 @@ function DrawerContent({ navigation }) {
                 user
                   ? () => handleLogout()
                   : () =>
-                      navigation.navigate("AuthNavigator", { screen: "Login" })
+                      navigation.navigate("AuthNavigator", {
+                        screen: "Login",
+                        intendedNavigator: "SavedSearchesNavigator",
+                        intendedScreen: "Saved Searches",
+                      })
               }
             >
               <MaterialCommunityIcons

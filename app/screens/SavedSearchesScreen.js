@@ -31,7 +31,7 @@ function SavedSearchesScreen({ navigation }) {
 
   useEffect(() => {
     setExpanded(null);
-    if (isFocused === true) {
+    if (isFocused) {
       getSavedSearches();
     }
   }, [isFocused, change]);

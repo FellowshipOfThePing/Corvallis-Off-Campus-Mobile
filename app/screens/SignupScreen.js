@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(6).label("Password"),
 });
 
-function SignupScreen({ navigation }) {
+function SignupScreen({ navigation, route }) {
   const {
     signupErrorMessage,
     signUp,
