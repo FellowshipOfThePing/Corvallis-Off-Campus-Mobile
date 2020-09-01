@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { Animated, View, StyleSheet, Dimensions, Platform } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { useIsFocused } from "@react-navigation/native";
 
 import ActivityIndicator from "../components/ActivityIndicator";
 import MapCard from "../components/MapCard";
@@ -29,7 +28,6 @@ function MapScreen({ navigation, route }) {
   const CARD_HEIGHT = 220;
   const CARD_WIDTH = width * 0.9;
   const SPACING_FOR_CARD_INSET = width * 0.05;
-  const isFocused = useIsFocused();
 
   const { getListingsApi } = useContext(ApiContext);
   const { colors, darkMode, isLefty } = useContext(ThemeContext);
@@ -63,7 +61,12 @@ function MapScreen({ navigation, route }) {
         return marker;
       });
       setListingData(data);
-      setMapIndex(0);
+      setFollowing(true);
+      if (route.params && route.params.index) {
+        setMapIndex(route.params.index);
+      } else {
+        setMapIndex(0);
+      }
     }
   }, [getListingsApi.data]);
 
@@ -221,12 +224,21 @@ function MapScreen({ navigation, route }) {
     }
   };
 
+  const waitForMarkers = () => {
+    if (getListingsApi.data.length > 0) {
+      setFollowing(true);
+      onMarkerPress(route.params.index);
+    } else {
+      setTimeout(() => {
+        console.log(listingData.length);
+        waitForMarkers();
+      }, 2000);
+    }
+  };
+
   useEffect(() => {
-    if (route.params) {
-      if (route.params.index && listingData.length > 0) {
-        setFollowing(true);
-        setMapIndex(route.params.index);
-      }
+    if (route.params && route.params.index) {
+      waitForMarkers();
     }
   }, [route]);
 

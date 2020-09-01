@@ -54,7 +54,7 @@ class MapCard extends React.PureComponent {
                 });
               }}
             />
-            <ActivityIndicator visible={loading} />
+            <ActivityIndicator visible={this.state.loading} />
           </View>
           <View style={styles.topRow}>
             <AppText style={[styles.price, { color: this.props.colors.black }]}>

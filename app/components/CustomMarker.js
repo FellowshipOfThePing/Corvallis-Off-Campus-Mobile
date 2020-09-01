@@ -4,8 +4,11 @@ import { Marker } from "react-native-maps";
 
 import ThemeContext from "../theme/context";
 
+const animationDuration = 1500;
+const animationDelay = 0;
+
 const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
-  const selectedSize = size;
+  const selectedSize = size * 1.1;
   const sizeAnim = useRef(new Animated.Value(selected ? selectedSize : size))
     .current;
   const radiusAnim = useRef(new Animated.Value(selected ? size : size / 2))
@@ -25,18 +28,18 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
     Animated.parallel([
       Animated.timing(sizeAnim, {
         toValue: selectedSize * 3,
-        duration: 1500,
-        delay: 500,
+        duration: animationDuration,
+        delay: animationDelay,
       }),
       Animated.timing(radiusAnim, {
         toValue: selectedSize * 1.5,
-        duration: 1500,
-        delay: 500,
+        duration: animationDuration,
+        delay: animationDelay,
       }),
       Animated.timing(opacityAnim, {
         toValue: 0,
-        duration: 1500,
-        delay: 500,
+        duration: animationDuration,
+        delay: animationDelay,
       }),
     ])
   );

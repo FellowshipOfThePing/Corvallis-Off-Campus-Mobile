@@ -253,7 +253,7 @@ export default function FilterModalScreen({ navigation }) {
           high={bathsHigh}
         />
         <SliderSection
-          title="Miles to Campus"
+          title="Distance to Campus (Miles)"
           changeFilterLow={setDistanceLow}
           changeFilterHigh={setDistanceHigh}
           initialValues={[distanceLow, distanceHigh]}
