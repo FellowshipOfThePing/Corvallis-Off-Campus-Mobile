@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import * as firebase from "firebase";
 import "firebase/firestore";
 
 import ActivityIndicator from "../components/ActivityIndicator";

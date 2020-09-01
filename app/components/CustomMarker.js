@@ -5,7 +5,7 @@ import { Marker } from "react-native-maps";
 import ThemeContext from "../theme/context";
 
 const CustomMarker = ({ coordinate, onPress, selected, size = 10 }) => {
-  const selectedSize = size * 1.4;
+  const selectedSize = size;
   const sizeAnim = useRef(new Animated.Value(selected ? selectedSize : size))
     .current;
   const radiusAnim = useRef(new Animated.Value(selected ? size : size / 2))

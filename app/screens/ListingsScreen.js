@@ -4,11 +4,10 @@ import {
   StyleSheet,
   FlatList,
   Dimensions,
-  StatusBar,
 } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
+import firebase from "../auth/config";
 import "firebase/firestore";
-import * as firebase from "firebase";
 import { useIsFocused } from "@react-navigation/native";
 
 import Screen from "../components/Screen";

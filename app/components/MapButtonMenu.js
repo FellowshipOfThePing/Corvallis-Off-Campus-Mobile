@@ -1,8 +1,10 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { StyleSheet, Dimensions, Animated, Easing } from "react-native";
 
 import MapButton from "../components/MapButton";
-import ThemeContext from "../theme/context";
+
+const initialHeight = Dimensions.get("window").height * 0.375;
+const animationDuration = 300;
 
 function MapButtonMenu({
   onPressZoomButton,
@@ -11,10 +13,10 @@ function MapButtonMenu({
   onPressReturnButton,
   onLongPress,
   onPressOut,
+  colors,
+  isLefty
 }) {
-  const { colors, isLefty } = useContext(ThemeContext);
-  const initialHeight = Dimensions.get("window").height * 0.375;
-  const animationDuration = 300;
+
   const [expanded, setExpanded] = useState(true);
 
   const heightAnim = useRef(new Animated.Value(initialHeight)).current;
