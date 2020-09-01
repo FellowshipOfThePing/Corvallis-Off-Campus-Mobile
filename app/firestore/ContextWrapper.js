@@ -38,7 +38,7 @@ export default ({ children }) => {
       });
   };
 
-  const getFavorites = () => {
+  const syncFavorites = () => {
     setRefreshing(true);
     getAddressIDs();
     if (
@@ -129,7 +129,7 @@ export default ({ children }) => {
         refreshing,
         setRefreshing,
         getAddressIDs,
-        getFavorites,
+        syncFavorites,
         addFavorite,
         removeFavorite,
         getSavedSearches,

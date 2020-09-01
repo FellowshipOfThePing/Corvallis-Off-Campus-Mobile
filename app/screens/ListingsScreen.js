@@ -22,7 +22,7 @@ function ListingsScreen({ navigation, route }) {
   const {
     addressIDs,
     favorites,
-    getFavorites,
+    syncFavorites,
     addFavorite,
     removeFavorite,
     toggleHeartPressed,
@@ -60,14 +60,14 @@ function ListingsScreen({ navigation, route }) {
 
   useEffect(() => {
     if (email && initialLoad) {
-      getFavorites();
+      syncFavorites();
       setInitialLoad(false);
     }
   }, [email]);
 
   useEffect(() => {
     if (user && !isFocused && favsChanged) {
-      getFavorites();
+      syncFavorites();
       setFavsChanged(false);
     }
   }, [isFocused]);

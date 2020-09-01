@@ -6,7 +6,6 @@ import { useIsFocused } from "@react-navigation/native";
 
 import ApiContext from "../api/context";
 import AppText from "../components/AppText";
-import AuthContext from "../auth/context";
 import Card from "../components/Card";
 import Screen from "../components/Screen";
 import SavedContext from "../firestore/context";
@@ -20,12 +19,13 @@ function SavedListingsScreen({ navigation, route }) {
     addressIDs,
     favorites,
     refreshing,
-    getFavorites,
+    syncFavorites,
     addFavorite,
     removeFavorite,
   } = useContext(SavedContext);
 
   const [tapped, setTapped] = useState(false);
+  const [favsChanged, setFavsChanged] = useState(false);
 
   const isFocused = useIsFocused();
   const ref = useRef(null);
@@ -42,10 +42,11 @@ function SavedListingsScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    if (isFocused) {
-      getFavorites();
+    if (!isFocused && favsChanged) {
+      syncFavorites();
+      setFavsChanged(false);
     }
-  }, [isFocused, tapped]);
+  }, [isFocused]);
 
   return (
     <>
@@ -61,7 +62,7 @@ function SavedListingsScreen({ navigation, route }) {
           data={favorites}
           keyExtractor={(listing) => listing.address_id.toString()}
           refreshing={refreshing || getListingsApi.loading}
-          onRefresh={() => getFavorites()}
+          onRefresh={() => syncFavorites()}
           getItemLayout={(data, index) => ({
             length: 345,
             offset: 345 * index,

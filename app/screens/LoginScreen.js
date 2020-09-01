@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().label("Password"),
 });
 
-function LoginScreen({ navigation }) {
+function LoginScreen({ navigation, route }) {
   const { signIn, loginErrorMessage, handleLoginError } = useContext(
     AuthContext
   );
@@ -49,10 +49,20 @@ function LoginScreen({ navigation }) {
         setLoading(false);
       } else {
         setLoading(false);
-        navigation.navigate("Home");
+        if (
+          route.params &&
+          route.params.intendedNavigator &&
+          route.params.intendedScreen
+        ) {
+          navigation.navigate(route.params.intendedNavigator, {
+            screen: route.params.intendedScreen,
+          });
+        } else {
+          navigation.navigate("Home");
+        }
       }
-    } catch {
-      setLoginFailed(false);
+    } catch (error) {
+      setLoginFailed(true);
       setLoading(false);
     }
   };
@@ -134,7 +144,14 @@ function LoginScreen({ navigation }) {
             />
             <TouchableOpacity
               style={styles.signUpText}
-              onPress={() => navigation.navigate("Signup")}
+              onPress={() =>
+                navigation.navigate("Signup", {
+                  params: {
+                    intendedNavigator: route.params.intendedNavigator,
+                    intendedScreen: route.params.intendedScreen,
+                  },
+                })
+              }
             >
               <View style={styles.textRow}>
                 <AppText>Don't have an account yet? </AppText>
