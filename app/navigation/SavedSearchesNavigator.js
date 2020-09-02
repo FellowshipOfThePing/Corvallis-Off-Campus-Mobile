@@ -4,11 +4,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Avatar from "../components/Avatar";
 import SavedSearchesScreen from "../screens/SavedSearchesScreen";
 import ThemeContext from "../theme/context";
+import SavedContext from "../firestore/context";
 
 const Stack = createStackNavigator();
 
 const SavedSearchesNavigator = () => {
   const { colors, text } = useContext(ThemeContext);
+  const { savedSearches } = useContext(SavedContext);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -31,6 +33,7 @@ const SavedSearchesNavigator = () => {
             fontWeight: text.fontWeight,
           },
           headerTintColor: colors.navHeaderText,
+          headerTitle: "Saved Searches (" + savedSearches.length + ")",
           headerLeft: () => {
             return (
               <Avatar

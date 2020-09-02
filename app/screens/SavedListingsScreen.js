@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import { useScrollToTop } from "@react-navigation/native";
+import { useScrollToTop, useFocusEffect } from "@react-navigation/native";
 import "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -13,7 +13,7 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedListingsScreen({ navigation, route }) {
-  const { getListingsApi } = useContext(ApiContext);
+  const { getListingsApi, filterState } = useContext(ApiContext);
   const { colors } = useContext(ThemeContext);
   const {
     addressIDs,
@@ -48,6 +48,14 @@ function SavedListingsScreen({ navigation, route }) {
     }
   }, [isFocused]);
 
+  useEffect(() => {
+    syncFavorites();
+  }, [getListingsApi.data, filterState, tapped]);
+
+  useEffect(() => {
+    syncFavorites();
+  }, []);
+
   return (
     <>
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
@@ -60,6 +68,7 @@ function SavedListingsScreen({ navigation, route }) {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
           data={favorites}
+          extraData={filterState}
           keyExtractor={(listing) => listing.address_id.toString()}
           refreshing={refreshing || getListingsApi.loading}
           onRefresh={() => syncFavorites()}
@@ -87,6 +96,7 @@ function SavedListingsScreen({ navigation, route }) {
               style={[styles.defaultCard, { backgroundColor: colors.light }]}
             >
               <AppText>No Listings Found</AppText>
+              <AppText>(Pull to Refresh!)</AppText>
             </View>
           )}
         />

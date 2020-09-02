@@ -10,9 +10,11 @@ import SavedSearchCard from "../components/SavedSearchCard";
 import Screen from "../components/Screen";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import AuthContext from "../auth/context";
 
 function SavedSearchesScreen({ navigation }) {
   const ref = useRef(null);
+  const { user } = useContext(AuthContext);
   const { getListingsApi, setFilterState } = useContext(ApiContext);
   const {
     refreshing,
@@ -28,10 +30,16 @@ function SavedSearchesScreen({ navigation }) {
 
   useEffect(() => {
     setExpanded(null);
-    if (!isFocused) {
+    if (user && !isFocused) {
       getSavedSearches();
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    if (user) {
+      getSavedSearches();
+    }
+  }, []);
 
   const handlePress = (index) => {
     if (index === expanded) {
@@ -87,6 +95,7 @@ function SavedSearchesScreen({ navigation }) {
               style={[styles.defaultCard, { backgroundColor: colors.light }]}
             >
               <AppText>No Searches Found</AppText>
+              <AppText>(Pull to Refresh!)</AppText>
             </View>
           )}
         ></FlatList>
