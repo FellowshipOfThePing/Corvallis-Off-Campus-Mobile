@@ -7,11 +7,13 @@ import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
 import FilterModalScreen from "../screens/FilterModalScreen";
 import ThemeContext from "../theme/context";
+import SavedContext from "../firestore/context";
 
 const Stack = createStackNavigator();
 
 const SavedListingsNavigator = () => {
   const { colors, text } = useContext(ThemeContext);
+  const { favorites } = useContext(SavedContext);
   return (
     <Stack.Navigator
       mode="modal"
@@ -34,6 +36,7 @@ const SavedListingsNavigator = () => {
             fontFamily: text.fontFamily,
             fontWeight: text.fontWeight,
           },
+          headerTitle: "Saved Listings (" + favorites.length + ")",
           headerTintColor: colors.navHeaderText,
           headerLeft: () => {
             return (

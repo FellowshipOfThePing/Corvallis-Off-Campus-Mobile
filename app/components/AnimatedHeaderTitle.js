@@ -8,7 +8,13 @@ import SavedContext from "../firestore/context";
 const fadeTime = 200;
 const delayTime = 1500;
 
-function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
+function AnimatedHeaderTitle({
+  headerTitle,
+  color,
+  textStyle,
+  bannerStyle,
+  data,
+}) {
   const netInfo = useNetInfo();
   const offline =
     netInfo.type !== "unknown" && netInfo.isInternetReachable === false;
@@ -16,6 +22,7 @@ function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
   const [initialLoad, setInitialLoad] = useState(true);
   const [fading, setFading] = useState(false);
   const [title, setTitle] = useState(headerTitle);
+  const [loginMessageVisible, setLoginMessageVisible] = useState(false);
 
   const { heartPressed } = useContext(SavedContext);
 
@@ -53,9 +60,11 @@ function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
         setFading(true);
         setTimeout(() => {
           setTitle("Log In to Save Listings");
+          setLoginMessageVisible(true);
         }, fadeTime);
         setTimeout(() => {
           setTitle(headerTitle);
+          setLoginMessageVisible(false);
         }, fadeTime * 3 + delayTime);
         setTimeout(() => {
           setFading(false);
@@ -77,6 +86,9 @@ function AnimatedHeaderTitle({ headerTitle, color, textStyle, bannerStyle }) {
     >
       <AppText style={[styles.text, textStyle]}>
         {offline ? "No Internet Connection" : title}
+        {!loginMessageVisible && data && data.length > 0
+          ? " (" + data.length + ")"
+          : null}
       </AppText>
     </Animated.View>
   );

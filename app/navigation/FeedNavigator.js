@@ -8,11 +8,13 @@ import Avatar from "../components/Avatar";
 import FilterButton from "../components/FilterButton";
 import AnimatedHeaderTitle from "../components/AnimatedHeaderTitle";
 import ThemeContext from "../theme/context";
+import ApiContext from "../api/context";
 
 const Stack = createStackNavigator();
 
 const FeedNavigator = () => {
   const { colors, text } = useContext(ThemeContext);
+  const { getListingsApi } = useContext(ApiContext);
 
   return (
     <Stack.Navigator
@@ -33,6 +35,7 @@ const FeedNavigator = () => {
           headerTitle: (props) => (
             <AnimatedHeaderTitle
               headerTitle="Listings"
+              data={getListingsApi.data}
               colors={colors.navHeaderBackground}
               bannerStyle={{ paddingBottom: 5 }}
               textStyle={{
