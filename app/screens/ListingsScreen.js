@@ -1,10 +1,18 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  RefreshControl,
+} from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import firebase from "../auth/config";
 import "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 
+import AppliedSearchIndicator from "../components/AppliedSearchIndicator";
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import ApiContext from "../api/context";
@@ -28,8 +36,9 @@ function ListingsScreen({ navigation, route }) {
     toggleHeartPressed,
   } = useContext(SavedContext);
 
-  const ref = useRef(null);
-  useScrollToTop(ref);
+  const lottieRef = useRef(null);
+  const listRef = useRef(null);
+  useScrollToTop(listRef);
 
   const isFocused = useIsFocused();
   const [tapped, setTapped] = useState(false);
@@ -51,17 +60,18 @@ function ListingsScreen({ navigation, route }) {
   useEffect(() => {
     if (initialLoad) {
       getListingsApi.request(filterState);
+      lottieRef.current.play();
+      setInitialLoad(false);
     }
   }, []);
 
   useEffect(() => {
-    ref.current.scrollToOffset({ animated: true, offset: 0 });
+    listRef.current.scrollToOffset({ animated: true, offset: 0 });
   }, [getListingsApi.data, filterState]);
 
   useEffect(() => {
-    if (email && initialLoad) {
+    if (email) {
       syncFavorites();
-      setInitialLoad(false);
     }
   }, [email]);
 
@@ -71,6 +81,16 @@ function ListingsScreen({ navigation, route }) {
       setFavsChanged(false);
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    if (getListingsApi.loading) {
+      lottieRef.current.play();
+    } else if (!initialLoad) {
+      setTimeout(() => {
+        lottieRef.current.reset();
+      }, 400);
+    }
+  }, [getListingsApi.loading]);
 
   const renderItem = ({ item, index }) => (
     <Card
@@ -96,16 +116,30 @@ function ListingsScreen({ navigation, route }) {
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
+        <View style={{ position: "absolute", width: "100%", height: 70 }}>
+          <LottieView
+            ref={lottieRef}
+            source={require("../../assets/animations/loading.json")}
+            // loop={false}
+          />
+        </View>
         <FlatList
-          ref={ref}
+          ref={listRef}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
           initialNumToRender={10}
           data={getListingsApi.data}
           extraData={favorites}
           keyExtractor={(listing) => listing.address_id.toString()}
-          refreshing={getListingsApi.loading}
-          onRefresh={() => getListingsApi.request(filterState)}
+          refreshControl={
+            <RefreshControl
+              tintColor="transparent"
+              colors={["transparent"]}
+              style={{ backgroundColor: "transparent" }}
+              refreshing={getListingsApi.loading}
+              onRefresh={() => getListingsApi.request(filterState)}
+            />
+          }
           getItemLayout={(data, index) => ({
             length: 345,
             offset: 345 * index,
