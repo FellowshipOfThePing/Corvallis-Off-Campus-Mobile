@@ -210,7 +210,7 @@ export default function FilterModalScreen({ navigation }) {
               />
             }
             onPress={() => {
-              if (!saving) {
+              if (!saving && !applying) {
                 navigation.pop();
               }
             }}

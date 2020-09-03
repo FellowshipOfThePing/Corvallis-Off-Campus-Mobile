@@ -2,10 +2,11 @@ import React from "react";
 import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 
-function SavedSearchIndicator({ style }) {
+function SavedSearchIndicator({ style, ref }) {
   return (
     <View style={[styles.overlay, style]}>
       <LottieView
+        ref={ref}
         autoPlay
         loop
         source={require("../../assets/animations/loading.json")}
