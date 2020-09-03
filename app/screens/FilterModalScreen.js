@@ -22,7 +22,7 @@ export default function FilterModalScreen({ navigation }) {
     ApiContext
   );
   const {
-    refreshing,
+    refreshingSearches,
     savedSearches,
     saveSearch,
     setSavedSearches,
@@ -191,7 +191,7 @@ export default function FilterModalScreen({ navigation }) {
             )}
             {saving && (
               <SavedSearchIndicator
-                loading={refreshing}
+                loading={refreshingSearches}
                 style={[styles.button]}
                 colors={colors}
               />

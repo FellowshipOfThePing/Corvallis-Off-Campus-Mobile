@@ -1,16 +1,28 @@
-import React, { useState } from "react";
-import { View } from "react-native";
+import React, { useRef } from "react";
+import { Animated } from "react-native";
 
 import LottieView from "lottie-react-native";
 
-function RefreshIndicator({ lottieRef }) {
+function RefreshIndicator({ lottieRef, darkMode, opacity }) {
   return (
-    <View style={{ position: "absolute", width: "100%", height: 70 }}>
+    <Animated.View
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: 50,
+        marginTop: 5,
+        opacity,
+      }}
+    >
       <LottieView
         ref={lottieRef}
-        source={require("../../assets/animations/house_roof_bounce.json")}
+        source={
+          darkMode
+            ? require("../../assets/animations/house_roof_bounce_white.json")
+            : require("../../assets/animations/house_roof_bounce_primary.json")
+        }
       />
-    </View>
+    </Animated.View>
   );
 }
 

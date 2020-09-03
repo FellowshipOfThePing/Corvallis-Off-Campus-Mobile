@@ -5,6 +5,7 @@ import {
   FlatList,
   Dimensions,
   RefreshControl,
+  Animated,
 } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import "firebase/firestore";
@@ -24,19 +25,21 @@ function SavedSearchesScreen({ navigation }) {
   const { user } = useContext(AuthContext);
   const { getListingsApi, setFilterState } = useContext(ApiContext);
   const {
-    refreshing,
+    refreshingSearches,
     getSavedSearches,
     setSavedSearches,
     savedSearches,
     saveSearch,
   } = useContext(SavedContext);
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
 
   const isFocused = useIsFocused();
   const lottieRef = useRef(null);
 
   const [expanded, setExpanded] = useState(null);
   const [change, setChange] = useState(true);
+  const [refreshIndicatorOpacity, setRefreshIndicatorOpacity] = useState(0);
+  let scrollY = new Animated.Value(0);
 
   useEffect(() => {
     setExpanded(null);
@@ -52,14 +55,14 @@ function SavedSearchesScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    if (refreshing) {
+    if (refreshingSearches) {
       lottieRef.current.play();
     } else {
       setTimeout(() => {
         lottieRef.current.reset();
-      }, 400);
+      }, 200);
     }
-  }, [refreshing]);
+  }, [refreshingSearches]);
 
   const handlePress = (index) => {
     if (index === expanded) {
@@ -85,12 +88,29 @@ function SavedSearchesScreen({ navigation }) {
     navigation.navigate("Home");
   };
 
+  useEffect(() => {
+    scrollY.addListener(({ value }) => {
+      if (value < 0) {
+        setRefreshIndicatorOpacity(1);
+      } else {
+        setRefreshIndicatorOpacity(0);
+      }
+    });
+  });
+
   return (
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
-      <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <RefreshIndicator lottieRef={lottieRef} />
-        <FlatList
+      <Screen
+        style={[styles.screen, { backgroundColor: colors.light }]}
+        noBottom
+      >
+        <RefreshIndicator
+          lottieRef={lottieRef}
+          darkMode={darkMode}
+          opacity={refreshIndicatorOpacity}
+        />
+        <Animated.FlatList
           ref={ref}
           data={savedSearches}
           keyExtractor={(listing, index) => index.toString()}
@@ -99,7 +119,7 @@ function SavedSearchesScreen({ navigation }) {
               tintColor="transparent"
               colors={["transparent"]}
               style={{ backgroundColor: "transparent" }}
-              refreshing={refreshing}
+              refreshing={refreshingSearches}
               onRefresh={() => getSavedSearches()}
             />
           }
@@ -115,6 +135,18 @@ function SavedSearchesScreen({ navigation }) {
               expanded={index === expanded}
             />
           )}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: scrollY,
+                  },
+                },
+              },
+            ],
+            { useNativeDriver: true }
+          )}
           ListEmptyComponent={() => (
             <View
               style={[styles.defaultCard, { backgroundColor: colors.light }]}
@@ -123,7 +155,7 @@ function SavedSearchesScreen({ navigation }) {
               <AppText>(Pull to Refresh!)</AppText>
             </View>
           )}
-        ></FlatList>
+        />
       </Screen>
     </>
   );
