@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   StyleSheet,
-  FlatList,
   Dimensions,
   RefreshControl,
   Animated,
@@ -78,6 +77,7 @@ function SavedSearchesScreen({ navigation }) {
     setSavedSearches(saved);
     saveSearch();
     setChange(!change);
+    setExpanded(null);
   };
 
   const onApply = (filterState) => {
