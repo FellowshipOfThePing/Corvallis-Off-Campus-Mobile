@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   StyleSheet,
-  FlatList,
   Dimensions,
   RefreshControl,
+  Animated
 } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import "firebase/firestore";
@@ -39,6 +39,9 @@ function SavedListingsScreen({ navigation }) {
   const lottieRef = useRef(null);
   const ref = useRef(null);
   useScrollToTop(ref);
+
+  const [refreshIndicatorOpacity, setRefreshIndicatorOpacity] = useState(0);
+  let scrollY = new Animated.Value(0);
 
   const onHeartPress = (listing) => {
     if (addressIDs.includes(listing.address_id)) {
@@ -82,6 +85,16 @@ function SavedListingsScreen({ navigation }) {
     }
   }, [refreshingFavorites]);
 
+  useEffect(() => {
+    scrollY.addListener(({ value }) => {
+      if (value < 0) {
+        setRefreshIndicatorOpacity(1);
+      } else {
+        setRefreshIndicatorOpacity(0);
+      }
+    });
+  });
+
   const renderItem = ({ item }) => (
     <Card
       listing={item}
@@ -104,8 +117,12 @@ function SavedListingsScreen({ navigation }) {
         style={[styles.screen, { backgroundColor: colors.light }]}
         noBottom
       >
-        <RefreshIndicator lottieRef={lottieRef} darkMode={darkMode} />
-        <FlatList
+        <RefreshIndicator
+          lottieRef={lottieRef}
+          darkMode={darkMode}
+          opacity={refreshIndicatorOpacity}
+        />
+        <Animated.FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}

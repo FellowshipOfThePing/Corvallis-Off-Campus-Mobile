@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   StyleSheet,
-  FlatList,
   Dimensions,
   RefreshControl,
+  Animated,
 } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import firebase from "../auth/config";
@@ -38,11 +38,13 @@ function ListingsScreen({ navigation, route }) {
   const lottieRef = useRef(null);
   const listRef = useRef(null);
   useScrollToTop(listRef);
+  let scrollY = new Animated.Value(0);
 
   const isFocused = useIsFocused();
   const [tapped, setTapped] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
   const [favsChanged, setFavsChanged] = useState(false);
+  const [refreshIndicatorOpacity, setRefreshIndicatorOpacity] = useState(0);
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -65,7 +67,7 @@ function ListingsScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    listRef.current.scrollToOffset({ animated: true, offset: 0 });
+    listRef.current.getNode().scrollToOffset({ animated: true, offset: 0 });
   }, [getListingsApi.data, filterState]);
 
   useEffect(() => {
@@ -91,6 +93,16 @@ function ListingsScreen({ navigation, route }) {
     }
   }, [getListingsApi.loading]);
 
+  useEffect(() => {
+    scrollY.addListener(({ value }) => {
+      if (value < 0) {
+        setRefreshIndicatorOpacity(1);
+      } else {
+        setRefreshIndicatorOpacity(0);
+      }
+    });
+  });
+
   const renderItem = ({ item, index }) => (
     <Card
       listing={item}
@@ -115,8 +127,12 @@ function ListingsScreen({ navigation, route }) {
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <RefreshIndicator lottieRef={lottieRef} darkMode={darkMode} />
-        <FlatList
+        <RefreshIndicator
+          lottieRef={lottieRef}
+          darkMode={darkMode}
+          opacity={refreshIndicatorOpacity}
+        />
+        <Animated.FlatList
           ref={listRef}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
@@ -133,6 +149,18 @@ function ListingsScreen({ navigation, route }) {
               onRefresh={() => getListingsApi.request(filterState)}
             />
           }
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: scrollY,
+                  },
+                },
+              },
+            ],
+            { useNativeDriver: true }
+          )}
           getItemLayout={(data, index) => ({
             length: 345,
             offset: 345 * index,
