@@ -62,10 +62,11 @@ export default ({ children }) => {
         }
       });
       setFavorites(listings);
+      setRefreshing(false);
     } else {
       setFavorites([]);
+      setRefreshing(false);
     }
-    setRefreshing(false);
   };
 
   const addFavorite = async (listing) => {
@@ -98,6 +99,7 @@ export default ({ children }) => {
       .get()
       .then((doc) => {
         setSavedSearches(Object.values(doc.data().SavedSearches));
+        setRefreshing(false);
         console.log("[NETWORK] Retrieved Saved Searches!");
       })
       .catch((error) => {
@@ -105,18 +107,24 @@ export default ({ children }) => {
           "[NETWORK] Error getting Saved Searches from Firestore:",
           error
         );
+        setRefreshing(false);
       });
-    setRefreshing(false);
   };
 
   const saveSearch = () => {
     setRefreshing(true);
     const docRef = db.collection("Users").doc(email);
-    docRef.update({
-      SavedSearches: savedSearches,
-    });
-    setRefreshing(false);
-    console.log("[NETWORK] Saved Search Modified!");
+    docRef
+      .update({
+        SavedSearches: savedSearches,
+      })
+      .then(() => {
+        setRefreshing(false);
+        console.log("[NETWORK] Saved Search Modified!");
+      })
+      .catch(() => {
+        console.log("[ERROR] Search could not be modified");
+      });
   };
 
   return (

@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  RefreshControl,
+} from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import "firebase/firestore";
 
@@ -11,6 +17,7 @@ import Screen from "../components/Screen";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import AuthContext from "../auth/context";
+import RefreshIndicator from "../components/RefreshIndicator";
 
 function SavedSearchesScreen({ navigation }) {
   const ref = useRef(null);
@@ -24,7 +31,10 @@ function SavedSearchesScreen({ navigation }) {
     saveSearch,
   } = useContext(SavedContext);
   const { colors } = useContext(ThemeContext);
+
   const isFocused = useIsFocused();
+  const lottieRef = useRef(null);
+
   const [expanded, setExpanded] = useState(null);
   const [change, setChange] = useState(true);
 
@@ -40,6 +50,16 @@ function SavedSearchesScreen({ navigation }) {
       getSavedSearches();
     }
   }, []);
+
+  useEffect(() => {
+    if (refreshing) {
+      lottieRef.current.play();
+    } else {
+      setTimeout(() => {
+        lottieRef.current.reset();
+      }, 400);
+    }
+  }, [refreshing]);
 
   const handlePress = (index) => {
     if (index === expanded) {
@@ -67,17 +87,22 @@ function SavedSearchesScreen({ navigation }) {
 
   return (
     <>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <FocusAwareStatusBar
-          barStyle="light-content"
-          backgroundColor="#6a51ae"
-        />
+        <RefreshIndicator lottieRef={lottieRef} />
         <FlatList
           ref={ref}
           data={savedSearches}
           keyExtractor={(listing, index) => index.toString()}
-          refreshing={refreshing}
-          onRefresh={() => getSavedSearches()}
+          refreshControl={
+            <RefreshControl
+              tintColor="transparent"
+              colors={["transparent"]}
+              style={{ backgroundColor: "transparent" }}
+              refreshing={refreshing}
+              onRefresh={() => getSavedSearches()}
+            />
+          }
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
           renderItem={({ item, index }) => (
