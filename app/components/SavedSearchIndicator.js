@@ -5,7 +5,17 @@ import { View, ActivityIndicator } from "react-native";
 function SavedSearchIndicator({ loading = true, style, colors }) {
   return (
     <View style={style}>
-      {loading && <ActivityIndicator color={colors.primary} size="large" />}
+      {loading && (
+        <View
+          style={{
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ActivityIndicator color={colors.primary} size="large" />
+        </View>
+      )}
 
       {!loading && (
         <LottieView

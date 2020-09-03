@@ -13,7 +13,8 @@ export default ({ children }) => {
   const [addressIDs, setAddressIDs] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [savedSearches, setSavedSearches] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshingFavorites, setRefreshingFavorites] = useState(false);
+  const [refreshingSearches, setRefreshingSearches] = useState(false);
   const [heartPressed, setHeartPressed] = useState(false);
 
   const toggleHeartPressed = () => {
@@ -39,7 +40,7 @@ export default ({ children }) => {
   };
 
   const syncFavorites = () => {
-    setRefreshing(true);
+    setRefreshingFavorites(true);
     getAddressIDs();
     if (
       getListingsApi.data &&
@@ -62,10 +63,10 @@ export default ({ children }) => {
         }
       });
       setFavorites(listings);
-      setRefreshing(false);
+      setRefreshingFavorites(false);
     } else {
       setFavorites([]);
-      setRefreshing(false);
+      setRefreshingFavorites(false);
     }
   };
 
@@ -93,13 +94,13 @@ export default ({ children }) => {
   };
 
   const getSavedSearches = () => {
-    setRefreshing(true);
+    setRefreshingSearches(true);
     const docRef = db.collection("Users").doc(email);
     docRef
       .get()
       .then((doc) => {
         setSavedSearches(Object.values(doc.data().SavedSearches));
-        setRefreshing(false);
+        setRefreshingSearches(false);
         console.log("[NETWORK] Retrieved Saved Searches!");
       })
       .catch((error) => {
@@ -107,19 +108,19 @@ export default ({ children }) => {
           "[NETWORK] Error getting Saved Searches from Firestore:",
           error
         );
-        setRefreshing(false);
+        setRefreshingSearches(false);
       });
   };
 
   const saveSearch = () => {
-    setRefreshing(true);
+    setRefreshingSearches(true);
     const docRef = db.collection("Users").doc(email);
     docRef
       .update({
         SavedSearches: savedSearches,
       })
       .then(() => {
-        setRefreshing(false);
+        setRefreshingSearches(false);
         console.log("[NETWORK] Saved Search Modified!");
       })
       .catch(() => {
@@ -134,8 +135,10 @@ export default ({ children }) => {
         setAddressIDs,
         favorites,
         setFavorites,
-        refreshing,
-        setRefreshing,
+        refreshingFavorites,
+        setRefreshingFavorites,
+        refreshingSearches,
+        setRefreshingSearches,
         getAddressIDs,
         syncFavorites,
         addFavorite,

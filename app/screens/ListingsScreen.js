@@ -23,7 +23,7 @@ import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import RefreshIndicator from "../components/RefreshIndicator";
 
 function ListingsScreen({ navigation, route }) {
-  const { colors } = useContext(ThemeContext);
+  const { colors, darkMode } = useContext(ThemeContext);
   const { user, email } = useContext(AuthContext);
   const { getListingsApi, filterState } = useContext(ApiContext);
   const {
@@ -87,7 +87,7 @@ function ListingsScreen({ navigation, route }) {
     } else if (!initialLoad) {
       setTimeout(() => {
         lottieRef.current.reset();
-      }, 400);
+      }, 200);
     }
   }, [getListingsApi.loading]);
 
@@ -115,7 +115,7 @@ function ListingsScreen({ navigation, route }) {
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <RefreshIndicator lottieRef={lottieRef} />
+        <RefreshIndicator lottieRef={lottieRef} darkMode={darkMode} />
         <FlatList
           ref={listRef}
           showsVerticalScrollIndicator={false}

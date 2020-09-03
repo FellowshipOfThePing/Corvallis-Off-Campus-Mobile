@@ -20,20 +20,20 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
 function SavedListingsScreen({ navigation }) {
-  const { getListingsApi, filterState } = useContext(ApiContext);
-  const { colors } = useContext(ThemeContext);
+  const { filterState } = useContext(ApiContext);
+  const { colors, darkMode } = useContext(ThemeContext);
   const {
     addressIDs,
     favorites,
     syncFavorites,
     addFavorite,
     removeFavorite,
+    refreshingFavorites,
   } = useContext(SavedContext);
 
   const [tapped, setTapped] = useState(false);
   const [favsChanged, setFavsChanged] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
-  const [isRefreshing, setIsRefresing] = useState(true);
 
   const isFocused = useIsFocused();
   const lottieRef = useRef(null);
@@ -52,36 +52,35 @@ function SavedListingsScreen({ navigation }) {
 
   useEffect(() => {
     if (initialLoad) {
+      console.log("EFFECT 1: Initial Load");
       syncFavorites();
       lottieRef.current.play();
       setInitialLoad(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsRefresing(false);
-  }, [favorites]);
-
-  useEffect(() => {
-    if (!isFocused && favsChanged) {
+    } else if (!isFocused && favsChanged) {
+      console.log("EFFECT 1: Syncing Favorites");
       syncFavorites();
       setFavsChanged(false);
     }
   }, [isFocused]);
 
   useEffect(() => {
-    syncFavorites();
+    if (!initialLoad) {
+      syncFavorites();
+      console.log("EFFECT 2: Syncing Favorites");
+    }
   }, [filterState, tapped]);
 
   useEffect(() => {
-    if (isRefreshing) {
+    if (refreshingFavorites) {
       lottieRef.current.play();
+      console.log("EFFECT 3: Playing Lottie");
     } else {
+      console.log("EFFECT 3: Resetting Lottie");
       setTimeout(() => {
         lottieRef.current.reset();
-      }, 400);
+      }, 200);
     }
-  }, [isRefreshing]);
+  }, [refreshingFavorites]);
 
   const renderItem = ({ item }) => (
     <Card
@@ -101,14 +100,17 @@ function SavedListingsScreen({ navigation }) {
   return (
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
-      <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <RefreshIndicator lottieRef={lottieRef} />
+      <Screen
+        style={[styles.screen, { backgroundColor: colors.light }]}
+        noBottom
+      >
+        <RefreshIndicator lottieRef={lottieRef} darkMode={darkMode} />
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingTop: 10 }}
           data={favorites}
-          extraData={filterState}
+          extraData={initialLoad}
           keyExtractor={(listing) => listing.address_id.toString()}
           getItemLayout={(data, index) => ({
             length: 345,
@@ -120,9 +122,8 @@ function SavedListingsScreen({ navigation }) {
               tintColor="transparent"
               colors={["transparent"]}
               style={{ backgroundColor: "transparent" }}
-              refreshing={isRefreshing || getListingsApi.loading}
+              refreshing={refreshingFavorites}
               onRefresh={() => {
-                setIsRefresing(true);
                 syncFavorites();
               }}
             />
