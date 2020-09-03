@@ -10,9 +10,7 @@ import { useScrollToTop } from "@react-navigation/native";
 import firebase from "../auth/config";
 import "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
-import LottieView from "lottie-react-native";
 
-import AppliedSearchIndicator from "../components/AppliedSearchIndicator";
 import Screen from "../components/Screen";
 import Card from "../components/Card";
 import ApiContext from "../api/context";
@@ -22,6 +20,7 @@ import AuthContext from "../auth/context";
 import SavedContext from "../firestore/context";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import RefreshIndicator from "../components/RefreshIndicator";
 
 function ListingsScreen({ navigation, route }) {
   const { colors } = useContext(ThemeContext);
@@ -116,13 +115,7 @@ function ListingsScreen({ navigation, route }) {
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <View style={{ position: "absolute", width: "100%", height: 70 }}>
-          <LottieView
-            ref={lottieRef}
-            source={require("../../assets/animations/loading.json")}
-            // loop={false}
-          />
-        </View>
+        <RefreshIndicator lottieRef={lottieRef} />
         <FlatList
           ref={listRef}
           showsVerticalScrollIndicator={false}

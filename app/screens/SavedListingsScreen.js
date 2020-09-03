@@ -1,9 +1,16 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
-import { useScrollToTop, useFocusEffect } from "@react-navigation/native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  RefreshControl,
+} from "react-native";
+import { useScrollToTop } from "@react-navigation/native";
 import "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
+import RefreshIndicator from "../components/RefreshIndicator";
 import ApiContext from "../api/context";
 import AppText from "../components/AppText";
 import Card from "../components/Card";
@@ -12,13 +19,12 @@ import SavedContext from "../firestore/context";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 
-function SavedListingsScreen({ navigation, route }) {
+function SavedListingsScreen({ navigation }) {
   const { getListingsApi, filterState } = useContext(ApiContext);
   const { colors } = useContext(ThemeContext);
   const {
     addressIDs,
     favorites,
-    refreshing,
     syncFavorites,
     addFavorite,
     removeFavorite,
@@ -26,8 +32,11 @@ function SavedListingsScreen({ navigation, route }) {
 
   const [tapped, setTapped] = useState(false);
   const [favsChanged, setFavsChanged] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [isRefreshing, setIsRefresing] = useState(true);
 
   const isFocused = useIsFocused();
+  const lottieRef = useRef(null);
   const ref = useRef(null);
   useScrollToTop(ref);
 
@@ -42,6 +51,18 @@ function SavedListingsScreen({ navigation, route }) {
   };
 
   useEffect(() => {
+    if (initialLoad) {
+      syncFavorites();
+      lottieRef.current.play();
+      setInitialLoad(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsRefresing(false);
+  }, [favorites]);
+
+  useEffect(() => {
     if (!isFocused && favsChanged) {
       syncFavorites();
       setFavsChanged(false);
@@ -50,19 +71,38 @@ function SavedListingsScreen({ navigation, route }) {
 
   useEffect(() => {
     syncFavorites();
-  }, [getListingsApi.data, filterState, tapped]);
+  }, [filterState, tapped]);
 
   useEffect(() => {
-    syncFavorites();
-  }, []);
+    if (isRefreshing) {
+      lottieRef.current.play();
+    } else {
+      setTimeout(() => {
+        lottieRef.current.reset();
+      }, 400);
+    }
+  }, [isRefreshing]);
+
+  const renderItem = ({ item }) => (
+    <Card
+      listing={item}
+      colors={colors}
+      onPress={() =>
+        navigation.navigate("ListingDetailNavigator", {
+          screen: "ListingDetailScreen",
+          params: { listing: item },
+        })
+      }
+      saved={addressIDs.includes(item.address_id)}
+      onPressHeart={() => onHeartPress(item)}
+    />
+  );
 
   return (
     <>
+      <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
       <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <FocusAwareStatusBar
-          barStyle="light-content"
-          backgroundColor="#6a51ae"
-        />
+        <RefreshIndicator lottieRef={lottieRef} />
         <FlatList
           ref={ref}
           showsVerticalScrollIndicator={false}
@@ -70,27 +110,24 @@ function SavedListingsScreen({ navigation, route }) {
           data={favorites}
           extraData={filterState}
           keyExtractor={(listing) => listing.address_id.toString()}
-          refreshing={refreshing || getListingsApi.loading}
-          onRefresh={() => syncFavorites()}
           getItemLayout={(data, index) => ({
             length: 345,
             offset: 345 * index,
             index: index,
           })}
-          renderItem={({ item }) => (
-            <Card
-              listing={item}
-              colors={colors}
-              onPress={() =>
-                navigation.navigate("ListingDetailNavigator", {
-                  screen: "ListingDetailScreen",
-                  params: { listing: item },
-                })
-              }
-              saved={addressIDs.includes(item.address_id)}
-              onPressHeart={() => onHeartPress(item)}
+          refreshControl={
+            <RefreshControl
+              tintColor="transparent"
+              colors={["transparent"]}
+              style={{ backgroundColor: "transparent" }}
+              refreshing={isRefreshing || getListingsApi.loading}
+              onRefresh={() => {
+                setIsRefresing(true);
+                syncFavorites();
+              }}
             />
-          )}
+          }
+          renderItem={renderItem}
           ListEmptyComponent={() => (
             <View
               style={[styles.defaultCard, { backgroundColor: colors.light }]}
