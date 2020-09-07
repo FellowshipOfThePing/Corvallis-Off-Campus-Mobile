@@ -130,8 +130,8 @@ function ListingDetailScreen({ navigation, route }) {
     }
   };
 
-  const OSU_lat = 44.5647;
-  const OSU_long = -123.28225;
+  const OSU_lat = 44.5656;
+  const OSU_long = -123.2789;
 
   const distanceLat = (listing.latitude * 1000 - OSU_lat * 1000) / 1000;
   const distanceLong = (listing.longitude * 1000 - OSU_long * 1000) / 1000;

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { Animated, View, StyleSheet, Dimensions, Platform } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import ActivityIndicator from "../components/ActivityIndicator";
 import MapCard from "../components/MapCard";
@@ -28,6 +29,8 @@ function MapScreen({ navigation, route }) {
   const CARD_HEIGHT = 220;
   const CARD_WIDTH = width * 0.9;
   const SPACING_FOR_CARD_INSET = width * 0.05;
+  const OSU_lat = 44.5656;
+  const OSU_long = -123.2789;
 
   const { getListingsApi } = useContext(ApiContext);
   const { colors, darkMode, isLefty } = useContext(ThemeContext);
@@ -314,6 +317,11 @@ function MapScreen({ navigation, route }) {
         onRegionChangeComplete={(region) => changeRegionDelta(region)}
       >
         {markerArray}
+        <Marker coordinate={{ latitude: OSU_lat, longitude: OSU_long }}>
+          <View>
+            <FontAwesome5 name="school" size={30} color={colors.primary} />
+          </View>
+        </Marker>
       </MapView>
       {getListingsApi.loading && (
         <View style={styles.loadingIndicator}>
