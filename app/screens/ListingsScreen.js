@@ -7,7 +7,6 @@ import {
   Animated,
 } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
-import firebase from "../auth/config";
 import "firebase/firestore";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -22,7 +21,7 @@ import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
 import RefreshIndicator from "../components/RefreshIndicator";
 
-function ListingsScreen({ navigation, route }) {
+function ListingsScreen({ navigation }) {
   const { colors, darkMode } = useContext(ThemeContext);
   const { user, email } = useContext(AuthContext);
   const { getListingsApi, filterState } = useContext(ApiContext);
@@ -40,11 +39,15 @@ function ListingsScreen({ navigation, route }) {
   useScrollToTop(listRef);
   let scrollY = new Animated.Value(0);
 
+  let opacityAnimation = scrollY.interpolate({
+    inputRange: [-50, 0],
+    outputRange: [1, 0],
+  });
+
   const isFocused = useIsFocused();
   const [tapped, setTapped] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
   const [favsChanged, setFavsChanged] = useState(false);
-  const [refreshIndicatorOpacity, setRefreshIndicatorOpacity] = useState(0);
 
   const onHeartPress = (listing) => {
     if (user !== null) {
@@ -93,16 +96,6 @@ function ListingsScreen({ navigation, route }) {
     }
   }, [getListingsApi.loading]);
 
-  useEffect(() => {
-    scrollY.addListener(({ value }) => {
-      if (value < 0) {
-        setRefreshIndicatorOpacity(1);
-      } else {
-        setRefreshIndicatorOpacity(0);
-      }
-    });
-  });
-
   const renderItem = ({ item, index }) => (
     <Card
       listing={item}
@@ -130,7 +123,7 @@ function ListingsScreen({ navigation, route }) {
         <RefreshIndicator
           lottieRef={lottieRef}
           darkMode={darkMode}
-          opacity={refreshIndicatorOpacity}
+          opacity={opacityAnimation}
         />
         <Animated.FlatList
           ref={listRef}

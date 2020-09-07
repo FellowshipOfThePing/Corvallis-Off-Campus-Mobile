@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Dimensions,
   RefreshControl,
-  Animated
+  Animated,
 } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import "firebase/firestore";
@@ -40,8 +40,11 @@ function SavedListingsScreen({ navigation }) {
   const ref = useRef(null);
   useScrollToTop(ref);
 
-  const [refreshIndicatorOpacity, setRefreshIndicatorOpacity] = useState(0);
   let scrollY = new Animated.Value(0);
+  let opacityAnimation = scrollY.interpolate({
+    inputRange: [-50, 0],
+    outputRange: [1, 0],
+  });
 
   const onHeartPress = (listing) => {
     if (addressIDs.includes(listing.address_id)) {
@@ -85,16 +88,6 @@ function SavedListingsScreen({ navigation }) {
     }
   }, [refreshingFavorites]);
 
-  useEffect(() => {
-    scrollY.addListener(({ value }) => {
-      if (value < 0) {
-        setRefreshIndicatorOpacity(1);
-      } else {
-        setRefreshIndicatorOpacity(0);
-      }
-    });
-  });
-
   const renderItem = ({ item }) => (
     <Card
       listing={item}
@@ -120,7 +113,7 @@ function SavedListingsScreen({ navigation }) {
         <RefreshIndicator
           lottieRef={lottieRef}
           darkMode={darkMode}
-          opacity={refreshIndicatorOpacity}
+          opacity={opacityAnimation}
         />
         <Animated.FlatList
           ref={ref}
@@ -145,11 +138,21 @@ function SavedListingsScreen({ navigation }) {
               }}
             />
           }
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: scrollY,
+                  },
+                },
+              },
+            ],
+            { useNativeDriver: true }
+          )}
           renderItem={renderItem}
           ListEmptyComponent={() => (
-            <View
-              style={[styles.defaultCard, { backgroundColor: colors.light }]}
-            >
+            <View style={[styles.defaultCard]}>
               <AppText>No Listings Found</AppText>
               <AppText>(Pull to Refresh!)</AppText>
             </View>
