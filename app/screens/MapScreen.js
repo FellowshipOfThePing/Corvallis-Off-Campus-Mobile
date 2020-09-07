@@ -115,7 +115,18 @@ function MapScreen({ navigation, route }) {
   }, [longitudes]);
 
   useEffect(() => {
-    onMarkerPress(0);
+    if (getListingsApi.data !== []) {
+      onMarkerPress(0);
+      mapRef.current.animateToRegion(
+        {
+          latitude: getListingsApi.data[0].latitude,
+          longitude: getListingsApi.data[0].longitude,
+          latitudeDelta: mapDelta.latitudeDelta,
+          longitudeDelta: mapDelta.longitudeDelta,
+        },
+        500
+      );
+    }
   }, [zoomedOutDelta]);
 
   const markerArray =
