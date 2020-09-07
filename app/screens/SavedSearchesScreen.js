@@ -37,8 +37,12 @@ function SavedSearchesScreen({ navigation }) {
 
   const [expanded, setExpanded] = useState(null);
   const [change, setChange] = useState(true);
-  const [refreshIndicatorOpacity, setRefreshIndicatorOpacity] = useState(0);
+
   let scrollY = new Animated.Value(0);
+  let opacityAnimation = scrollY.interpolate({
+    inputRange: [-50, 0],
+    outputRange: [1, 0],
+  });
 
   useEffect(() => {
     setExpanded(null);
@@ -88,16 +92,6 @@ function SavedSearchesScreen({ navigation }) {
     navigation.navigate("Home");
   };
 
-  useEffect(() => {
-    scrollY.addListener(({ value }) => {
-      if (value < 0) {
-        setRefreshIndicatorOpacity(1);
-      } else {
-        setRefreshIndicatorOpacity(0);
-      }
-    });
-  });
-
   return (
     <>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
@@ -108,7 +102,7 @@ function SavedSearchesScreen({ navigation }) {
         <RefreshIndicator
           lottieRef={lottieRef}
           darkMode={darkMode}
-          opacity={refreshIndicatorOpacity}
+          opacity={opacityAnimation}
         />
         <Animated.FlatList
           ref={ref}
@@ -148,9 +142,7 @@ function SavedSearchesScreen({ navigation }) {
             { useNativeDriver: true }
           )}
           ListEmptyComponent={() => (
-            <View
-              style={[styles.defaultCard, { backgroundColor: colors.light }]}
-            >
+            <View style={[styles.defaultCard]}>
               <AppText>No Searches Found</AppText>
               <AppText>(Pull to Refresh!)</AppText>
             </View>
