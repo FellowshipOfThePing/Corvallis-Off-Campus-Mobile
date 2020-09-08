@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3DE4DAD41476765101945408 /* libPods-HousingMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D43FF9D506E70904424FA7E9 /* libPods-HousingMobile.a */; };
 		3F46F09F250702DE00D3EAFB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F46F09E250702DE00D3EAFB /* File.swift */; };
+		3F820A82250739A3003E9B93 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F820A81250739A3003E9B93 /* Launch Screen.storyboard */; };
 		99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		3B47C5AFCB8BDE514B7D1AC6 /* Pods-HousingMobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HousingMobile.debug.xcconfig"; path = "Target Support Files/Pods-HousingMobile/Pods-HousingMobile.debug.xcconfig"; sourceTree = "<group>"; };
 		3F46F09D250702DD00D3EAFB /* HousingMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HousingMobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		3F46F09E250702DE00D3EAFB /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		3F820A81250739A3003E9B93 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8AC623DBF3A3E2CB072F81F2 /* Pods-HousingMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HousingMobile.release.xcconfig"; path = "Target Support Files/Pods-HousingMobile/Pods-HousingMobile.release.xcconfig"; sourceTree = "<group>"; };
 		D43FF9D506E70904424FA7E9 /* libPods-HousingMobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HousingMobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = HousingMobile/SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				0731D3B524204D62009CAE85 /* Expo.plist */,
 				E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */,
+				3F820A81250739A3003E9B93 /* Launch Screen.storyboard */,
 			);
 			name = HousingMobile;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				0731D3B824204D62009CAE85 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				3F820A82250739A3003E9B93 /* Launch Screen.storyboard in Resources */,
 				99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

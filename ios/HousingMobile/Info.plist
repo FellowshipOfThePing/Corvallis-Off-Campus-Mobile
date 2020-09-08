@@ -60,7 +60,7 @@
 	<key>NSRemindersUsageDescription</key>
 	<string>Allow Housing Mobile to access your reminders</string>
 	<key>UILaunchStoryboardName</key>
-	<string>SplashScreen</string>
+	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
