@@ -115,7 +115,7 @@ function MapScreen({ navigation, route }) {
   }, [longitudes]);
 
   useEffect(() => {
-    if (getListingsApi.data !== []) {
+    if (getListingsApi.data && getListingsApi.data.length > 0) {
       onMarkerPress(0);
       mapRef.current.animateToRegion(
         {
