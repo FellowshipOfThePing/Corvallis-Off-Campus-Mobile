@@ -14,7 +14,7 @@ function MapButton({
   iconName,
   iconSize,
   iconColor,
-  iconFamily = "Community",
+  iconFamily,
   opacity = 1,
   onLongPress,
   onPressOut,

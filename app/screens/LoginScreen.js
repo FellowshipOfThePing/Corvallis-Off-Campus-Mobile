@@ -145,12 +145,14 @@ function LoginScreen({ navigation, route }) {
             <TouchableOpacity
               style={styles.signUpText}
               onPress={() =>
-                navigation.navigate("Signup", {
-                  params: {
-                    intendedNavigator: route.params.intendedNavigator,
-                    intendedScreen: route.params.intendedScreen,
-                  },
-                })
+                route.params
+                  ? navigation.navigate("Signup", {
+                      params: {
+                        intendedNavigator: route.params.intendedNavigator,
+                        intendedScreen: route.params.intendedScreen,
+                      },
+                    })
+                  : navigation.navigate("Signup")
               }
             >
               <View style={styles.textRow}>
