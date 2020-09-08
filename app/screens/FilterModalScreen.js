@@ -165,6 +165,7 @@ export default function FilterModalScreen({ navigation }) {
                   styles.button,
                   { justifyContent: "center", alignItems: "center" },
                 ]}
+                darkMode={darkMode}
               />
             )}
           </View>
