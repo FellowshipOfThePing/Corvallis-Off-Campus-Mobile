@@ -303,7 +303,6 @@ function MapScreen({ navigation, route }) {
         })
       }
       style={{
-        shadowOffset: { x: 2, y: -2 },
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
         marginHorizontal: width * 0.05,
@@ -403,7 +402,6 @@ function MapScreen({ navigation, route }) {
               styles.defaultCard,
               {
                 backgroundColor: colors.mapCardBackground,
-                shadowColor: colors.black,
                 height: CARD_HEIGHT,
                 width: CARD_WIDTH,
                 marginHorizontal: width * 0.05,
@@ -434,11 +432,8 @@ const styles = StyleSheet.create({
   },
   defaultCard: {
     elevation: 2,
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
     overflow: "hidden",
     borderRadius: 15,
-    shadowOffset: { x: 2, y: -2 },
     justifyContent: "center",
     alignItems: "center",
   },
