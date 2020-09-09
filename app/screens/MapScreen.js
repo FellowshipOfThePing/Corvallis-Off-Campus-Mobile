@@ -14,6 +14,7 @@ import MapButtonTitles from "../components/MapButtonTitles";
 import ToggleFollowModal from "../components/ToggleFollowModal";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import Screen from "../components/Screen";
 
 function MapScreen({ navigation, route }) {
   const initialRegion = {
@@ -245,7 +246,6 @@ function MapScreen({ navigation, route }) {
       onMarkerPress(route.params.index);
     } else {
       setTimeout(() => {
-        console.log(listingData.length);
         waitForMarkers();
       }, 2000);
     }
@@ -312,7 +312,7 @@ function MapScreen({ navigation, route }) {
   );
 
   return (
-    <View style={styles.container}>
+    <Screen noTop style={styles.container}>
       <FocusAwareStatusBar
         barStyle={darkMode ? "light-content" : "dark-content"}
         backgroundColor="#6a51ae"
@@ -326,6 +326,7 @@ function MapScreen({ navigation, route }) {
         showsTraffic={false}
         loadingEnabled
         onRegionChangeComplete={(region) => changeRegionDelta(region)}
+        paddingAdjustmentBehavior="never"
       >
         {markerArray}
         <Marker coordinate={{ latitude: OSU_lat, longitude: OSU_long }}>
@@ -416,7 +417,7 @@ function MapScreen({ navigation, route }) {
         keyExtractor={(listing, index) => index.toString()}
         renderItem={renderItem}
       />
-    </View>
+    </Screen>
   );
 }
 
