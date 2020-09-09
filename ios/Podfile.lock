@@ -1,5 +1,4 @@
 PODS:
-  - "@react-native-mapbox-gl-mapbox-static (5.8.0)"
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - EXBlur (8.1.2):
@@ -85,9 +84,6 @@ PODS:
   - lottie-react-native (3.5.0):
     - lottie-ios (~> 3.1.8)
     - React
-  - Mapbox-iOS-SDK (5.9.0):
-    - MapboxMobileEvents (= 0.10.2)
-  - MapboxMobileEvents (0.10.2)
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
     - FBLazyVector (= 0.61.5)
@@ -255,20 +251,6 @@ PODS:
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.2.0)
     - React
-  - react-native-mapbox-gl (8.1.0-rc.2):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
-    - Mapbox-iOS-SDK (~> 5.8)
-    - React
-    - react-native-mapbox-gl/DynamicLibrary (= 8.1.0-rc.2)
-    - react-native-mapbox-gl/StaticLibraryFixer (= 8.1.0-rc.2)
-  - react-native-mapbox-gl/DynamicLibrary (8.1.0-rc.2):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
-    - Mapbox-iOS-SDK (~> 5.8)
-    - React
-  - react-native-mapbox-gl/StaticLibraryFixer (8.1.0-rc.2):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
-    - Mapbox-iOS-SDK (~> 5.8)
-    - React
   - react-native-maps (0.26.1):
     - React
   - react-native-netinfo (5.9.5):
@@ -379,7 +361,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
-  - "react-native-mapbox-gl (from `../node_modules/@react-native-mapbox-gl/maps`)"
   - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -418,13 +399,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - "@react-native-mapbox-gl-mapbox-static"
     - boost-for-react-native
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - lottie-ios
-    - Mapbox-iOS-SDK
-    - MapboxMobileEvents
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -489,8 +467,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps"
-  react-native-mapbox-gl:
-    :path: "../node_modules/@react-native-mapbox-gl/maps"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-netinfo:
@@ -561,7 +537,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  "@react-native-mapbox-gl-mapbox-static": e247172bc43f47757f47d6cec1b325b1ab3e9287
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   EXBlur: 5b7a7344c97f448fa88e40df58a755f84084e292
@@ -587,8 +562,6 @@ SPEC CHECKSUMS:
   GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
   lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
-  Mapbox-iOS-SDK: a5915700ec84bc1a7f8b3e746d474789e35b7956
-  MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   React: b6a59ef847b2b40bb6e0180a97d0ca716969ac78
@@ -599,7 +572,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-google-maps: 2e2e697dab576abd5809d78cd74e775865b62bf7
-  react-native-mapbox-gl: 18785637738ca8b25c3633db431d6614ec7fc9bf
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
   react-native-netinfo: 7f3f3ed9e8f0e7ab3e7cac00cbfdc6997e25ecaf
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
