@@ -14,6 +14,7 @@ import MapButtonTitles from "../components/MapButtonTitles";
 import ToggleFollowModal from "../components/ToggleFollowModal";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import Screen from "../components/Screen";
 
 function MapScreen({ navigation, route }) {
   const initialRegion = {
@@ -60,6 +61,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (getListingsApi.data !== []) {
+      console.log("Effect 1: Create listingData");
       let data = getListingsApi.data.map((marker) => {
         return marker;
       });
@@ -75,6 +77,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (listingData.length > 0) {
+      console.log("Effect 2: Set Addresses");
       let adds = getListingsApi.data.map((marker) => {
         return marker.address;
       });
@@ -84,6 +87,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (addresses.length > 0) {
+      console.log("Effect 3: Set Latitudes");
       let lats = Object.values(
         getListingsApi.data.map((marker) => {
           return marker.latitude;
@@ -95,6 +99,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (latitudes.length > 0) {
+      console.log("Effect 4: Set Longitudes");
       let longs = Object.values(
         getListingsApi.data.map((marker) => {
           return marker.longitude;
@@ -106,6 +111,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (longitudes.length > 1) {
+      console.log("Effect 5: Set ZoomedOut Delta");
       let zoom = {
         latitude: Math.max(...latitudes) - Math.min(...latitudes),
         longitude: Math.max(...longitudes) - Math.min(...longitudes),
@@ -116,6 +122,7 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (getListingsApi.data && getListingsApi.data.length > 0) {
+      console.log("Effect 6: Animate to first listing");
       onMarkerPress(0);
       mapRef.current.animateToRegion(
         {
@@ -148,6 +155,7 @@ function MapScreen({ navigation, route }) {
       : null;
 
   const changeRegionDelta = (region) => {
+    console.log("Change Region Delta");
     setMapDelta({
       latitudeDelta: region.latitudeDelta,
       longitudeDelta: region.longitudeDelta,
@@ -155,6 +163,7 @@ function MapScreen({ navigation, route }) {
   };
 
   const zoomOut = () => {
+    console.log("Zoomed Out");
     if (listingData.length > 0 && isFinite(zoomedOutDelta.latitude)) {
       mapRef.current.animateToRegion(
         {
@@ -179,6 +188,7 @@ function MapScreen({ navigation, route }) {
   };
 
   const zoomIn = () => {
+    console.log("Zoomed In");
     if (listingData.length > 0 && isFinite(zoomedOutDelta.latitude)) {
       mapRef.current.animateToRegion(
         {
@@ -213,6 +223,7 @@ function MapScreen({ navigation, route }) {
   };
 
   const onMarkerPress = (index) => {
+    console.log("Marker Pressed");
     if (!markerPressed) {
       let offset = index * width;
 
@@ -253,12 +264,14 @@ function MapScreen({ navigation, route }) {
 
   useEffect(() => {
     if (route.params && route.params.index) {
+      console.log("Effect 7: Wait for Markers");
       waitForMarkers();
     }
   }, [route]);
 
   useEffect(() => {
     if (following && listingData.length > 0) {
+      console.log("Effect 8: Animate to mapIndex");
       mapRef.current.animateToRegion(
         {
           latitude: listingData[mapIndex].latitude,
@@ -312,7 +325,7 @@ function MapScreen({ navigation, route }) {
   );
 
   return (
-    <View style={styles.container}>
+    <Screen noTop style={styles.container}>
       <FocusAwareStatusBar
         barStyle={darkMode ? "light-content" : "dark-content"}
         backgroundColor="#6a51ae"
@@ -326,6 +339,7 @@ function MapScreen({ navigation, route }) {
         showsTraffic={false}
         loadingEnabled
         onRegionChangeComplete={(region) => changeRegionDelta(region)}
+        paddingAdjustmentBehavior="never"
       >
         {markerArray}
         <Marker coordinate={{ latitude: OSU_lat, longitude: OSU_long }}>
@@ -416,7 +430,7 @@ function MapScreen({ navigation, route }) {
         keyExtractor={(listing, index) => index.toString()}
         renderItem={renderItem}
       />
-    </View>
+    </Screen>
   );
 }
 

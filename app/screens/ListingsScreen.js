@@ -117,65 +117,62 @@ function ListingsScreen({ navigation }) {
   );
 
   return (
-    <>
+    <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
       <FocusAwareStatusBar barStyle="light-content" backgroundColor="#6a51ae" />
-      <Screen style={[styles.screen, { backgroundColor: colors.light }]}>
-        <RefreshIndicator
-          lottieRef={lottieRef}
-          darkMode={darkMode}
-          opacity={opacityAnimation}
-        />
-        <Animated.FlatList
-          ref={listRef}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingTop: 10 }}
-          initialNumToRender={10}
-          data={getListingsApi.data}
-          extraData={favorites}
-          keyExtractor={(listing) => listing.address_id.toString()}
-          refreshControl={
-            <RefreshControl
-              tintColor="transparent"
-              colors={["transparent"]}
-              style={{ backgroundColor: "transparent" }}
-              refreshing={getListingsApi.loading}
-              onRefresh={() => getListingsApi.request(filterState)}
-            />
-          }
-          onScroll={Animated.event(
-            [
-              {
-                nativeEvent: {
-                  contentOffset: {
-                    y: scrollY,
-                  },
+      <RefreshIndicator
+        lottieRef={lottieRef}
+        darkMode={darkMode}
+        opacity={opacityAnimation}
+      />
+      <Animated.FlatList
+        ref={listRef}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingTop: 10 }}
+        initialNumToRender={10}
+        data={getListingsApi.data}
+        extraData={favorites}
+        keyExtractor={(listing) => listing.address_id.toString()}
+        refreshControl={
+          <RefreshControl
+            tintColor="transparent"
+            colors={["transparent"]}
+            style={{ backgroundColor: "transparent" }}
+            refreshing={getListingsApi.loading}
+            onRefresh={() => getListingsApi.request(filterState)}
+          />
+        }
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrollY,
                 },
               },
-            ],
-            { useNativeDriver: true }
-          )}
-          getItemLayout={(data, index) => ({
-            length: 345,
-            offset: 345 * index,
-            index: index,
-          })}
-          renderItem={renderItem}
-          ListEmptyComponent={() => (
-            <View
-              style={[styles.defaultCard, { backgroundColor: colors.white }]}
-            >
-              <ActivityIndicator visible={getListingsApi.loading} />
-              {!getListingsApi.loading && <AppText>No Listings Found</AppText>}
-            </View>
-          )}
-        />
-      </Screen>
-    </>
+            },
+          ],
+          { useNativeDriver: true }
+        )}
+        getItemLayout={(data, index) => ({
+          length: 345,
+          offset: 345 * index,
+          index: index,
+        })}
+        renderItem={renderItem}
+        ListEmptyComponent={() => (
+          <View style={[styles.defaultCard, { backgroundColor: colors.white }]}>
+            <ActivityIndicator visible={getListingsApi.loading} />
+            {!getListingsApi.loading && <AppText>No Listings Found</AppText>}
+          </View>
+        )}
+      />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
+    flex: 1,
     paddingHorizontal: 5,
   },
   defaultCard: {
