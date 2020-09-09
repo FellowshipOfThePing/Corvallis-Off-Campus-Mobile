@@ -18,7 +18,7 @@ const lightTheme = {
   mapCardBackground: "rgba(255, 255, 255, 0.85)",
   navHeaderBackground: "#d73f09",
   navHeaderText: "#fff",
-  navHeaderTextInactive: "rgba(255,255,255,0.5)",
+  navHeaderTextInactive: "rgba(255,255,255,0.6)",
 };
 
 const darkTheme = {
@@ -37,7 +37,7 @@ const darkTheme = {
   mapCardBackground: "rgba(0, 0, 0, 0.85)",
   navHeaderBackground: "#000",
   navHeaderText: "#fff",
-  navHeaderTextInactive: "rgba(255,255,255,0.5)",
+  navHeaderTextInactive: "rgba(255,255,255,0.6)",
 };
 
 export default ({ children }) => {
