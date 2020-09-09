@@ -30,7 +30,6 @@ class MapCard extends React.PureComponent {
             styles.card,
             {
               backgroundColor: this.props.colors.mapCardBackground,
-              shadowColor: this.props.colors.black,
             },
             this.props.style,
           ]}
@@ -76,8 +75,6 @@ class MapCard extends React.PureComponent {
 const styles = StyleSheet.create({
   card: {
     elevation: 2,
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
     overflow: "hidden",
     borderRadius: 15,
   },
