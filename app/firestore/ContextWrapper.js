@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import firebase from "../auth/config";
 import "firebase/firestore";
 
+import logger from "../utils/logger";
 import SavedContext from "./context";
 import ApiContext from "../api/context";
 import AuthContext from "../auth/context";
@@ -32,8 +33,8 @@ export default ({ children }) => {
         );
       })
       .catch((error) => {
-        console.log(
-          "[NETWORK] Error getting Address IDs from Firestore:",
+        logger.log(
+          "[ERROR] Error getting Address IDs from Firestore:",
           error
         );
       });
@@ -104,8 +105,8 @@ export default ({ children }) => {
         console.log("[NETWORK] Retrieved Saved Searches!");
       })
       .catch((error) => {
-        console.log(
-          "[NETWORK] Error getting Saved Searches from Firestore:",
+        logger.log(
+          "[ERROR] Error getting Saved Searches from Firestore:",
           error
         );
         setRefreshingSearches(false);
@@ -124,7 +125,7 @@ export default ({ children }) => {
         console.log("[NETWORK] Saved Search Modified!");
       })
       .catch(() => {
-        console.log("[ERROR] Search could not be modified");
+        logger.log("[ERROR] Search could not be modified");
       });
   };
 
