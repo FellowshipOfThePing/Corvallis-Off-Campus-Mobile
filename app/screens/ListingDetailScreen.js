@@ -16,6 +16,7 @@ import LogInOverlay from "../components/LogInOverlay";
 import MiniMapButtonMenu from "../components/MiniMapButtonMenu";
 import TimeToCampusBanner from "../components/TimeToCampusBanner";
 import LoadingModal from "../components/LoadingModal";
+import logger from "../utils/logger";
 
 const getDirections = async (startLoc, destinationLoc, mode) => {
   try {
@@ -125,7 +126,7 @@ function ListingDetailScreen({ navigation, route }) {
         })
         .catch((err) => {
           setLoading(false);
-          console.log("[NETWORK] Something went wrong:", err);
+          logger.log("[ERROR] Something went wrong:", err);
         });
     }
   };

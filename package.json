@@ -6,6 +6,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@bugsnag/expo": "^7.1.1",
     "@expo/vector-icons": "^10.0.0",
     "@mapbox/polyline": "^1.1.1",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
