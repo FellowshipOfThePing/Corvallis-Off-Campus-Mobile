@@ -12,6 +12,7 @@ export default ({ children }) => {
   const [signupErrorMessage, setSignupErrorMessage] = useState("");
   const [createFavAttempts, setCreateFavAttempts] = useState(0);
   const [createSavedAttempts, setCreateSavedAttempts] = useState(0);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLoginError = (error) => {
     let errorString = error.toString();
@@ -128,13 +129,16 @@ export default ({ children }) => {
 
   const logout = async () => {
     try {
+      setLoggingOut(true);
       await firebase.auth().signOut();
       setEmail(null);
       setUser(null);
       console.log("[NETWORK] Signed Out");
+      setLoggingOut(false);
       return true;
     } catch (error) {
       console.log("[ERROR] Error Signing Out", error);
+      setLoggingOut(false);
       return false;
     }
   };
@@ -196,6 +200,7 @@ export default ({ children }) => {
         createSavedSearches,
         updatePassword,
         updateEmail,
+        loggingOut
       }}
     >
       {children}

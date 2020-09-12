@@ -18,16 +18,19 @@ function RadiatingMarker({ coordinate, onPress, title, size = 20, colors }) {
           toValue: size * 3,
           duration: 1500,
           delay: 500,
+          useNativeDriver: false,
         }),
         Animated.timing(radiusAnim, {
           toValue: size * 1.5,
           duration: 1500,
           delay: 500,
+          useNativeDriver: false,
         }),
         Animated.timing(opacityAnim, {
           toValue: 0,
           duration: 1500,
           delay: 500,
+          useNativeDriver: false,
         }),
       ])
     ).start();
