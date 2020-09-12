@@ -70,9 +70,11 @@
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge {
 #ifdef DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  NSURL *jsUrl = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  [[RCTBundleURLProvider sharedSettings] setJsLocation:jsUrl.host];
+  return jsUrl;
 #else
-  return [[EXUpdatesAppController sharedInstance] launchAssetUrl];
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
 

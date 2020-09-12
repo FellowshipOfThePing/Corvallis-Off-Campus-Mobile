@@ -14,6 +14,7 @@ import MapButtonTitles from "../components/MapButtonTitles";
 import ToggleFollowModal from "../components/ToggleFollowModal";
 import ThemeContext from "../theme/context";
 import FocusAwareStatusBar from "../components/FocusAwareStatusBar";
+import Screen from "../components/Screen";
 
 function MapScreen({ navigation, route }) {
   const initialRegion = {
@@ -115,7 +116,7 @@ function MapScreen({ navigation, route }) {
   }, [longitudes]);
 
   useEffect(() => {
-    if (getListingsApi.data !== []) {
+    if (getListingsApi.data && getListingsApi.data.length > 0) {
       onMarkerPress(0);
       mapRef.current.animateToRegion(
         {
@@ -226,7 +227,7 @@ function MapScreen({ navigation, route }) {
         clearTimeout(markerPressedTimeout);
 
         const scrollTimeout = setTimeout(() => {
-          flatListRef.current.getNode().scrollToOffset({
+          flatListRef.current.scrollToOffset({
             offset: offset,
             animated: true,
           });
@@ -245,7 +246,6 @@ function MapScreen({ navigation, route }) {
       onMarkerPress(route.params.index);
     } else {
       setTimeout(() => {
-        console.log(listingData.length);
         waitForMarkers();
       }, 2000);
     }
@@ -303,7 +303,6 @@ function MapScreen({ navigation, route }) {
         })
       }
       style={{
-        shadowOffset: { x: 2, y: -2 },
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
         marginHorizontal: width * 0.05,
@@ -312,7 +311,7 @@ function MapScreen({ navigation, route }) {
   );
 
   return (
-    <View style={styles.container}>
+    <Screen noTop style={styles.container}>
       <FocusAwareStatusBar
         barStyle={darkMode ? "light-content" : "dark-content"}
         backgroundColor="#6a51ae"
@@ -326,6 +325,7 @@ function MapScreen({ navigation, route }) {
         showsTraffic={false}
         loadingEnabled
         onRegionChangeComplete={(region) => changeRegionDelta(region)}
+        paddingAdjustmentBehavior="never"
       >
         {markerArray}
         <Marker coordinate={{ latitude: OSU_lat, longitude: OSU_long }}>
@@ -402,7 +402,6 @@ function MapScreen({ navigation, route }) {
               styles.defaultCard,
               {
                 backgroundColor: colors.mapCardBackground,
-                shadowColor: colors.black,
                 height: CARD_HEIGHT,
                 width: CARD_WIDTH,
                 marginHorizontal: width * 0.05,
@@ -416,7 +415,7 @@ function MapScreen({ navigation, route }) {
         keyExtractor={(listing, index) => index.toString()}
         renderItem={renderItem}
       />
-    </View>
+    </Screen>
   );
 }
 
@@ -433,11 +432,8 @@ const styles = StyleSheet.create({
   },
   defaultCard: {
     elevation: 2,
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
     overflow: "hidden",
     borderRadius: 15,
-    shadowOffset: { x: 2, y: -2 },
     justifyContent: "center",
     alignItems: "center",
   },

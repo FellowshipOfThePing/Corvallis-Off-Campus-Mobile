@@ -25,6 +25,7 @@ function MiniMapButtonMenu({
           { backgroundColor: colors.light, borderColor: colors.black },
         ]}
         iconName="google-maps"
+        iconFamily="Community"
         iconColor={colors.dark}
         onPress={onPressGoToMap}
       />
