@@ -29,6 +29,19 @@
     "android": {
       "package": "com.housingapp"
     },
-    "entryPoint": "node_modules/expo/AppEntry.js"
+    "entryPoint": "node_modules/expo/AppEntry.js",
+    "extra": {
+      "bugsnag": {
+        "apiKey": "e794791b5a2baa5b0878adb95d4d9fe4"
+      }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "@bugsnag/expo/hooks/post-publish.js",
+          "config": {}
+        }
+      ]
+    }
   }
 }
