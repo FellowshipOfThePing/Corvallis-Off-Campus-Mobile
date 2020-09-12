@@ -227,7 +227,7 @@ function MapScreen({ navigation, route }) {
         clearTimeout(markerPressedTimeout);
 
         const scrollTimeout = setTimeout(() => {
-          flatListRef.current.getNode().scrollToOffset({
+          flatListRef.current.scrollToOffset({
             offset: offset,
             animated: true,
           });
