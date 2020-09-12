@@ -14,6 +14,7 @@ function TimeToCampusBanner({ minutes, mode, visible, colors }) {
     Animated.timing(positionAnim, {
       toValue: 0,
       animationDuration: animationDuration,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -21,6 +22,7 @@ function TimeToCampusBanner({ minutes, mode, visible, colors }) {
     Animated.timing(positionAnim, {
       toValue: -height,
       animationDuration: animationDuration,
+      useNativeDriver: false,
     }).start();
   };
 

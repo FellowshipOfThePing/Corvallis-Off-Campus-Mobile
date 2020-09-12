@@ -35,11 +35,13 @@ function SavedSearchCard({
       Animated.timing(paddingAnim, {
         toValue: 75,
         duration: animationDuration,
+        useNativeDriver: false,
       }),
       Animated.timing(opacityAnim, {
         toValue: 1,
         duration: animationDuration,
         delay: animationDuration / 2,
+        useNativeDriver: false,
       }),
     ]).start();
   };
@@ -50,10 +52,12 @@ function SavedSearchCard({
         toValue: 0,
         duration: animationDuration,
         delay: animationDuration / 3,
+        useNativeDriver: false,
       }),
       Animated.timing(opacityAnim, {
         toValue: 0,
         duration: animationDuration,
+        useNativeDriver: false,
       }),
     ]).start();
   };
