@@ -2,7 +2,7 @@ import settings from "./settings";
 import { create } from "apisauce";
 
 const apiClient = create({
-  baseURL: settings.apiUrl,
+  baseURL: settings.dev.apiUrl,
 });
 
 export default apiClient;

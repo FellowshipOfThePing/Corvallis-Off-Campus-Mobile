@@ -24,7 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.offcampushousing"
+      "bundleIdentifier": "com.offcampushousing",
+      "buildNumber": "1.0.3"
     },
     "description": "",
     "android": {
