@@ -27,16 +27,19 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10, colors }) => {
         toValue: selectedSize * 3,
         duration: animationDuration,
         delay: animationDelay,
+        useNativeDriver: false,
       }),
       Animated.timing(radiusAnim, {
         toValue: selectedSize * 1.5,
         duration: animationDuration,
         delay: animationDelay,
+        useNativeDriver: false,
       }),
       Animated.timing(opacityAnim, {
         toValue: 0,
         duration: animationDuration,
         delay: animationDelay,
+        useNativeDriver: false,
       }),
     ])
   );

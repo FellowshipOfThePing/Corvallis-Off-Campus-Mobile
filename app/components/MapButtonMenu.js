@@ -41,6 +41,7 @@ function MapButtonMenu({
       Animated.timing(heightAnim, {
         toValue: 54,
         duration: animationDuration,
+        useNativeDriver: false,
       }),
       Animated.timing(opacityAnim, {
         toValue: 0,
@@ -61,6 +62,7 @@ function MapButtonMenu({
       Animated.timing(heightAnim, {
         toValue: initialHeight,
         duration: animationDuration,
+        useNativeDriver: false,
       }),
       Animated.timing(opacityAnim, {
         toValue: 1,

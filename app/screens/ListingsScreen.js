@@ -70,7 +70,7 @@ function ListingsScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    listRef.current.getNode().scrollToOffset({ animated: true, offset: 0 });
+    listRef.current.scrollToOffset({ animated: true, offset: 0 });
   }, [getListingsApi.data, filterState]);
 
   useEffect(() => {

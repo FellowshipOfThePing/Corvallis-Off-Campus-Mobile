@@ -2,6 +2,7 @@
   "expo": {
     "name": "Corvallis Off Campus",
     "slug": "housing_mobile",
+    "sdkVersion": "38.0.0",
     "platforms": [
       "ios",
       "android",
@@ -23,7 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.offcampushousing"
+      "bundleIdentifier": "com.offcampushousing",
+      "buildNumber": "1.0.3"
     },
     "description": "",
     "android": {
