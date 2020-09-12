@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import firebase from "../auth/config";
 import "firebase/firestore";
 
+import logger from "../utils/logger";
 import AuthContext from "./context";
 
 export default ({ children }) => {
@@ -44,7 +45,7 @@ export default ({ children }) => {
       setEmail(email);
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Signing Up User", error);
+      logger.log("[ERROR] Error Signing Up User", error);
       handleSignUpError(error);
       return false;
     }
@@ -59,7 +60,7 @@ export default ({ children }) => {
       console.log("[NETWORK] Logged In");
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Logging In:", error);
+      logger.log("[ERROR] Error Logging In:", error);
       handleLoginError(error);
       setEmail(null);
       setUser(null);
@@ -76,7 +77,7 @@ export default ({ children }) => {
       console.log("[NETWORK] Profile Name Update Successful!");
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Updating Profile Name", error);
+      logger.log("[ERROR] Error Updating Profile Name", error);
       return false;
     }
   };
@@ -91,10 +92,10 @@ export default ({ children }) => {
       return true;
     } catch (error) {
       if (createFavAttempts >= 5) {
-        console.log("[ERROR] Favorites Could not be created");
+        logger.log("[ERROR] Favorites Could not be created");
         return false;
       } else {
-        console.log(
+        logger.log(
           "[ERROR] Favorites document not created.",
           error,
           "Trying again..."
@@ -114,10 +115,10 @@ export default ({ children }) => {
       return true;
     } catch (error) {
       if (createSavedAttempts >= 5) {
-        console.log("[ERROR] SavedSearches Could not be created");
+        logger.log("[ERROR] SavedSearches Could not be created");
         return false;
       } else {
-        console.log(
+        logger.log(
           "[ERROR] SavedSearches document not created.",
           error,
           "Trying again..."
@@ -137,7 +138,7 @@ export default ({ children }) => {
       setLoggingOut(false);
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Signing Out", error);
+      logger.log("[ERROR] Error Signing Out", error);
       setLoggingOut(false);
       return false;
     }
@@ -149,7 +150,7 @@ export default ({ children }) => {
       setUser({ username, email, password });
       console.log("[NETWORK] Profile Name Successfully Retrieved!");
     } catch (error) {
-      console.log("[ERROR] Error Retrieving Profile Name", error);
+      logger.log("[ERROR] Error Retrieving Profile Name", error);
     }
   };
 
@@ -160,7 +161,7 @@ export default ({ children }) => {
       console.log("[NETWORK] Password Successfully Updated!");
       return true;
     } catch (error) {
-      console.log("[NETWORK] Error Updating Password:", error);
+      logger.log("[ERROR] Error Updating Password:", error);
       return false;
     }
   };
@@ -172,7 +173,7 @@ export default ({ children }) => {
       console.log("[NETWORK] Email Successfully Updated!");
       return true;
     } catch (error) {
-      console.log("[NETWORK] Error Updating Email:", error);
+      logger.log("[ERROR] Error Updating Email:", error);
       return false;
     }
   };
