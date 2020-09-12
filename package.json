@@ -62,6 +62,6 @@
     "react-test-renderer": "~16.9.0"
   },
   "private": true,
-  "name": "Mobile",
+  "name": "corvallis-off-campus",
   "version": "0.1.0"
 }
