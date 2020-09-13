@@ -6,13 +6,13 @@ Finding an apartment in Corvallis should be easy. Corvallis Off Campus provides 
 <br/>
 <br/>
 
-![Scroll View](assets/gifs/scroll.gif)  |  ![Map View](assets/gifs/map.gif) |  ![Filter Listings](assets/gifs/filter.gif)  |  ![Browse Saved Listings](assets/gifs/saved.gif)  |
-:---------------:|:----------------:|:-----------------:|:-----------------:|
-
+Browse Listings | Map View | Filter Modal | Saved Listings
+--------------- | -------- | ------------ | --------------
+![Scroll View](assets/gifs/scroll.gif)  |  ![Map View](assets/gifs/map.gif) |  ![Filter Listings](assets/gifs/filter.gif)  |  ![Browse Saved Listings](assets/gifs/saved.gif)  
 
 <br/>
 
-Built from scratch with [React-Native](https://github.com/facebook/react-native) and [Expo Bare Workflow](https://github.com/expo/expo).
+Built from scratch with [React-Native](https://github.com/facebook/react-native) and [Expo](https://github.com/expo/expo) (Bare Workflow)
 
 • Authentication built with Google [Firebase/Firestore](https://github.com/firebase/firebase-js-sdk).
 
