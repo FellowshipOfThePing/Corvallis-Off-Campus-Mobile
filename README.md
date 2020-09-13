@@ -12,7 +12,7 @@ Browse Listings | Map View | Filter Modal | Saved Listings
 
 <br/>
 
-Built from scratch with [React-Native](https://github.com/facebook/react-native) and [Expo](https://github.com/expo/expo) (Bare Workflow)
+• Built with [React-Native](https://github.com/facebook/react-native) and [Expo](https://github.com/expo/expo) (Bare Workflow)
 
 • Authentication built with Google [Firebase/Firestore](https://github.com/firebase/firebase-js-sdk).
 
