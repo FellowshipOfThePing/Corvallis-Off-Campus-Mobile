@@ -80,3 +80,6 @@ buck-out/
 .expo/*
 web-build/
 .env
+
+# api url
+settings.js
