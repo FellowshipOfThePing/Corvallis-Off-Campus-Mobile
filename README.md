@@ -20,4 +20,4 @@ Browse Listings | Map View | Filter Modal | Saved Listings
 
 • API fed with [Custom Data Scrapers](https://github.com/FellowshipOfThePing/Corvallis-Off-Campus-Scraper) (refreshing a MongoDB instance daily)
 
-Version 0.1.0 currently in open beta on [TestFlight](https://testflight.apple.com/join/p6C1aSxG)
+Version 0.1.1 currently in open beta on [TestFlight](https://testflight.apple.com/join/p6C1aSxG)
