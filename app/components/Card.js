@@ -11,7 +11,7 @@ import AppText from "./AppText";
 import IconRow from "./IconRow";
 import Heart from "./Heart";
 
-class Card extends React.PureComponent {
+class Card extends React.Component {
   constructor(props) {
     super(props);
     this.defaultImage = require("../../assets/placeholder.jpg");
@@ -22,6 +22,14 @@ class Card extends React.PureComponent {
     this.state = {
       loading: true,
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.saved !== nextProps.saved ||
+      this.props.colors !== nextProps.colors ||
+      this.state.loading !== nextState.loading
+    );
   }
 
   render() {
@@ -115,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Card);
+export default Card;

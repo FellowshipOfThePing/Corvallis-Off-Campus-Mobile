@@ -22,7 +22,7 @@ function Heart({ saved, onPress, size = 35, colors }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={1} onPress={() => handleOnPressLike()}>
+      <TouchableOpacity delayPressIn={0} activeOpacity={1} onPress={() => handleOnPressLike()}>
         <AnimatedIcon
           ref={handleIconRef}
           style={styles.icon}

@@ -8,6 +8,7 @@ function Button({ title, color, onPress, textSize = 18, textColor, style }) {
   const { colors } = useContext(ThemeContext);
   return (
     <TouchableOpacity
+      delayPressIn={0}
       style={[
         styles.container,
         style,

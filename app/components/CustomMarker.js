@@ -54,6 +54,7 @@ const CustomMarker = ({ coordinate, onPress, selected, size = 10, colors }) => {
       style={selected ? { zIndex: 9999 } : null}
     >
       <TouchableOpacity
+        delayPressIn={0}
         style={[
           styles.wrapper,
           selected

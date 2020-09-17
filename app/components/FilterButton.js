@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 function FilterButton({ size = 25, color, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} delayPressIn={0}>
       <MaterialCommunityIcons name="filter-outline" size={size} color={color} />
     </TouchableOpacity>
   );

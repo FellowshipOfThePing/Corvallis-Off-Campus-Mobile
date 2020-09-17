@@ -43,6 +43,7 @@ const ListingDetailNavigator = () => {
           headerLeft: () => {
             return (
               <TouchableOpacity
+                delayPressIn={0}
                 style={styles.backButton}
                 onPress={() => navigation.pop()}
               >

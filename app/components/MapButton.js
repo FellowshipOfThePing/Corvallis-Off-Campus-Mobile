@@ -22,6 +22,7 @@ function MapButton({
   return (
     <Animated.View style={{ opacity: opacity }}>
       <TouchableOpacity
+        delayPressIn={0}
         onPress={onPress}
         onLongPress={onLongPress}
         onPressOut={onPressOut}
