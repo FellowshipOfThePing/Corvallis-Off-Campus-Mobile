@@ -56,6 +56,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "babel-jest": "~25.2.6",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-expo": "~8.1.0",
     "jest": "~25.2.6",
     "react-native-clean-project": "^3.4.0",
