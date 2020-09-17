@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 function GoToMapButton({ size = 44, onPress, style, colors }) {
   return (
     <TouchableOpacity
+      delayPressIn={0}
       onPress={onPress}
       style={[
         styles.button,

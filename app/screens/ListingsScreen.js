@@ -6,9 +6,8 @@ import {
   RefreshControl,
   Animated,
 } from "react-native";
-import { useScrollToTop } from "@react-navigation/native";
+import { useIsFocused, useScrollToTop } from "@react-navigation/native";
 import "firebase/firestore";
-import { useIsFocused } from "@react-navigation/native";
 
 import Screen from "../components/Screen";
 import Card from "../components/Card";

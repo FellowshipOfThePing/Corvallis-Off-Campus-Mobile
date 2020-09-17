@@ -6,7 +6,7 @@ function Avatar({ size = 25, color, onPress }) {
   return (
     <>
       {onPress && (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity delayPressIn={0} onPress={onPress}>
           <MaterialCommunityIcons
             name="account-circle-outline"
             size={size}

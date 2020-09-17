@@ -2,18 +2,31 @@ import React from "react";
 import LottieView from "lottie-react-native";
 import { View, StyleSheet } from "react-native";
 
-function ActivityIndicator({ visible = false, style }) {
-  if (!visible) return null;
+class ActivityIndicator extends React.Component {
+  constructor() {
+    super();
+  }
 
-  return (
-    <View style={[styles.overlay, style]}>
-      <LottieView
-        autoPlay
-        loop
-        source={require("../../assets/animations/timer.json")}
-      />
-    </View>
-  );
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.visible !== nextProps.visible;
+  }
+
+  render() {
+    const { visible, style } = this.props;
+    if (visible) {
+      return (
+        <View style={[styles.overlay, style]}>
+          <LottieView
+            autoPlay
+            loop
+            source={require("../../assets/animations/timer.json")}
+          />
+        </View>
+      );
+    } else {
+      return null;
+    }
+  }
 }
 
 const styles = StyleSheet.create({

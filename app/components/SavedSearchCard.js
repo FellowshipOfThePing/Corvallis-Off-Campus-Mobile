@@ -10,7 +10,7 @@ function SavedSearchCard({
   onPressDelete,
   onPressApply,
   expanded,
-  colors
+  colors,
 }) {
   const priceChanged =
     savedSearch.price_low > 0 || savedSearch.price_high < 5000;
@@ -75,6 +75,7 @@ function SavedSearchCard({
       style={[styles.cardContainer, { paddingBottom: paddingAnim }]}
     >
       <TouchableOpacity
+        delayPressIn={0}
         style={[
           styles.card,
           {
