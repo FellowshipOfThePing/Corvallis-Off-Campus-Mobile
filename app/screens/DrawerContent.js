@@ -54,7 +54,7 @@ function DrawerContent({ navigation }) {
         </View>
         <View style={[styles.rows, { borderBottomColor: colors.gray }]}>
           <DrawerRowButton
-          colors={colors}
+            colors={colors}
             icon="home"
             text="Home"
             onPress={() => {
@@ -110,6 +110,7 @@ function DrawerContent({ navigation }) {
           </View>
           <View style={styles.bottomRow}>
             <TouchableOpacity
+              delayPressIn={0}
               style={[
                 styles.bottomRowContainer,
                 { borderRightWidth: 1, borderRightColor: colors.gray },
@@ -126,6 +127,7 @@ function DrawerContent({ navigation }) {
               </AppText>
             </TouchableOpacity>
             <TouchableOpacity
+              delayPressIn={0}
               style={styles.bottomRowContainer}
               onPress={
                 user

@@ -25,6 +25,7 @@ class Heart extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
+          delayPressIn={0}
           activeOpacity={1}
           onPress={() => this.handleOnPressLike()}
         >

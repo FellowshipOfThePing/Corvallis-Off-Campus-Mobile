@@ -143,6 +143,7 @@ function LoginScreen({ navigation, route }) {
               }}
             />
             <TouchableOpacity
+              delayPressIn={0}
               style={styles.signUpText}
               onPress={() =>
                 route.params
