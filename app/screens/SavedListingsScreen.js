@@ -58,12 +58,16 @@ function SavedListingsScreen({ navigation }) {
 
   useEffect(() => {
     if (initialLoad) {
-      console.log("EFFECT 1: Initial Load");
+      if (__DEV__) {
+        console.log("EFFECT 1: Initial Load");
+      }
       syncFavorites();
       lottieRef.current.play();
       setInitialLoad(false);
     } else if (!isFocused && favsChanged) {
-      console.log("EFFECT 1: Syncing Favorites");
+      if (__DEV__) {
+        console.log("EFFECT 1: Syncing Favorites");
+      }
       syncFavorites();
       setFavsChanged(false);
     }
@@ -72,16 +76,22 @@ function SavedListingsScreen({ navigation }) {
   useEffect(() => {
     if (!initialLoad) {
       syncFavorites();
-      console.log("EFFECT 2: Syncing Favorites");
+      if (__DEV__) {
+        console.log("EFFECT 2: Syncing Favorites");
+      }
     }
   }, [filterState, tapped]);
 
   useEffect(() => {
     if (refreshingFavorites) {
       lottieRef.current.play();
-      console.log("EFFECT 3: Playing Lottie");
+      if (__DEV__) {
+        console.log("EFFECT 3: Playing Lottie");
+      }
     } else {
-      console.log("EFFECT 3: Resetting Lottie");
+      if (__DEV__) {
+        console.log("EFFECT 3: Resetting Lottie");
+      }
       setTimeout(() => {
         lottieRef.current.reset();
       }, 200);

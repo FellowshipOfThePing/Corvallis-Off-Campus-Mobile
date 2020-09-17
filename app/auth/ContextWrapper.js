@@ -39,12 +39,16 @@ export default ({ children }) => {
   const signUp = async (username, email, password) => {
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log("[NETWORK] User Successfully signed up!");
+      if (__DEV__) {
+        console.log("[NETWORK] User Successfully signed up!");
+      }
       setUser({ username, email, password });
       setEmail(email);
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Signing Up User", error);
+      if (__DEV__) {
+        console.log("[ERROR] Error Signing Up User", error);
+      }
       handleSignUpError(error);
       return false;
     }
@@ -56,10 +60,14 @@ export default ({ children }) => {
       getUsername(password);
       setEmail(email);
       setUser({ email, password });
-      console.log("[NETWORK] Logged In");
+      if (__DEV__) {
+        console.log("[NETWORK] Logged In");
+      }
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Logging In:", error);
+      if (__DEV__) {
+        console.log("[ERROR] Error Logging In:", error);
+      }
       handleLoginError(error);
       setEmail(null);
       setUser(null);
@@ -73,10 +81,14 @@ export default ({ children }) => {
         displayName: username,
       });
       setUser({ username, email, password });
-      console.log("[NETWORK] Profile Name Update Successful!");
+      if (__DEV__) {
+        console.log("[NETWORK] Profile Name Update Successful!");
+      }
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Updating Profile Name", error);
+      if (__DEV__) {
+        console.log("[ERROR] Error Updating Profile Name", error);
+      }
       return false;
     }
   };
@@ -87,18 +99,24 @@ export default ({ children }) => {
       await db.collection("Users").doc(email).set({
         Favorites: [],
       });
-      console.log("[NETWORK] Favorites collection successfully created!");
+      if (__DEV__) {
+        console.log("[NETWORK] Favorites collection successfully created!");
+      }
       return true;
     } catch (error) {
       if (createFavAttempts >= 5) {
-        console.log("[ERROR] Favorites Could not be created");
+        if (__DEV__) {
+          console.log("[ERROR] Favorites Could not be created");
+        }
         return false;
       } else {
-        console.log(
-          "[ERROR] Favorites document not created.",
-          error,
-          "Trying again..."
-        );
+        if (__DEV__) {
+          console.log(
+            "[ERROR] Favorites document not created.",
+            error,
+            "Trying again..."
+          );
+        }
         setTimeout(createFavorites(email), 500);
       }
     }
@@ -110,18 +128,24 @@ export default ({ children }) => {
       await db.collection("Users").doc(email).update({
         SavedSearches: [],
       });
-      console.log("[NETWORK] SavedSearches collection successfully created!");
+      if (__DEV__) {
+        console.log("[NETWORK] SavedSearches collection successfully created!");
+      }
       return true;
     } catch (error) {
       if (createSavedAttempts >= 5) {
-        console.log("[ERROR] SavedSearches Could not be created");
+        if (__DEV__) {
+          console.log("[ERROR] SavedSearches Could not be created");
+        }
         return false;
       } else {
-        console.log(
-          "[ERROR] SavedSearches document not created.",
-          error,
-          "Trying again..."
-        );
+        if (__DEV__) {
+          console.log(
+            "[ERROR] SavedSearches document not created.",
+            error,
+            "Trying again..."
+          );
+        }
         setTimeout(createSavedSearches(email), 500);
       }
     }
@@ -133,11 +157,15 @@ export default ({ children }) => {
       await firebase.auth().signOut();
       setEmail(null);
       setUser(null);
-      console.log("[NETWORK] Signed Out");
+      if (__DEV__) {
+        console.log("[NETWORK] Signed Out");
+      }
       setLoggingOut(false);
       return true;
     } catch (error) {
-      console.log("[ERROR] Error Signing Out", error);
+      if (__DEV__) {
+        console.log("[ERROR] Error Signing Out", error);
+      }
       setLoggingOut(false);
       return false;
     }
@@ -147,9 +175,13 @@ export default ({ children }) => {
     try {
       const username = firebase.auth().currentUser.displayName;
       setUser({ username, email, password });
-      console.log("[NETWORK] Profile Name Successfully Retrieved!");
+      if (__DEV__) {
+        console.log("[NETWORK] Profile Name Successfully Retrieved!");
+      }
     } catch (error) {
-      console.log("[ERROR] Error Retrieving Profile Name", error);
+      if (__DEV__) {
+        console.log("[ERROR] Error Retrieving Profile Name", error);
+      }
     }
   };
 
@@ -157,10 +189,14 @@ export default ({ children }) => {
     try {
       await firebase.auth().currentUser.updatePassword(password);
       setUser({ username: user.username, email, password });
-      console.log("[NETWORK] Password Successfully Updated!");
+      if (__DEV__) {
+        console.log("[NETWORK] Password Successfully Updated!");
+      }
       return true;
     } catch (error) {
-      console.log("[NETWORK] Error Updating Password:", error);
+      if (__DEV__) {
+        console.log("[NETWORK] Error Updating Password:", error);
+      }
       return false;
     }
   };
@@ -169,10 +205,14 @@ export default ({ children }) => {
     try {
       await firebase.auth().currentUser.updateEmail(email);
       setUser({ username: user.username, email, password: user.password });
-      console.log("[NETWORK] Email Successfully Updated!");
+      if (__DEV__) {
+        console.log("[NETWORK] Email Successfully Updated!");
+      }
       return true;
     } catch (error) {
-      console.log("[NETWORK] Error Updating Email:", error);
+      if (__DEV__) {
+        console.log("[NETWORK] Error Updating Email:", error);
+      }
       return false;
     }
   };
@@ -200,7 +240,7 @@ export default ({ children }) => {
         createSavedSearches,
         updatePassword,
         updateEmail,
-        loggingOut
+        loggingOut,
       }}
     >
       {children}

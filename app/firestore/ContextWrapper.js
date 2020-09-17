@@ -27,15 +27,19 @@ export default ({ children }) => {
       .get()
       .then((doc) => {
         setAddressIDs(Object.values(doc.data().Favorites));
-        console.log(
-          "[NETWORK] AddressIDs successfully retrieved from Firestore"
-        );
+        if (__DEV__) {
+          console.log(
+            "[NETWORK] AddressIDs successfully retrieved from Firestore"
+          );
+        }
       })
       .catch((error) => {
-        console.log(
-          "[NETWORK] Error getting Address IDs from Firestore:",
-          error
-        );
+        if (__DEV__) {
+          console.log(
+            "[NETWORK] Error getting Address IDs from Firestore:",
+            error
+          );
+        }
       });
   };
 
@@ -78,7 +82,9 @@ export default ({ children }) => {
     docRef.update({
       Favorites: addressIDs,
     });
-    console.log("[NETWORK] Listing added to favorites");
+    if (__DEV__) {
+      console.log("[NETWORK] Listing added to favorites");
+    }
   };
 
   const removeFavorite = async (listing) => {
@@ -90,7 +96,9 @@ export default ({ children }) => {
     docRef.update({
       Favorites: addressIDs,
     });
-    console.log("[NETWORK] Listing removed from favorites");
+    if (__DEV__) {
+      console.log("[NETWORK] Listing removed from favorites");
+    }
   };
 
   const getSavedSearches = () => {
@@ -101,13 +109,17 @@ export default ({ children }) => {
       .then((doc) => {
         setSavedSearches(Object.values(doc.data().SavedSearches));
         setRefreshingSearches(false);
-        console.log("[NETWORK] Retrieved Saved Searches!");
+        if (__DEV__) {
+          console.log("[NETWORK] Retrieved Saved Searches!");
+        }
       })
       .catch((error) => {
-        console.log(
-          "[NETWORK] Error getting Saved Searches from Firestore:",
-          error
-        );
+        if (__DEV__) {
+          console.log(
+            "[NETWORK] Error getting Saved Searches from Firestore:",
+            error
+          );
+        }
         setRefreshingSearches(false);
       });
   };
@@ -121,10 +133,14 @@ export default ({ children }) => {
       })
       .then(() => {
         setRefreshingSearches(false);
-        console.log("[NETWORK] Saved Search Modified!");
+        if (__DEV__) {
+          console.log("[NETWORK] Saved Search Modified!");
+        }
       })
       .catch(() => {
-        console.log("[ERROR] Search could not be modified");
+        if (__DEV__) {
+          console.log("[ERROR] Search could not be modified");
+        }
       });
   };
 

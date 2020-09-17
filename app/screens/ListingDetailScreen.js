@@ -119,13 +119,17 @@ function ListingDetailScreen({ navigation, route }) {
           }
           setLoading(false);
           setBannerVisible(true);
-          console.log(
-            "[NETWORK] Directions successfully retrieved from Google."
-          );
+          if (__DEV__) {
+            console.log(
+              "[NETWORK] Directions successfully retrieved from Google."
+            );
+          }
         })
         .catch((err) => {
           setLoading(false);
-          console.log("[NETWORK] Something went wrong:", err);
+          if (__DEV__) {
+            console.log("[NETWORK] Something went wrong:", err);
+          }
         });
     }
   };
