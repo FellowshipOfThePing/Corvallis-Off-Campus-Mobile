@@ -10,7 +10,7 @@ import AppText from "../components/AppText";
 import IconRow from "../components/IconRow";
 import ActivityIndicator from "../components/ActivityIndicator";
 
-class MapCard extends React.PureComponent {
+class MapCard extends React.Component {
   constructor(props) {
     super(props);
     this.defaultImage = require("../../assets/placeholder.jpg");
@@ -21,6 +21,13 @@ class MapCard extends React.PureComponent {
     this.state = {
       loading: true,
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.state.loading !== nextState.loading ||
+      this.props.colors !== nextProps.colors
+    );
   }
   render() {
     return (
@@ -110,4 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(MapCard);
+export default MapCard;

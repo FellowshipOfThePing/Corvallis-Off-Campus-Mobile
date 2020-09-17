@@ -1,26 +1,43 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 
-function Heart({ saved, onPress, size = 35, colors }) {
-  const handleOnPressLike = () => {
+class Heart extends React.Component {
+  constructor() {
+    super();
+  }
+
+  handleOnPressLike = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    onPress();
+    this.props.onPress();
   };
 
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity activeOpacity={1} onPress={() => handleOnPressLike()}>
-        <FontAwesome
-          style={styles.icon}
-          name={saved ? "heart" : "heart-o"}
-          size={size}
-          color={saved ? colors.primary : colors.black}
-        />
-      </TouchableOpacity>
-    </View>
-  );
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.colors !== nextProps.colors ||
+      this.props.saved !== nextProps.saved
+    );
+  }
+
+  render() {
+    const { saved, onPress, size, colors } = this.props;
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => this.handleOnPressLike()}
+        >
+          <FontAwesome
+            style={styles.icon}
+            name={saved ? "heart" : "heart-o"}
+            size={size ? size : 35}
+            color={saved ? colors.primary : colors.black}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
